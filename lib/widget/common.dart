@@ -72,7 +72,7 @@ class CustomImage extends StatelessWidget {
   const CustomImage({
     this.image,
     this.fit = BoxFit.contain,
-    this.imageType = ImageType.TYPE_NETWORK,
+    this.imageType = ImageType.TYPE_ASSET,
     this.placeholder = AssetPath.IMAGE_CAMERA,
   });
 

@@ -5,7 +5,8 @@ class AppDimen{
   static const double SPLASH_LOGO_HEIGHT=300;
   static const double LOGIN_APPBAR_HEIGHT=60;
   static const double DASHBOARD_APPBAR_HEIGHT=LOGIN_APPBAR_HEIGHT;
-  static const double DASHBOARD_NAVIGATION_BAR_HEIGHT=70;
+  //static const double DASHBOARD_NAVIGATION_BAR_HEIGHT=70;
+  static const double DASHBOARD_NAVIGATION_BAR_HEIGHT=100;
 
   static const double APPBAR_ICON_SIZE = 20;
   static const double APPBAR_ICON_BUTTON_SIZE=28;
@@ -25,9 +26,13 @@ class AppDimen{
   static const double DRAWER_ITEM_PADDING_HORZ=30;
 
   static const double LOGIN_BUTTON_RADIUS=30;
+  static const double LOGIN_FIELD_RADIUS=10;
+  static const double FOOD_CON_RADIUS=12;
+  static const double PROFILE_PIC_DIAM=100;
+  static const double BOTTOM_PANEL_RADIUS=30;
 
   static const double FONT_TEXT_FIELD=13;
   static const double FONT_BUTTON=14;
-  static const double LOGIN_FIELD_RADIUS=10;
+
 
 }

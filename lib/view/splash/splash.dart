@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ycsh/controller/splash_controller.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/splash_items.dart';
@@ -11,6 +13,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  final SplashController controller=Get.find<SplashController>();
+
+  @override
+  void initState() {
+    controller.Proceed();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SplashBackground(child: Scaffold(

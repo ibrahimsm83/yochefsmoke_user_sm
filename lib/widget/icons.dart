@@ -27,4 +27,9 @@ class IconLogout extends CustomMonoIcon{
       icon: AssetPath.ICON_LOGOUT,size: size,color: color);
 }
 
+class IconEdit extends CustomMonoIcon{
+  IconEdit({double? size,Color? color,}):super(
+      icon: AssetPath.ICON_EDIT,size: size,color: color);
+}
+
 

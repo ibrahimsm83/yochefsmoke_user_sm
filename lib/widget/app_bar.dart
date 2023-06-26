@@ -54,8 +54,8 @@ class DashboardAppbar extends CustomAppbar{
   final String text;
   final Color textColor;
   DashboardAppbar({Key? key,double? height,
-    Widget? leading,Widget? action,this.textColor=AppColor.THEME_COLOR_PRIMARY1,
-    Color color=AppColor.COLOR_TRANSPARENT,
+    Widget? leading,Widget? action,this.textColor=AppColor.COLOR_BLACK,
+    Color color=AppColor.COLOR_WHITE,
     this.text=""}):super(key: key,
       height: height??AppSizer.getHeight(AppDimen.DASHBOARD_APPBAR_HEIGHT),
       leading: leading,action: action,
@@ -64,7 +64,7 @@ class DashboardAppbar extends CustomAppbar{
   @override
   Widget? get title {
     return CustomText(text:text,fontcolor: textColor,textAlign: TextAlign.center,
-      fontsize: 14,fontweight: FontWeight.bold,);
+      fontsize: 16,fontweight: FontWeight.bold,);
   }
 
 

@@ -20,6 +20,9 @@ class AppString{
   static const TEXT_CONFIRM_PASSWORD="Confirm Password";
   static const TEXT_PRIMARY_LOCATION="Primary Location";
   static const TEXT_FULLNAME="Full Name";
+  static const TEXT_NAME="Name";
+  static const TEXT_PHONE_NUMBER="Phone Number";
+  static const TEXT_ADDRESS="Address";
   static const TEXT_ADD_LOCATION="Add Primary Location";
 
   static const TEXT_HOME="Home";
@@ -33,6 +36,16 @@ class AppString{
   static const TEXT_FAQ="FAQ";
   static const TEXT_ABOUT_US="About Us";
   static const TEXT_SIGNOUT="Sign Out";
+  static const TEXT_ORDER_NOW="Order Now";
+  static const TEXT_BOOK_NOW="Book Now";
+  static const TEXT_ADD_TO_CART="Add to Cart";
+  static const TEXT_MENU="Menu";
+  static const TEXT_FOD_OF_DAY="Food of the Day";
+  static const TEXT_SEARCH_FOOD="Search your food";
+
+  static const TEXT_RATING="Rating";
+  static const TEXT_ORDER="Order";
+  static const TEXT_FOLLOWERS="Followers";
 
 
   static const TEXT_FAST_CONVENIENT="FAST & CONVENIENT ORDERING";

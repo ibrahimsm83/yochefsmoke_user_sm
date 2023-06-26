@@ -7,7 +7,10 @@ import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
 import 'package:ycsh/view/dashboard/Profile/profile.dart';
+import 'package:ycsh/view/dashboard/cart/cart.dart';
+import 'package:ycsh/view/dashboard/favaurite_product.dart';
 import 'package:ycsh/view/dashboard/home/home.dart';
+import 'package:ycsh/view/splash/onboarding.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/bottom_bar.dart';
 import 'package:ycsh/widget/dashboard_items.dart';
@@ -51,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void onInit(){
     screens=[HomeScreen(onOpenDrawer: openDrawer,),
-      Container(),Container(),
+      CartScreen(),FavouriteProductScreen(),
       ProfileScreen()];
   }
 
@@ -93,6 +96,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   CustomDrawer buildDrawer(){
     return CustomDrawer(
     //  user: controller.user,
+      onLogoutTap: (){
+        AppNavigator.navigateToReplaceAll(() => OnboardingScreen());
+      },
       onClose: (){
         AppNavigator.pop();
       },

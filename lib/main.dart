@@ -63,10 +63,10 @@ class MyApp extends StatelessWidget {
               child: widget!,
             );
           },
-        //  home: LoginScreen(),
-         // home: SplashScreen(),
+         // home: LoginScreen(),
+          home: SplashScreen(),
          // home: OnboardingScreen(),
-           home: DashboardScreen(),
+        //   home: DashboardScreen(),
         );
       },
     );

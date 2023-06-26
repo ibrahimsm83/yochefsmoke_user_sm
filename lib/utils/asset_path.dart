@@ -7,6 +7,8 @@ class AssetPath {
   static const IMAGE_ONBOARDING2 = "assets/images/onboarding_pic2.png";
   static const IMAGE_ONBOARDING3 = "assets/images/onboarding_pic3.png";
   static const IMAGE_SAMPLE = "assets/images/sample.png";
+  static const IMAGE_SAMPLE2 = "assets/images/sample2.png";
+  static const IMAGE_SAMPLE3 = "assets/images/sample3.png";
 
   static const ICON_ARROW_BACK = "assets/images/icon_arrow_back.png";
   static const ICON_ARROW_FORWARD = "assets/images/icon_arrow_forward.png";
@@ -33,6 +35,11 @@ class AssetPath {
   static const ICON_FAQ = "assets/images/icon_faq.png";
   static const ICON_CALENDAR = "assets/images/icon_calendar.png";
   static const ICON_LOGOUT = "assets/images/icon_logout.png";
+  static const ICON_SEARCH = "assets/images/icon_search.png";
+  static const ICON_CAMERA = "assets/images/icon_camera.png";
+  static const ICON_EDIT = "assets/images/icon_edit.png";
+  static const ICON_STAR = "assets/images/icon_star.png";
+  static const ICON_STAR_FILLED = "assets/images/icon_star_filled.png";
 
   static const IMAGE_CAMERA="assets/images/image_camera.png";
 }

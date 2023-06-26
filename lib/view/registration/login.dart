@@ -5,6 +5,7 @@ import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
+import 'package:ycsh/view/dashboard/dashboard.dart';
 import 'package:ycsh/view/registration/signup.dart';
 import 'package:ycsh/widget/app_bar.dart';
 import 'package:ycsh/widget/background.dart';
@@ -101,11 +102,14 @@ class LoginScreenState extends State<LoginScreen> {
         TappableText(text: AppString.TEXT_FORGET_PASSWORD,fontsize:fontsize,
           fontcolor: AppColor.COLOR_BLACK2,
           onTap: (){
-
         },),
       ],),
         SizedBox(height: AppSizer.getHeight(28),),
-      CustomButton(text: AppString.TEXT_SIGNIN,),
+      CustomButton(text: AppString.TEXT_SIGNIN,onTap: (){
+        if(FormValidator.validateForm(validatorKey)){
+          AppNavigator.navigateToReplaceAll(() => DashboardScreen());
+        }
+      },),
         SizedBox(height: AppSizer.getHeight(25),),
       Center(child: const CustomText(text: AppString.TEXT_OR,fontsize: 13,
         fontcolor: AppColor.COLOR_GREY2,)),

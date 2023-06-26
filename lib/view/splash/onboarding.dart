@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:ycsh/service/image_chooser.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
+import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
+import 'package:ycsh/view/registration/login.dart';
+import 'package:ycsh/view/registration/signup.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/button.dart';
 import 'package:ycsh/widget/common.dart';
@@ -45,6 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     const double paddingHorz=10;
     final double conWith=AppSizer.getWidth(230);
     final double btnVertPadd=AppSizer.getHeight(10);
+    final double btnPadd=AppSizer.getHeight(15);
     return SplashBackground(child: Scaffold(
       backgroundColor: AppColor.COLOR_TRANSPARENT,
       body: Container(
@@ -61,7 +65,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: PageView.builder(
                     controller:controller,
                     onPageChanged: (val){
-                      selected=val;
+                     // print("on page changed: $val");
+                   //   setState(() {
+                        selected=val;
+                     // });
                     },
                     itemBuilder: (con,ind){
                       return Container(//color: Colors.green,
@@ -117,9 +124,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                          //  Spacer(),
                                           SizedBox(height: AppSizer.getHeight(35),),
                                           CustomButton(text: AppString.TEXT_SIGNUP,
+                                            onTap:(){
+                                              AppNavigator.navigateTo(SignupScreen());
+                                            },
                                             padding: EdgeInsets.symmetric(vertical: btnVertPadd),),
                                           SizedBox(height: AppSizer.getHeight(15),),
                                           CustomButton(text: AppString.TEXT_LOGIN,
+                                            onTap: (){
+                                              AppNavigator.navigateTo(LoginScreen());
+                                            },
                                             bgColor: AppColor.COLOR_WHITE,
                                             padding: EdgeInsets.symmetric(vertical: btnVertPadd),
                                             border: const BorderSide(width: 1,color: AppColor.THEME_COLOR_PRIMARY1),),
@@ -168,18 +181,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: buildDot(selected: index==selected,));
           }),),),
-          selected<2?Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: EdgeInsets.only(top: AppSizer.getHeight(15),
-                    right: AppSizer.getHeight(15)),
-                child: CustomButton(text: AppString.TEXT_SKIP,fontWeight: FontWeight.normal,
-                  fontsize: 12,radius: AppSizer.getRadius(6),
-                  textColor: AppColor.COLOR_WHITE,padding: EdgeInsets.symmetric(
-                      horizontal: AppSizer.getWidth(11),
-                      vertical: AppSizer.getHeight(5)),
-                  bgColor: AppColor.COLOR_BLACK,),
-              )):Container(),
+          selected<2?Positioned(
+            top: btnPadd, right: btnPadd,
+            child: CustomButton(text: AppString.TEXT_SKIP,fontWeight: FontWeight.normal,
+              onTap: (){
+                goTo(2);
+              },
+              fontsize: 12,radius: AppSizer.getRadius(6),
+              textColor: AppColor.COLOR_WHITE,padding: EdgeInsets.symmetric(
+                  horizontal: AppSizer.getWidth(11),
+                  vertical: AppSizer.getHeight(5)),
+              bgColor: AppColor.COLOR_BLACK,),
+          ):Container(),
         ],),
       ),
     ),);
@@ -205,6 +218,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void goTo(int index){
+    //selected=index;
     controller.animateToPage(index, duration: const Duration(milliseconds: AppInteger.SWIPE_DURATION_MILLI),
         curve: Curves.linear);
   }

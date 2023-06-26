@@ -106,3 +106,51 @@ class ButtonDrawer extends CustomIconButton {
       ),
       onTap: onTap);
 }
+
+class CircularButton extends StatelessWidget {
+  final double diameter;
+  final String icon;
+  final Color color, bgColor;
+  final void Function()? onTap;
+  final BorderSide border;
+  final double elevation;
+  final double ratio;
+  const CircularButton({
+    Key? key,
+    required this.diameter,
+    required this.icon,
+    this.bgColor = AppColor.COLOR_WHITE,
+    this.elevation = 0,
+    this.ratio = 0.4,
+    this.border = const BorderSide(width: 0, color: AppColor.COLOR_TRANSPARENT),
+    this.onTap,
+    this.color = AppColor.COLOR_BLACK,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ShadowContainer(
+        radius: diameter / 2,
+        elevation: elevation,
+        child: Container(
+          width: diameter,
+          height: diameter,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: bgColor,
+              border: Border.fromBorderSide(border)),
+          child: Material(
+            color: AppColor.COLOR_TRANSPARENT,
+            child: InkWell(onTap: onTap, child: Center(child: buildChild())),
+          ),
+        ));
+  }
+
+  Widget buildChild() {
+    return CustomMonoIcon(
+      size: diameter * ratio,
+      icon: icon,
+      color: color,
+    );
+  }
+}

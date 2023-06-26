@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/constants.dart';
+import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
+import 'package:ycsh/view/dashboard/dashboard.dart';
 import 'package:ycsh/view/registration/login.dart';
 import 'package:ycsh/widget/button.dart';
 import 'package:ycsh/widget/common.dart';
@@ -17,6 +19,10 @@ class SignupScreen extends LoginScreen {
 }
 
 class _SignupScreenState extends LoginScreenState {
+
+  final TextEditingController fullname=TextEditingController(),
+      phone=TextEditingController(),c_pass=TextEditingController();
+
   @override
   String get title => AppString.TEXT_SIGNUP;
 
@@ -25,7 +31,7 @@ class _SignupScreenState extends LoginScreenState {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        buildField(AppString.TEXT_FULLNAME,CustomField(controller: email,
+        buildField(AppString.TEXT_FULLNAME,CustomField(controller: fullname,
           hinttext: AppString.TEXT_FULLNAME,
           onValidate: (val){
             return FormValidator.validateEmpty(val!);
@@ -38,8 +44,8 @@ class _SignupScreenState extends LoginScreenState {
             return FormValidator.validateEmail(val!);
           },),),
         SizedBox(height: spacing,),
-        buildField(AppString.TEXT_MOBILE_PHONE,CustomField(controller: email,
-          hinttext: AppString.TEXT_MOBILE_PHONE,
+        buildField(AppString.TEXT_MOBILE_PHONE,CustomField(controller: phone,
+          hinttext: AppString.TEXT_MOBILE_PHONE,keyboardType: TextInputType.phone,
           onValidate: (val){
             return FormValidator.validatePhone(val!);
           },),),
@@ -54,7 +60,7 @@ class _SignupScreenState extends LoginScreenState {
         SizedBox(height: spacing,),
         buildField(AppString.TEXT_CONFIRM_PASSWORD,CustomPasswordField(
           //key: passkey,
-            controller: pass,
+            controller: c_pass,
             hinttext: AppString.TEXT_CONFIRM_PASSWORD,
             onValidate: (val){
               return FormValidator.validateConfirmPassword(val!,pass.text);
@@ -71,7 +77,11 @@ class _SignupScreenState extends LoginScreenState {
           fontsize: 12,textAlign: TextAlign.center,
           fontcolor: AppColor.COLOR_GREY2,),
         SizedBox(height: AppSizer.getHeight(35),),
-        CustomButton(text: AppString.TEXT_SIGNUP,),
+        CustomButton(text: AppString.TEXT_SIGNUP,onTap: (){
+          if(FormValidator.validateForm(validatorKey)){
+            AppNavigator.navigateToReplaceAll(() => DashboardScreen());
+          }
+        },),
     ],);
   }
 

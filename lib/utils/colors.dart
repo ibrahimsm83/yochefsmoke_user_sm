@@ -20,10 +20,13 @@ class AppColor{
 
 
   static const Color COLOR_BLACK2=Color(0xFF2F143D);
+  static const Color COLOR_BLACK3=Color(0xFF1E1E1E);
 
   static const COLOR_GREY1 =Color(0xFFF9F9F9);
   static const COLOR_GREY2 =Color(0xFF949494);
   static const COLOR_GREY3=Color(0xFFFBFDFE);// used for shadow
+  static const COLOR_GREY4=Color(0xFF8A8A8A);
+  static const COLOR_GREY5=Color(0xFFF2F2F2);
 
 
 
