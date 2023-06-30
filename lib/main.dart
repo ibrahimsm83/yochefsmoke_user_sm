@@ -8,7 +8,7 @@ import 'package:ycsh/controller/bindings/bindings.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/view/dashboard/dashboard.dart';
 import 'package:ycsh/view/registration/login.dart';
-import 'package:ycsh/view/splash/onboarding.dart';
+import 'package:ycsh/view/splash/onboarding/onboarding.dart';
 import 'package:ycsh/view/splash/splash.dart';
 
 import 'utils/config.dart';
@@ -63,10 +63,10 @@ class MyApp extends StatelessWidget {
               child: widget!,
             );
           },
-         // home: LoginScreen(),
+          //home: LoginScreen(),
           home: SplashScreen(),
          // home: OnboardingScreen(),
-        //   home: DashboardScreen(),
+          // home: DashboardScreen(),
         );
       },
     );

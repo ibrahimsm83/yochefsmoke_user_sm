@@ -22,13 +22,13 @@ class SplashBackground extends StatelessWidget {
 
 class CustomBackground extends StatelessWidget {
   final Widget child;
-
-  const CustomBackground({Key? key,required this.child,}) : super(key: key);
+  final bool safe;
+  const CustomBackground({Key? key,required this.child,this.safe=true,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // color: AppColor.COLOR_GREY1,
-      child: SafeArea(child: child,),);
+      child: SafeArea(child: child,bottom: safe,),);
   }
 }

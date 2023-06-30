@@ -3,12 +3,15 @@ class AssetPath {
   static const SPLASH_BG = "assets/images/splash_bg.png";
   static const PROFILE_BG = "assets/images/profile_bg.png";
   static const ONBOARDING_BG = "assets/images/onboarding_bg.png";
+  static const CONTACT_US_BG = "assets/images/contact_us_bg.png";
   static const IMAGE_ONBOARDING1 = "assets/images/onboarding_pic1.png";
   static const IMAGE_ONBOARDING2 = "assets/images/onboarding_pic2.png";
   static const IMAGE_ONBOARDING3 = "assets/images/onboarding_pic3.png";
   static const IMAGE_SAMPLE = "assets/images/sample.png";
   static const IMAGE_SAMPLE2 = "assets/images/sample2.png";
   static const IMAGE_SAMPLE3 = "assets/images/sample3.png";
+  static const IMAGE_SAMPLE4 = "assets/images/sample4.png";
+  static const IMAGE_MASTERCARD = "assets/images/image_mastercard.png";
 
   static const ICON_ARROW_BACK = "assets/images/icon_arrow_back.png";
   static const ICON_ARROW_FORWARD = "assets/images/icon_arrow_forward.png";
@@ -17,7 +20,7 @@ class AssetPath {
   static const ICON_GOOGLE = "assets/images/icon_google.png";
   static const ICON_FACEBOOK = "assets/images/icon_facebook.png";
   static const ICON_APPLE = "assets/images/icon_apple.png";
-  static const ICON_PLUS = "assets/images/icon_plus.png";
+  static const ICON_ADD = "assets/images/icon_add.png";
   static const ICON_HOME2 = "assets/images/icon_home2.png";
   static const ICON_HOME = "assets/images/icon_home.png";
   static const ICON_DINER = "assets/images/icon_diner.png";
@@ -29,6 +32,7 @@ class AssetPath {
   static const ICON_USER_FILLED = "assets/images/icon_user_filled.png";
   static const ICON_DRAWER = "assets/images/icon_drawer.png";
   static const ICON_LOCATION = "assets/images/icon_location.png";
+  static const ICON_LOCATION2 = "assets/images/icon_location2.png";
   static const ICON_INFO = "assets/images/icon_info.png";
   static const ICON_MEMO = "assets/images/icon_memo.png";
   static const ICON_PHONE = "assets/images/icon_phone.png";
@@ -40,6 +44,15 @@ class AssetPath {
   static const ICON_EDIT = "assets/images/icon_edit.png";
   static const ICON_STAR = "assets/images/icon_star.png";
   static const ICON_STAR_FILLED = "assets/images/icon_star_filled.png";
+  static const ICON_STAR_HALF = "assets/images/icon_star_half.png";
+  static const ICON_DELETE = "assets/images/icon_delete.png";
+  static const ICON_CLOCK = "assets/images/icon_clock.png";
+  static const ICON_PLUS = "assets/images/icon_plus.png";
+  static const ICON_MINUS = "assets/images/icon_minus.png";
+  static const ICON_DROPDOWN = "assets/images/icon_dropdown.png";
+  static const ICON_VOUCHER = "assets/images/icon_voucher.png";
+  static const ICON_CASH_DELIVERY = "assets/images/icon_cash_delivery.png";
+  static const ICON_TICK= "assets/images/icon_tick.png";
 
   static const IMAGE_CAMERA="assets/images/image_camera.png";
 }

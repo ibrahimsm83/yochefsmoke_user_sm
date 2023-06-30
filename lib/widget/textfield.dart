@@ -159,6 +159,7 @@ class CustomField extends StatelessWidget with LoginFieldProps{
             ),*/
         filled: true,fillColor: bgColor,
         prefixIcon: prefixIcon!=null?buildPrefixIcon():null,
+       // prefix: prefixIcon!=null?buildPrefixIcon():null,
         suffixIcon: suffixIcon,
         suffixIconConstraints: const BoxConstraints(),
         prefixIconConstraints: const BoxConstraints(),
@@ -203,14 +204,16 @@ class CustomField extends StatelessWidget with LoginFieldProps{
 
   Widget buildPrefixIcon(){
     final double iconsize=AppSizer.getFontSize(fontsize+8);
-  //  final double iconsize=AppSizer.getHeight(20);
+   // final double iconsize=AppSizer.getHeight(20);
     return Container(
-      width: iconsize,height: iconsize,
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSizer.getWidth(AppDimen.LOGINFIELD_ICON_HORZ_PADDING),),
-      child: Center(
-        child: CustomMonoIcon(icon: prefixIcon!,color: focusedBorderColor,
-          size: iconsize,),
+      padding: EdgeInsets.symmetric(horizontal:
+      AppSizer.getWidth(AppDimen.LOGINFIELD_ICON_HORZ_PADDING)),
+      child: SizedBox(
+        width: iconsize,height: iconsize,
+        child: Center(
+          child: CustomMonoIcon(icon: prefixIcon!,color: focusedBorderColor,
+            size: iconsize,),
+        ),
       ),
     );
   }
@@ -220,6 +223,34 @@ class CustomField extends StatelessWidget with LoginFieldProps{
       vertical: AppSizer.getHeight(AppDimen.CUSTOMFIELD_VERT_PADDING)
   );
 
+}
+
+class DescriptionField extends CustomField{
+
+  final double height;
+  DescriptionField({
+    Key? key,TextEditingController? controller,String hinttext="",
+    bool autofocus=false,Color focusedBorderColor=AppColor.THEME_COLOR_PRIMARY1,
+    Color bgColor=AppColor.COLOR_WHITE,
+    String? prefixIcon,BorderSide border=BorderSide.none,
+    String? Function(String? val)? onValidate,double elevation=0,
+    required this.height,}):super(key: key,
+    onValidate: onValidate,prefixIcon: prefixIcon,hinttext: hinttext,controller: controller,
+    elevation: elevation, border: border, expands: true,
+    focusedBorderColor: focusedBorderColor,bgColor: bgColor,
+    textAlignVertical: TextAlignVertical.top,autofocus:autofocus,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(height:height,child: super.build(context));
+  }
+
+  @override
+  EdgeInsets get contentPadding => EdgeInsets.symmetric(
+  //  horizontal: AppDimen.DESCRIPTIONFIELD_HORZ_PADDING.w,
+    horizontal: AppSizer.getWidth(AppDimen.LOGINFIELD_HORZ_PADDING),
+    vertical: AppSizer.getHeight(AppDimen.CUSTOMFIELD_VERT_PADDING),);
 
 }
 

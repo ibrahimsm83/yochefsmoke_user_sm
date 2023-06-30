@@ -11,6 +11,12 @@ class AppNavigator{
     Get.to(widget,transition: transition,duration: Duration(milliseconds: duration));
   }
 
+  static void popUntil(String route,){
+    Navigator.popUntil(Get.context!,
+        ModalRoute.withName(route));
+    print("current route to ${Get.currentRoute}");
+  }
+
   static void navigateToReplace(Widget Function() navigate,{Transition transition=Transition.native,
     int duration=AppInteger.STANDARD_DURATION_MILLI}){
     Get.off(navigate,transition: transition,duration: Duration(milliseconds: duration));

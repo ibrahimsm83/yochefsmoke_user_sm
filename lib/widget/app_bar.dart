@@ -73,7 +73,7 @@ class DashboardAppbar extends CustomAppbar{
 class TransparentAppbar extends DashboardAppbar{
 
   TransparentAppbar({double? height,
-    Widget? leading,Widget? action,Color textColor=AppColor.COLOR_WHITE,
+    Widget? leading,Widget? action,Color textColor=AppColor.COLOR_BLACK,
     String text=""}):super(height: height??AppSizer.getHeight(AppDimen.LOGIN_APPBAR_HEIGHT),
       leading: leading,action: action,textColor: textColor,
       color: AppColor.COLOR_TRANSPARENT,

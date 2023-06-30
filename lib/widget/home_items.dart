@@ -23,59 +23,65 @@ class CartButton extends CustomButton{
 }
 
 class SpecialContainer extends StatelessWidget {
-  const SpecialContainer({Key? key}) : super(key: key);
+
+  final void Function()? onTap;
+  const SpecialContainer({Key? key,this.onTap,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final double radius=AppSizer.getRadius(AppDimen.FOOD_CON_RADIUS);
-    return Container(
-      width: AppSizer.getWidth(180),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(radius)),
-      clipBehavior: Clip.antiAlias,
-      child: Stack(children: [
-      Positioned.fill(/*child: ShaderMask(
-        shaderCallback: (Rect bounds) {
-          return LinearGradient(
-            colors: [AppColor.COLOR_TRANSPARENT, AppColor.COLOR_BLACK.withOpacity(0.5)],
-            begin: Alignment.center,
-            end: Alignment.center,
-          ).createShader(bounds);
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: AppSizer.getWidth(180),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(radius),
+          color: AppColor.COLOR_TRANSPARENT,),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(children: [
+        Positioned.fill(/*child: ShaderMask(
+          shaderCallback: (Rect bounds) {
+            return LinearGradient(
+              colors: [AppColor.COLOR_TRANSPARENT, AppColor.COLOR_BLACK.withOpacity(0.5)],
+              begin: Alignment.center,
+              end: Alignment.center,
+            ).createShader(bounds);
 *//*          return RadialGradient(
-            center: Alignment.topLeft,
-            radius: 1.0,
-            colors: <Color>[AppColor.COLOR_BLACK, AppColor.COLOR_BLACK],
-            tileMode: TileMode.mirror,
-          ).createShader(bounds);*//*
-        },blendMode: BlendMode.color,
-        child:*/
-        child:Container(
-          child: CustomImage(image: AssetPath.IMAGE_SAMPLE2,
-            fit: BoxFit.cover,),
+              center: Alignment.topLeft,
+              radius: 1.0,
+              colors: <Color>[AppColor.COLOR_BLACK, AppColor.COLOR_BLACK],
+              tileMode: TileMode.mirror,
+            ).createShader(bounds);*//*
+          },blendMode: BlendMode.color,
+          child:*/
+          child:Container(
+            child: CustomImage(image: AssetPath.IMAGE_SAMPLE2,
+              fit: BoxFit.cover,),
+          ),
+        //)
         ),
-      //)
-      ),
-      Positioned.fill(child: Container(
-        color: AppColor.COLOR_BLACK.withOpacity(0.4),
-      )),
-      Container(padding: EdgeInsets.symmetric(
-          horizontal: AppSizer.getWidth(20),vertical: AppSizer.getHeight(10)
-      ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-          CustomText(text: "New Special Years",fontcolor: AppColor.COLOR_WHITE,
-            fontweight: FontWeight.w500,fontsize: 16,),
-          CartButton(text: AppString.TEXT_ORDER_NOW,horzPadd: AppSizer.getWidth(20)),
-        ],),
-      )
-    ],),);
+        Positioned.fill(child: Container(
+          color: AppColor.COLOR_BLACK.withOpacity(0.4),
+        )),
+        Container(padding: EdgeInsets.symmetric(
+            horizontal: AppSizer.getWidth(20),vertical: AppSizer.getHeight(10)
+        ),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+            CustomText(text: "New Special Years",fontcolor: AppColor.COLOR_WHITE,
+              fontweight: FontWeight.w500,fontsize: 16,),
+            CartButton(text: AppString.TEXT_ORDER_NOW,horzPadd: AppSizer.getWidth(20)),
+          ],),
+        )
+      ],),),
+    );
   }
 }
 
-class MenuCategoryContainer extends StatelessWidget {
+class MenuContainer extends StatelessWidget {
 
   final void Function()? onTap;
-  const MenuCategoryContainer({Key? key,this.onTap,}) : super(key: key);
+  const MenuContainer({Key? key,this.onTap,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

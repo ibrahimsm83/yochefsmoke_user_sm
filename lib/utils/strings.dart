@@ -23,6 +23,8 @@ class AppString{
   static const TEXT_NAME="Name";
   static const TEXT_PHONE_NUMBER="Phone Number";
   static const TEXT_ADDRESS="Address";
+  static const TEXT_STREET="Street";
+  static const TEXT_CITY="City";
   static const TEXT_ADD_LOCATION="Add Primary Location";
 
   static const TEXT_HOME="Home";
@@ -42,21 +44,47 @@ class AppString{
   static const TEXT_MENU="Menu";
   static const TEXT_FOD_OF_DAY="Food of the Day";
   static const TEXT_SEARCH_FOOD="Search your food";
+  static const TEXT_ORDER_TRACK="Order Track";
+  static const TEXT_ORDER_RECEIVED="Order Received";
+  static const TEXT_PAYMENT="Payment";
+  static const TEXT_PAYMENT_METHOD="Payment Method";
 
   static const TEXT_RATING="Rating";
   static const TEXT_ORDER="Order";
   static const TEXT_FOLLOWERS="Followers";
 
+  static const TEXT_SUBTOTAL="Subtotal";
+  static const TEXT_TOTAL="Total";
+  static const TEXT_REVIEWS="Reviews";
+  static const TEXT_CHECKOUT="Checkout";
+  static const TEXT_CASH_ON_DELIVERY="Cash on Delivery";
+  static const TEXT_PLACE_ORDER="Place Order";
+  static const TEXT_ADD_VOUCHER="Add Voucher";
+  static const TEXT_GET_TICKET="Get Ticket";
+
+
+  static const TEXT_YOUR_NAME="Your Name";
+  static const TEXT_YOUR_EMAIL="Email Address";
+  static const TEXT_YOUR_MESSAGE="Your Message";
+  static const TEXT_SEND="Send";
+  static const TEXT_TIME="Time";
+  static const TEXT_DATE="Date";
+
 
   static const TEXT_FAST_CONVENIENT="FAST & CONVENIENT ORDERING";
   static const TEXT_ORDER_WAY="Order the way you want";
   static const TEXT_FAVOURITE_FOOD="FAVORITE FOOD";
+  static const TEXT_LETS_ORDER="Let's Order some more";
 
   static const TEXT_MUST_EXPLAIN="But I must explain to you how all this mistaken idea of "
       "denouncing pleasure and praising pain was born and I will give you a complete";
 
   static const TEXT_BY_SIGNING_UP="By signing up, you will receive promotional emails & can unsubscribe at any "
   "time; you will always receive transactional emails about your order.";
+
+  static const TEXT_FEEL_FREE="Feel Free To Drop Us A Message!";
+  static const TEXT_PLEASE_RATE="Please rate your shopping Experience";
+  static const TEXT_WRITE_REVIEW="Write Review";
 
   static const TEXT_FILE="File";
   static const TEXT_IMAGE_GALLERY="Image Gallery";

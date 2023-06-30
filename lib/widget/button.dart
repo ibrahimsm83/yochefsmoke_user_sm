@@ -71,6 +71,7 @@ class CustomIconButton extends StatelessWidget {
                   child: buildIcon()),
               onPressed: onTap,
               iconSize: icon.getIconSize,
+              constraints: const BoxConstraints(),
             )));
   }
 
@@ -109,7 +110,7 @@ class ButtonDrawer extends CustomIconButton {
 
 class CircularButton extends StatelessWidget {
   final double diameter;
-  final String icon;
+  final String? icon;
   final Color color, bgColor;
   final void Function()? onTap;
   final BorderSide border;
@@ -147,10 +148,10 @@ class CircularButton extends StatelessWidget {
   }
 
   Widget buildChild() {
-    return CustomMonoIcon(
+    return icon!=null?CustomMonoIcon(
       size: diameter * ratio,
-      icon: icon,
+      icon: icon!,
       color: color,
-    );
+    ):Container();
   }
 }

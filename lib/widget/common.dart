@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:ycsh/service/image_chooser.dart';
 import 'package:ycsh/utils/asset_path.dart';
@@ -24,7 +25,7 @@ class CustomText extends StatelessWidget {
   const CustomText({
     Key? key,
     this.text = "",
-    this.fontcolor = Colors.black,
+    this.fontcolor = AppColor.COLOR_BLACK,
     this.fontsize = 15,
     this.textAlign = TextAlign.start,
     this.fontweight = FontWeight.normal,
@@ -325,4 +326,42 @@ class CustomSpan extends TextSpan {
         color: fontColor,
         fontWeight: fontWeight,
       ));
+}
+
+class DottedContainer extends StatelessWidget {
+
+  final double dashlength,dashspacing;
+  final Widget? child;
+  final double? width,height;
+  final double borderWidth;
+  final double radius;
+  final Color color;
+  const DottedContainer({Key? key,this.dashlength=4,this.dashspacing=8,
+    this.width,this.height,this.borderWidth=1,this.radius=0,
+    this.color=AppColor.COLOR_BLACK,
+    this.child,}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(width: width,
+      // height: height,
+      child: DottedBorder(
+        radius: Radius.circular(radius),
+        color: color,
+        strokeWidth: borderWidth,borderType: BorderType.RRect,
+        borderPadding: EdgeInsets.zero,
+        padding: EdgeInsets.symmetric(vertical: height??0,),
+        strokeCap: StrokeCap.butt,
+        dashPattern:[dashlength,dashspacing],
+/*              customPath: (size){
+                  print("size is: $size");
+                  var path=Path();
+                  path.moveTo(0, size.height);
+                  path.lineTo(10, size.height);
+                  return path;
+                },*/
+        child: child??Container(),
+      ),
+    );
+  }
 }

@@ -9,7 +9,7 @@ class AppDimen{
   static const double DASHBOARD_NAVIGATION_BAR_HEIGHT=100;
 
   static const double APPBAR_ICON_SIZE = 20;
-  static const double APPBAR_ICON_BUTTON_SIZE=28;
+  static const double APPBAR_ICON_BUTTON_SIZE=36;
   static const double APPBAR_PROF_PIC_SIZE=40;
   static const double CHECK_BOX_SIZE=15;
   //static const double CHECK_BOX_SIZE=200;
@@ -21,6 +21,7 @@ class AppDimen{
   static const double LOGINFIELD_ICON_HORZ_PADDING=13;
   static const double APPBAR_HORZ_PADDING=20;
   static const double LOGIN_PADDING_HORZ=13;
+  static const double DROPDOWN_VERT_PADDING=12;
   static const double DASHBOARD_PADDING_HORZ=LOGIN_PADDING_HORZ;
   static const double SCROLL_OFFSET_PADDING_VERT=20;
   static const double DRAWER_ITEM_PADDING_HORZ=30;
@@ -30,9 +31,11 @@ class AppDimen{
   static const double FOOD_CON_RADIUS=12;
   static const double PROFILE_PIC_DIAM=100;
   static const double BOTTOM_PANEL_RADIUS=30;
+  static const double ADDRESS_CON_RADIUS=10;
 
   static const double FONT_TEXT_FIELD=13;
   static const double FONT_BUTTON=14;
+  static const double FONT_CART_HEADING=16;
 
 
 }

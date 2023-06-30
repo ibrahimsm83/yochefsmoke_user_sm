@@ -163,7 +163,7 @@ class LocationField extends CustomField {
       : super(
             key: key,
             controller: controller,
-            prefixIcon: AssetPath.ICON_PLUS,
+            prefixIcon: AssetPath.ICON_ADD,
             hinttext: hinttext,
             onTap: onTap,
             readOnly: true,

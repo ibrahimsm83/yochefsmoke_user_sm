@@ -40,7 +40,8 @@ class CustomDrawer extends StatelessWidget{
                   for(int i=0;i<items.length;i++)
                     items[i],
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: EdgeInsets.only(top: AppSizer.getHeight(20),
+                      bottom: AppSizer.getHeight(15),
                       left: AppSizer.getWidth(AppDimen.DRAWER_ITEM_PADDING_HORZ)),
                     child: LogoutButton(onTap: onLogoutTap,),
                   ),

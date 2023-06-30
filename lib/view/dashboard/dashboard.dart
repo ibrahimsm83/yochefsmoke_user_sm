@@ -8,14 +8,20 @@ import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
 import 'package:ycsh/view/dashboard/Profile/profile.dart';
 import 'package:ycsh/view/dashboard/cart/cart.dart';
-import 'package:ycsh/view/dashboard/favaurite_product.dart';
+import 'package:ycsh/view/dashboard/contact_us.dart';
+import 'package:ycsh/view/dashboard/event/event.dart';
+import 'package:ycsh/view/dashboard/favourite_product/favaurite_product.dart';
 import 'package:ycsh/view/dashboard/home/home.dart';
-import 'package:ycsh/view/splash/onboarding.dart';
+import 'package:ycsh/view/splash/onboarding/onboarding.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/bottom_bar.dart';
 import 'package:ycsh/widget/dashboard_items.dart';
 
+import 'track_order/track_order.dart';
+
 class DashboardScreen extends StatefulWidget {
+
+  static const route="/DashboardScreen";
 
   final int selected;
   const DashboardScreen({Key? key,this.selected=0,}) : super(key: key);
@@ -42,7 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _prev_sel=selected;
     _pageController=PageController(initialPage: _prev_sel,);
     _pageController.addListener(() {
-      setState(() {});
+     // setState(() {});
     });
     super.initState();
   }
@@ -54,8 +60,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void onInit(){
     screens=[HomeScreen(onOpenDrawer: openDrawer,),
-      CartScreen(),FavouriteProductScreen(),
-      ProfileScreen()];
+      CartScreen(back_enabled:false,),FavouriteProductScreen(back_enabled: false,),
+      ProfileScreen(back_enabled:false,)];
   }
 
   @override
@@ -105,23 +111,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
       items: [
         DrawerItem(title: AppString.TEXT_HOME,icon: AssetPath.ICON_HOME2,),
         DrawerItem(title: AppString.TEXT_CART,icon: AssetPath.ICON_DINER,onTap: (){
-
+          goTo(CartScreen());
         },),
-        DrawerItem(title: AppString.TEXT_FAVOURITES,icon: AssetPath.ICON_HEART,onTap: (){}),
-        DrawerItem(title: AppString.TEXT_PROFILE,icon: AssetPath.ICON_USER,onTap: (){}),
-        DrawerItem(title: AppString.TEXT_TRACK_ORDER,icon: AssetPath.ICON_LOCATION,onTap: (){},),
-        DrawerItem(title: AppString.TEXT_EVENTS,icon: AssetPath.ICON_CALENDAR,onTap: (){}),
-        DrawerItem(title: AppString.TEXT_CONTACT_US,icon: AssetPath.ICON_PHONE,onTap: (){}),
+        DrawerItem(title: AppString.TEXT_FAVOURITES,icon: AssetPath.ICON_HEART,onTap: (){
+          goTo(FavouriteProductScreen());
+        }),
+        DrawerItem(title: AppString.TEXT_PROFILE,icon: AssetPath.ICON_USER,onTap: (){
+          goTo(ProfileScreen());
+        }),
+        DrawerItem(title: AppString.TEXT_TRACK_ORDER,icon: AssetPath.ICON_LOCATION,onTap: (){
+          goTo(TrackOrderScreen());
+        },),
+        DrawerItem(title: AppString.TEXT_EVENTS,icon: AssetPath.ICON_CALENDAR,onTap: (){
+          goTo(EventScreen());
+        }),
+        DrawerItem(title: AppString.TEXT_CONTACT_US,icon: AssetPath.ICON_PHONE,onTap: (){
+          goTo(ContactUsScreen());
+        }),
         DrawerItem(title: AppString.TEXT_TERMS_CONDITIONS,icon: AssetPath.ICON_MEMO,onTap: (){},),
         DrawerItem(title: AppString.TEXT_FAQ,icon: AssetPath.ICON_FAQ,onTap: (){}),
         DrawerItem(title: AppString.TEXT_ABOUT_US,icon: AssetPath.ICON_INFO,onTap: (){}),
       ],);
   }
 
+
   DashboardNavigationBar buildNavigationBar(double height){
     return DashboardNavigationBar(
       onChanged: (index){
-        select(index);
+
       },
       height: height,
       selected: selected,

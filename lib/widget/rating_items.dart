@@ -11,8 +11,10 @@ class StarRating extends StatelessWidget {
   final double spacing;
   final double rating;
   final bool enabled;
+  final Color color;
   final void Function(double val)? onRatingUpdate;
   StarRating({Key? key,double? size,this.spacing=2,this.rating=1,this.enabled=true,
+    this.color=AppColor.THEME_COLOR_PRIMARY1,
     this.onRatingUpdate,}) : super(key: key){
     _size=size??AppSizer.getHeight(12);
   }
@@ -26,11 +28,15 @@ class StarRating extends StatelessWidget {
       allowHalfRating: true,
       itemCount: 5,
       itemSize: _size,
+      unratedColor: color,
       itemPadding: EdgeInsets.symmetric(horizontal: spacing),
-      itemBuilder: (context, _) {
+      itemBuilder: (context, ind) {
+        final double index=ind+1;
         return CustomMonoIcon(
-          color: AppColor.THEME_COLOR_PRIMARY1,
-          icon: AssetPath.ICON_STAR,
+          color: color,
+          icon: rating>=(index)?AssetPath.ICON_STAR_FILLED:(rating+0.5)==index?
+          AssetPath.ICON_STAR_HALF:
+          AssetPath.ICON_STAR,
         );
       },
       onRatingUpdate: (val){

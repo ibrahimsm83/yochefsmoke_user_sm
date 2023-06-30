@@ -4,6 +4,7 @@ import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
 import 'package:ycsh/view/dashboard/Profile/profile.dart';
+import 'package:ycsh/view/dashboard/event/event.dart';
 import 'package:ycsh/view/dashboard/home/menu_category.dart';
 import 'package:ycsh/widget/app_bar.dart';
 import 'package:ycsh/widget/button.dart';
@@ -22,9 +23,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final double paddHorz=AppSizer.getHeight(AppDimen.DASHBOARD_PADDING_HORZ);
   @override
   Widget build(BuildContext context) {
-    final double paddHorz=AppSizer.getHeight(AppDimen.DASHBOARD_PADDING_HORZ);
+
     final double spacing=AppSizer.getHeight(20);
     final double gridSpacing=AppSizer.getHeight(15);
     return Scaffold(appBar: LogoAppbar(leading: ButtonDrawer(onTap: widget.onOpenDrawer,),
@@ -38,23 +41,28 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SearchField(hinttext: AppString.TEXT_SEARCH_FOOD,),),
       Expanded(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: paddHorz,
-              vertical: AppDimen.SCROLL_OFFSET_PADDING_VERT),
+          padding: EdgeInsets.only(top: AppDimen.SCROLL_OFFSET_PADDING_VERT,
+              bottom: AppDimen.SCROLL_OFFSET_PADDING_VERT+
+                  AppSizer.getHeight(AppDimen.DASHBOARD_NAVIGATION_BAR_HEIGHT)),
           child: Column(children: [
             Container(height: AppSizer.getHeight(115),
               child: ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: paddHorz,),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (con,ind){
-                return SpecialContainer();
+                return SpecialContainer(onTap: (){
+                  AppNavigator.navigateTo(EventScreen());
+                },);
               }, separatorBuilder: (con,ind){
                 return SizedBox(width: AppSizer.getWidth(18),);
               }, itemCount: 5),),
             SizedBox(height: spacing,),
             buildFieldValue(AppString.TEXT_MENU,Container(height: AppSizer.getHeight(100),
               child: ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: paddHorz,),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (con,ind){
-                    return MenuCategoryContainer(onTap: (){
+                    return MenuContainer(onTap: (){
                       AppNavigator.navigateTo(MenuCategoryScreen());
                     },);
                   }, separatorBuilder: (con,ind){
@@ -62,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }, itemCount: 5),),),
             SizedBox(height: spacing,),
             buildFieldValue(AppString.TEXT_FOD_OF_DAY,GridView.builder(
-
+              padding: EdgeInsets.symmetric(horizontal: paddHorz),
               shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,
                   mainAxisSpacing: gridSpacing,crossAxisSpacing: gridSpacing,
@@ -86,7 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-      buildHeading(field),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: paddHorz),
+        child: buildHeading(field),
+      ),
       SizedBox(height: AppSizer.getHeight(4),),
       value,
     ],);

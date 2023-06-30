@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:ycsh/controller/auth_controller.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
-import 'package:ycsh/view/splash/onboarding.dart';
+import 'package:ycsh/view/splash/onboarding/onboarding.dart';
 
 class SplashController extends GetxController{
 
