@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/widget/common.dart';
@@ -154,4 +155,25 @@ class CircularButton extends StatelessWidget {
       color: color,
     ):Container();
   }
+}
+
+
+class ButtonClose extends CircularButton {
+
+  ButtonClose(
+      {final void Function()? onTap,
+        double? diameter,
+        Color color = AppColor.COLOR_WHITE,
+        double ratio = 0.5,
+        Color bgColor = AppColor.COLOR_TRANSPARENT,
+        BorderSide border =
+        const BorderSide(width: 1, color: AppColor.COLOR_WHITE)})
+      : super(
+      diameter: diameter ?? AppSizer.getHeight(AppDimen.BTN_CLOSE_SIZE),
+      icon: AssetPath.ICON_CLOSE,
+      onTap: onTap,
+      ratio: ratio,
+      color: color,
+      bgColor: bgColor,
+      border: border);
 }

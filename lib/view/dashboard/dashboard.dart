@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ycsh/controller/dashboard_controller.dart';
+import 'package:ycsh/controller/user/dashboard_controller.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
 import 'package:ycsh/view/dashboard/Profile/profile.dart';
+import 'package:ycsh/view/dashboard/address/address.dart';
 import 'package:ycsh/view/dashboard/cart/cart.dart';
 import 'package:ycsh/view/dashboard/contact_us.dart';
 import 'package:ycsh/view/dashboard/event/event.dart';
 import 'package:ycsh/view/dashboard/favourite_product/favaurite_product.dart';
 import 'package:ycsh/view/dashboard/home/home.dart';
+import 'package:ycsh/view/dashboard/order_history/order_history.dart';
+import 'package:ycsh/view/dashboard/payment/card.dart';
 import 'package:ycsh/view/splash/onboarding/onboarding.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/bottom_bar.dart';
@@ -41,6 +44,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   final GlobalKey<ScaffoldState> _drawerKey=GlobalKey();
 
+  final DashboardController controller=Get.find<DashboardController>();
+
   @override
   void initState() {
     onInit();
@@ -59,7 +64,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void onInit(){
-    screens=[HomeScreen(onOpenDrawer: openDrawer,),
+    screens=[//FavouriteProductScreen(back_enabled: false,),
+      HomeScreen(onOpenDrawer: openDrawer,),
       CartScreen(back_enabled:false,),FavouriteProductScreen(back_enabled: false,),
       ProfileScreen(back_enabled:false,)];
   }
@@ -101,9 +107,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   CustomDrawer buildDrawer(){
     return CustomDrawer(
-    //  user: controller.user,
+      user: controller.user,
       onLogoutTap: (){
-        AppNavigator.navigateToReplaceAll(() => OnboardingScreen());
+        controller.logout();
       },
       onClose: (){
         AppNavigator.pop();
@@ -116,15 +122,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
         DrawerItem(title: AppString.TEXT_FAVOURITES,icon: AssetPath.ICON_HEART,onTap: (){
           goTo(FavouriteProductScreen());
         }),
+        DrawerItem(title: AppString.TEXT_ORDER_HISTORY,icon: AssetPath.ICON_DINER,onTap: (){
+          goTo(OrderHistoryScreen());
+        }),
         DrawerItem(title: AppString.TEXT_PROFILE,icon: AssetPath.ICON_USER,onTap: (){
           goTo(ProfileScreen());
+        }),
+        DrawerItem(title: AppString.TEXT_ADDRESSES,icon: AssetPath.ICON_LOCATION2,onTap: (){
+          goTo(AddressScreen());
         }),
         DrawerItem(title: AppString.TEXT_TRACK_ORDER,icon: AssetPath.ICON_LOCATION,onTap: (){
           goTo(TrackOrderScreen());
         },),
-        DrawerItem(title: AppString.TEXT_EVENTS,icon: AssetPath.ICON_CALENDAR,onTap: (){
-          goTo(EventScreen());
+        DrawerItem(title: AppString.TEXT_ADD_CARDS,icon: AssetPath.ICON_CARD,onTap: (){
+            goTo(CardScreen());
+          //goTo(EventScreen());
         }),
+       /* DrawerItem(title: AppString.TEXT_EVENTS,icon: AssetPath.ICON_CALENDAR,onTap: (){
+          goTo(EventScreen());
+        }),*/
         DrawerItem(title: AppString.TEXT_CONTACT_US,icon: AssetPath.ICON_PHONE,onTap: (){
           goTo(ContactUsScreen());
         }),

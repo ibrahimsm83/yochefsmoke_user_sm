@@ -29,6 +29,8 @@ class CustomBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // color: AppColor.COLOR_GREY1,
-      child: SafeArea(child: child,bottom: safe,),);
+      child: SafeArea(child: child,
+        bottom: safe,
+      ),);
   }
 }

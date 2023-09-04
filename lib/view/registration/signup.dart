@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:ycsh/model/location.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
+import 'package:ycsh/utils/regex.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
-import 'package:ycsh/view/dashboard/dashboard.dart';
+import 'package:ycsh/view/common/address_selection.dart';
 import 'package:ycsh/view/registration/login.dart';
 import 'package:ycsh/widget/button.dart';
 import 'package:ycsh/widget/common.dart';
@@ -20,8 +23,14 @@ class SignupScreen extends LoginScreen {
 
 class _SignupScreenState extends LoginScreenState {
 
+
   final TextEditingController fullname=TextEditingController(),
       phone=TextEditingController(),c_pass=TextEditingController();
+
+  final MaskTextInputFormatter phoneFormattor=MaskTextInputFormatter(
+      mask: ValidationRegex.PHONE_FORMAT);
+
+  Location? location;
 
   @override
   String get title => AppString.TEXT_SIGNUP;
@@ -45,6 +54,7 @@ class _SignupScreenState extends LoginScreenState {
           },),),
         SizedBox(height: spacing,),
         buildField(AppString.TEXT_MOBILE_PHONE,CustomField(controller: phone,
+          inputFormatters: [phoneFormattor],
           hinttext: AppString.TEXT_MOBILE_PHONE,keyboardType: TextInputType.phone,
           onValidate: (val){
             return FormValidator.validatePhone(val!);
@@ -68,9 +78,15 @@ class _SignupScreenState extends LoginScreenState {
         SizedBox(height: spacing,),
         buildField(AppString.TEXT_PRIMARY_LOCATION,LocationField(
           onTap: (){
-            print("select location");
+            AppNavigator.navigateTo(AddressSelectionScreen(
+              initial: location,
+              onLocationSelected: (loc){
+              setState(() {
+                location=loc;
+              });
+            },));
           },
-          hinttext: AppString.TEXT_ADD_LOCATION,
+          hinttext: location!=null?location!.name:AppString.TEXT_ADD_LOCATION,
         ),),
         SizedBox(height: AppSizer.getHeight(25),),
         const CustomText(text: AppString.TEXT_BY_SIGNING_UP,
@@ -79,7 +95,8 @@ class _SignupScreenState extends LoginScreenState {
         SizedBox(height: AppSizer.getHeight(35),),
         CustomButton(text: AppString.TEXT_SIGNUP,onTap: (){
           if(FormValidator.validateForm(validatorKey)){
-            AppNavigator.navigateToReplaceAll(() => DashboardScreen());
+            authController.signUp(fullname.text,email.text, pass.text,phone.text,
+                location: location);
           }
         },),
     ],);

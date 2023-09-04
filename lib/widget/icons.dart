@@ -61,3 +61,9 @@ class IconVoucher extends CustomMonoIcon{
   IconVoucher({double? size,Color? color,}):super(
       icon: AssetPath.ICON_VOUCHER,size: size,color: color);
 }
+
+class IconLocation extends CustomMonoIcon{
+  IconLocation({double? size,Color? color,}):super(
+      icon: AssetPath.ICON_LOCATION2,size: size,color: color);
+}
+

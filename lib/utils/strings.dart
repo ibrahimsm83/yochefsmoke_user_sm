@@ -1,9 +1,15 @@
+import 'package:ycsh/utils/constants.dart';
+
 class AppString{
 
   static const TEXT_SKIP="Skip";
   static const TEXT_ENABLE_LOCATION="Enable Location";
   static const TEXT_SIGNUP="Sign up";
   static const TEXT_LOGIN="Log in";
+  static const TEXT_OK="Ok";
+  static const TEXT_CREATE_ADDRESS="Create Address";
+  static const TEXT_SAVE_CARD="Save Card";
+
 
   static const TEXT_EMAIL="Email";
   static const TEXT_PASSWORD="Password";
@@ -25,14 +31,27 @@ class AppString{
   static const TEXT_ADDRESS="Address";
   static const TEXT_STREET="Street";
   static const TEXT_CITY="City";
+  static const TEXT_TITLE="Title";
+  static const TEXT_POSTAL_CODE="Postal Code";
+  static const TEXT_STATE="State";
+  static const TEXT_COUNTRY="Country";
   static const TEXT_ADD_LOCATION="Add Primary Location";
+  static const TEXT_SAVE="Save";
+
+  static const TEXT_CARD_NUMBER="Card Number";
+  static const TEXT_CARD_EXPIRY="Card Expiry";
+  static const TEXT_CVV="Card CVC";
 
   static const TEXT_HOME="Home";
   static const TEXT_CART="Cart";
   static const TEXT_FAVOURITES="Favorites";
   static const TEXT_PROFILE="Profile";
+  static const TEXT_ADDRESSES="Addresses";
+  static const TEXT_CARDS="Cards";
   static const TEXT_TRACK_ORDER="Track my order";
   static const TEXT_EVENTS="Events";
+  static const TEXT_ADD_CARD="Add Card";
+  static const TEXT_ADD_CARDS="Add Cards";
   static const TEXT_CONTACT_US="Contact Us";
   static const TEXT_TERMS_CONDITIONS="Terms & Conditions";
   static const TEXT_FAQ="FAQ";
@@ -45,12 +64,15 @@ class AppString{
   static const TEXT_FOD_OF_DAY="Food of the Day";
   static const TEXT_SEARCH_FOOD="Search your food";
   static const TEXT_ORDER_TRACK="Order Track";
+  static const TEXT_ADD_ADDRESS="Add Address";
+  static const TEXT_EDIT_ADDRESS="Edit Address";
   static const TEXT_ORDER_RECEIVED="Order Received";
   static const TEXT_PAYMENT="Payment";
   static const TEXT_PAYMENT_METHOD="Payment Method";
 
   static const TEXT_RATING="Rating";
   static const TEXT_ORDER="Order";
+  static const TEXT_ORDER_HISTORY="Order History";
   static const TEXT_FOLLOWERS="Followers";
 
   static const TEXT_SUBTOTAL="Subtotal";
@@ -102,11 +124,14 @@ class AppString{
   static const String TEXT_PASSWORD_INVALID_ERROR = "Password must be 8 characters long and contains at least 1 upper case, 1 lower case, 1 digit & 1 special character.";
   static const String CONFIRM_PASSWORD_ERROR = 'Password and Confirm Password must be same.';
   static const String TEXT_PHONE_EMPTY_ERROR = "Phone Number can\'t be empty.";
-  static const String TEXT_PHONE_INVALID_ERROR = "Phone Number is not valid.";
+  static const String TEXT_PHONE_INVALID_ERROR = "Phone Number must be atleast ${AppInteger.PHONE_LENGTH} digits long.";
+  static const String TEXT_CARD_EMPTY_ERROR = "Card can\'t be empty.";
+  static const String TEXT_CARD_INVALID_ERROR = "Credit Card Number is not valid.";
 
   static const String TEXT_FIELD_EMPTY_ERROR = "This Field can\'t be empty.";
   static const String TEXT_FIELD_INVALID_ERROR = "This Field is not valid.";
   static const String TEXT_INVALID_FORMAT = "Invalid Format.";
+  static const String TEXT_OBJECT_NOT_FOUND="Data Not Found";
 
 
 }

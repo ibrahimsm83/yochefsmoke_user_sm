@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:ycsh/controller/user/dashboard_controller.dart';
+import 'package:ycsh/model/location.dart';
+import 'package:ycsh/service/image_chooser.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
+import 'package:ycsh/utils/regex.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
+import 'package:ycsh/view/common/address_selection.dart';
 import 'package:ycsh/widget/app_bar.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/button.dart';
 import 'package:ycsh/widget/common.dart';
+import 'package:ycsh/widget/dialog/edit_dialog.dart';
 import 'package:ycsh/widget/icons.dart';
 import 'package:ycsh/widget/profile_items.dart';
 
@@ -21,6 +29,28 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+  late TextEditingController fullname,mobile;
+
+  final DashboardController controller=Get.find<DashboardController>();
+
+  final MaskTextInputFormatter phoneFormattor=MaskTextInputFormatter(
+      mask: ValidationRegex.PHONE_FORMAT);
+
+  String? image;
+  ImageType imageType=ImageType.TYPE_NETWORK;
+
+  Location? location;
+
+  @override
+  void initState() {
+    fullname=TextEditingController(text: controller.user.fullname);
+    mobile=TextEditingController(text: controller.user.phone);
+    image=controller.user.image;
+    location=controller.user.location;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -54,11 +84,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               top:AppSizer.getHeight(AppDimen.DASHBOARD_APPBAR_HEIGHT),
                               child: Column(children: [
                                 SizedBox(height: AppSizer.getHeight(10),),
-                                EditProfilePicture(onEdit: (){
-
+                                EditProfilePicture(image:image,imageType:imageType,
+                                  onEdit: (){
+                                  ImageChooser().pickImage(context,(path,type) {
+                                    setState(() {
+                                      image=path;
+                                      imageType=ImageType.TYPE_FILE;
+                                    });
+                                    controller.editProfile(fullname.text,mobile.text,
+                                        image: image,location: location,).then((value) {
+                                      setState(() {
+                                        image=controller.user.image;
+                                        imageType=ImageType.TYPE_NETWORK;
+                                      });
+                                    });
+                                  },);
                                 },),
                                 SizedBox(height: AppSizer.getHeight(12),),
-                                CustomText(text: "Jane Doe",fontcolor: AppColor.COLOR_BLACK,
+                                CustomText(text: "${controller.user.fullname}",
+                                  fontcolor: AppColor.COLOR_BLACK,
                                   fontweight: FontWeight.bold,fontsize: 16,)
                               ],),
                             ),
@@ -87,9 +131,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            buildStatContainer(AppString.TEXT_RATING, 4.5),
-            buildStatContainer(AppString.TEXT_ORDER, 40),
-            buildStatContainer(AppString.TEXT_FOLLOWERS, 80,border: false),
+         //   buildStatContainer(AppString.TEXT_RATING, 4.5),
+            buildStatContainer(AppString.TEXT_ORDER, 40,border: false),
+          //  buildStatContainer(AppString.TEXT_FOLLOWERS, 80,border: false),
           ],),
       ),);
   }
@@ -116,10 +160,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisSize: MainAxisSize.min,crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   buildFieldValue(AppString.TEXT_NAME,
-                    EditField(hinttext: AppString.TEXT_NAME,),),
+                    EditField(controller:fullname,hinttext: AppString.TEXT_NAME,onEditTap: (){
+                      AppDialog.showDialog(EditDialog(onSave: (val){
+                        controller.editProfile(val,mobile.text,location: location).then((value) {
+                          fullname.text=controller.user.fullname!;
+                        });
+                      },field: AppString.TEXT_NAME,value: fullname.text,));
+                    },),),
                   SizedBox(height: spacing,),
                   buildFieldValue(AppString.TEXT_PHONE_NUMBER,
-                    EditField(hinttext: AppString.TEXT_PHONE_NUMBER,),),
+                    EditField(controller:mobile,
+                      hinttext: AppString.TEXT_PHONE_NUMBER,onEditTap: (){
+                      AppDialog.showDialog(EditDialog(keyboardType:TextInputType.phone,
+                      inputFormatters: [phoneFormattor],
+                      onSave: (val){
+                        controller.editProfile(fullname.text,val,location: location).then((value) {
+                          mobile.text=controller.user.phone!;
+                        });
+                      },field: AppString.TEXT_PHONE_NUMBER,value: mobile.text,));
+                    },),),
                   SizedBox(height: spacing,),
                   buildFieldValue(AppString.TEXT_ADDRESS, Container(child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,9 +187,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontweight: FontWeight.bold,),
                       Row(
                         children: [
-                          Expanded(child: CustomText(text: "9922 Cardinal Street Minot, \nND 58701",
+                          Expanded(
+                            child: CustomText(text: "${location?.name}",
                             fontsize: 12,line_spacing: 1.6,),),
                           GestureDetector(
+                            onTap: (){
+                              AppNavigator.navigateTo(AddressSelectionScreen(
+                                initial: location,
+                                onLocationSelected: (loc){
+                                  controller.editProfile(fullname.text,mobile.text,
+                                      location: loc)
+                                      .then((value) {
+                                    setState(() {
+                                      location=loc;
+                                    });
+                                  });
+
+                                },));
+                            },
                             child: Container(color: AppColor.COLOR_TRANSPARENT,
                               padding: EdgeInsets.symmetric(horizontal: AppSizer.getWidth(
                                   AppDimen.LOGINFIELD_ICON_HORZ_PADDING)),

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "323780655610",
+    "project_id": "ycsh-9cef3",
+    "storage_bucket": "ycsh-9cef3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323780655610:android:091c01066ae78b70bd0c43",
+        "android_client_info": {
+          "package_name": "com.app.ycsh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323780655610-4h45nru3ng0cavbe79blq111dnp2f1m3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQpMnvTojD0mGUs_DAGY6E_s2VBb2z0qw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323780655610-4h45nru3ng0cavbe79blq111dnp2f1m3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

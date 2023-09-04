@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ycsh/controller/auth_controller.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
@@ -32,6 +34,8 @@ class LoginScreenState extends State<LoginScreen> {
 
   final GlobalKey<FormState> validatorKey=GlobalKey();
 
+  final AuthController authController=Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     var media=MediaQuery.of(context);
@@ -41,12 +45,14 @@ class LoginScreenState extends State<LoginScreen> {
         AppNavigator.pop();
       },),),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSizer.getWidth(AppDimen.LOGIN_PADDING_HORZ)),
+        padding: EdgeInsets.symmetric(
+            horizontal: AppSizer.getWidth(AppDimen.LOGIN_PADDING_HORZ)),
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(vertical: AppDimen.SCROLL_OFFSET_PADDING_VERT),
+                padding: const EdgeInsets.symmetric(
+                    vertical: AppDimen.SCROLL_OFFSET_PADDING_VERT),
                 child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -104,13 +110,14 @@ class LoginScreenState extends State<LoginScreen> {
           onTap: (){
         },),
       ],),
-        SizedBox(height: AppSizer.getHeight(28),),
+        //SizedBox(height: AppSizer.getHeight(28),),
+        SizedBox(height: AppSizer.getHeight(80),),
       CustomButton(text: AppString.TEXT_SIGNIN,onTap: (){
         if(FormValidator.validateForm(validatorKey)){
-          AppNavigator.navigateToReplaceAll(() => DashboardScreen());
+          authController.login(email.text, pass.text);
         }
       },),
-        SizedBox(height: AppSizer.getHeight(25),),
+     /*   SizedBox(height: AppSizer.getHeight(25),),
       Center(child: const CustomText(text: AppString.TEXT_OR,fontsize: 13,
         fontcolor: AppColor.COLOR_GREY2,)),
         SizedBox(height: AppSizer.getHeight(25),),
@@ -120,7 +127,7 @@ class LoginScreenState extends State<LoginScreen> {
       SocialLoginButton(icon: AssetPath.ICON_FACEBOOK,text: AppString.TEXT_LOGIN_FACEBOOK,
       bgColor: AppColor.COLOR_BLUE2,),
         SizedBox(height: space,),
-      SocialLoginButton(icon: AssetPath.ICON_APPLE,text: AppString.TEXT_LOGIN_APPLE,),
+      SocialLoginButton(icon: AssetPath.ICON_APPLE,text: AppString.TEXT_LOGIN_APPLE,),*/
     ],);
   }
 

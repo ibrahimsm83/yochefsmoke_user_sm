@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +27,7 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async{
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
     ));
 
     return ScreenUtilInit(
+      useInheritedMediaQuery: true,
       minTextAdapt: true,splitScreenMode: true,
       builder: (con,wid){
         return GetMaterialApp(

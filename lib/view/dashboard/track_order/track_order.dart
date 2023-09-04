@@ -184,9 +184,9 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
       Expanded(child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(text: "James Robert",fontsize: 14,fontweight: FontWeight.bold,),
+          CustomText(text: text1,fontsize: 14,fontweight: FontWeight.bold,),
           SizedBox(height: AppSizer.getHeight(5),),
-          CustomText(text: "Driver - Ad 4525 USA",fontsize: 11,
+          CustomText(text: text2,fontsize: 11,
             fontcolor: AppColor.COLOR_GREY6,)
         ],)),
     ],);

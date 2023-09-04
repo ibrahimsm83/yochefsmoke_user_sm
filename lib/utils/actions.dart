@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:ycsh/utils/constants.dart';
+import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/regex.dart';
 import 'package:ycsh/utils/strings.dart';
+import 'package:ycsh/widget/loader.dart';
 
 class AppMessage{
   static void showMessage(String? message,{Toast length=Toast.LENGTH_LONG}){
     Fluttertoast.showToast(msg: message??"", toastLength: length,);
   }
 
-  static void handleException(dynamic ex){
-    print("new exception: $ex");
-    showMessage(ex.toString());
+
+}
+
+class AppLoader{
+
+  static bool _showing=false;
+  static void showLoader({bool dismissible=true,Widget? loader}){
+    if(!_showing) {
+      _showing=true;
+      Get.dialog(loader??ProcessLoading(dismissible: dismissible,),
+        barrierDismissible: false,);
+    }
+
   }
 
+  static void dismissLoader(){
+    if(_showing) {
+      _showing = false;
+      AppNavigator.pop();
+    }
+  }
 }
 
 class FormValidator{
@@ -69,6 +88,16 @@ class FormValidator{
     }
     return null;
 
+  }
+
+  static String? validateCreditCard(String value) {
+    if (value.isEmpty) {
+      return AppString.TEXT_CARD_EMPTY_ERROR;
+    }
+    else if (value.length < ValidationRegex.CREDIT_CARD_FORMAT.length) {
+      return AppString.TEXT_CARD_INVALID_ERROR;
+    }
+    return null;
   }
 
   static String? validateEmpty(String value,{String message=AppString.TEXT_FIELD_EMPTY_ERROR}){

@@ -304,3 +304,12 @@ class DottedContainer extends StatelessWidget {
     );
   }
 }
+
+class NotFoundText extends StatelessWidget {
+  const NotFoundText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: CustomText(text: AppString.TEXT_OBJECT_NOT_FOUND,fontsize: 13,),);
+  }
+}

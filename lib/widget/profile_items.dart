@@ -13,8 +13,8 @@ class CircularPic extends StatelessWidget {
   final String? image;
   final BorderSide border;
   final ImageType imageType;
-  const CircularPic({Key? key,required this.diameter, this.image=AssetPath.IMAGE_SAMPLE,
-    this.imageType=ImageType.TYPE_ASSET,
+  const CircularPic({Key? key,required this.diameter, this.image,
+    this.imageType=ImageType.TYPE_NETWORK,
     this.border = const BorderSide(width: 0,
         color: AppColor.COLOR_TRANSPARENT)}):super(key: key,);
 
@@ -36,9 +36,9 @@ class CircularPic extends StatelessWidget {
 class EditProfilePicture extends CircularPic{
 
   final void Function()? onEdit;
-  EditProfilePicture({double? diameter,String? image=AssetPath.IMAGE_SAMPLE2,
+  EditProfilePicture({double? diameter,String? image,
     BorderSide border=BorderSide.none,
-    ImageType imageType=ImageType.TYPE_ASSET,this.onEdit,}):
+    ImageType imageType=ImageType.TYPE_NETWORK,this.onEdit,}):
         super(diameter: diameter??AppSizer.getHeight(AppDimen.PROFILE_PIC_DIAM),
           image: image,imageType: imageType,
           border: border);
@@ -70,7 +70,7 @@ class EditField extends LineField{
 
   final void Function()? onEditTap;
   EditField({TextEditingController? controller,String hinttext="",this.onEditTap,}):
-        super(controller: controller,hinttext: hinttext,
+        super(controller: controller,hinttext: hinttext,readOnly: true,
         border: const BorderSide(width: 2,color: AppColor.COLOR_BLACK),);
 
 

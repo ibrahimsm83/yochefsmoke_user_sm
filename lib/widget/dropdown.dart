@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:ycsh/model/interface.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/widget/common.dart';
 import 'package:ycsh/widget/icons.dart';
 
-class CustomDropdown<T> extends StatelessWidget {
+class CustomDropdown extends StatelessWidget {
   final String hint;
-  final List<T>? items;
-  final Function(T? t) onValueChanged;
-  final T? selected_value;
+  final List<DropDownItem>? items;
+  final Function(DropDownItem? t) onValueChanged;
+  final DropDownItem? selected_value;
   final double fontsize, elevation;
   late double _radius;
   final Color hintcolor;
@@ -31,7 +32,7 @@ class CustomDropdown<T> extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: elevation),
       child: buildContainer(
         DropdownButtonHideUnderline(
-            child: DropdownButton<T>(
+            child: DropdownButton<DropDownItem>(
               //menuMaxHeight: 40,
               icon: buildArrow(),
               iconSize: iconsize,
@@ -47,11 +48,11 @@ class CustomDropdown<T> extends StatelessWidget {
               // isExpanded: true,
               // icon: Expanded(child:Container(child:Text("a"))),
               items: items != null
-                  ? items!.map<DropdownMenuItem<T>>((T it) {
+                  ? items!.map<DropdownMenuItem<DropDownItem>>((DropDownItem it) {
                 return DropdownMenuItem(
                   value: it,
                   child: buildItem(
-                    it.toString(),
+                    it.getText(),
                   ),
                 );
               }).toList()

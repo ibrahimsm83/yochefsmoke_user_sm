@@ -23,7 +23,7 @@ mixin LoginFieldProps {
   TextAlignVertical? textAlignVertical;
   late BorderSide border;
   late double fontsize;
-  late bool readOnly,autofocus;
+  late bool readOnly,autofocus,enabled;
   TextInputAction? textInputAction;
   void Function()? onTap;
   ValueChanged<String>? onSubmit;
@@ -37,7 +37,7 @@ mixin LoginFieldProps {
     List<TextInputFormatter>? inputFormatters,TextInputType? keyboardType,
     Color bgColor=AppColor.COLOR_WHITE, Color hintColor=AppColor.COLOR_GREY1,
     Color textColor=AppColor.COLOR_BLACK,
-    int? maxLength,bool expands=false,
+    int? maxLength,bool expands=false,bool enabled=true,
     double fontsize=AppDimen.FONT_TEXT_FIELD,bool readOnly=false,TextInputAction? textInputAction,
     TextAlign textAlign=TextAlign.start,TextAlignVertical? textAlignVertical,
     Widget? suffixIcon,void Function()? onTap,double elevation=0,
@@ -73,6 +73,7 @@ mixin LoginFieldProps {
     this.onSubmit=onSubmit;
     this.focusedBorderColor=focusedBorderColor;
     this.errorColor=errorColor;
+    this.enabled=enabled;
   }
 
 
@@ -99,14 +100,14 @@ class CustomField extends StatelessWidget with LoginFieldProps{
     Color textColor=AppColor.COLOR_BLACK,
     TextAlignVertical textAlignVertical=TextAlignVertical.center,
     Widget? suffixIcon,void Function()? onTap,double elevation=0,
-    Color hintColor=AppColor.COLOR_GREY2,
+    Color hintColor=AppColor.COLOR_GREY2,bool enabled=true,
     void Function(String val)? onChange,
     BorderSide border=BorderSide.none,}):
         super(key: key){
     initialize(controller: controller,radius: radius,hinttext: hinttext,prefixIcon: prefixIcon,
         onValidate: onValidate,hidden: hidden,inputFormatters: inputFormatters,keyboardType: keyboardType,
         bgColor: bgColor,maxLength: maxLength,expands: expands,fontsize: fontsize,readOnly: readOnly,
-        textInputAction: textInputAction,
+        textInputAction: textInputAction,enabled: enabled,
         autofocus:autofocus,focusNode: focusNode,
         textAlign: textAlign,textAlignVertical: textAlignVertical,
         onSubmit: onSubmit,textColor: textColor,
@@ -122,7 +123,8 @@ class CustomField extends StatelessWidget with LoginFieldProps{
     return ShadowContainer(elevation: elevation,radius: radius,
       child: TextFormField(focusNode: focusNode,
         controller: controller,
-        enabled: true,
+
+        enabled: enabled,
         onChanged: onChange,
         onFieldSubmitted: onSubmit,
         onTap: onTap,autofocus: autofocus,
@@ -151,6 +153,7 @@ class CustomField extends StatelessWidget with LoginFieldProps{
         contentPadding: contentPadding,
         border: border,
         enabledBorder: border,
+        disabledBorder: border,
         focusedBorder: focusedBorder,
         errorBorder: errorBorder,
         /*     focusedErrorBorder: OutlineInputBorder(
@@ -256,10 +259,11 @@ class DescriptionField extends CustomField{
 
 
 class LineField extends CustomField{
-  LineField({TextEditingController? controller,String hinttext="",
+  LineField({TextEditingController? controller,String hinttext="",bool enabled=true,
+    bool readOnly=false,
     BorderSide border=const BorderSide(width: 2,color: AppColor.COLOR_BLACK),}):
         super(controller: controller,hinttext: hinttext,bgColor: AppColor.COLOR_TRANSPARENT,
-          border: border,
+          border: border,enabled: enabled,readOnly: readOnly,
           radius: 0);
 
   @override

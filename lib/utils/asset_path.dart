@@ -24,6 +24,7 @@ class AssetPath {
   static const ICON_HOME2 = "assets/images/icon_home2.png";
   static const ICON_HOME = "assets/images/icon_home.png";
   static const ICON_DINER = "assets/images/icon_diner.png";
+  static const ICON_CARD = "assets/images/icon_card.png";
   static const ICON_HEART = "assets/images/icon_heart.png";
   static const ICON_USER = "assets/images/icon_user.png";
   static const ICON_HOME_FILLED = "assets/images/icon_home_filled.png";
@@ -53,6 +54,7 @@ class AssetPath {
   static const ICON_VOUCHER = "assets/images/icon_voucher.png";
   static const ICON_CASH_DELIVERY = "assets/images/icon_cash_delivery.png";
   static const ICON_TICK= "assets/images/icon_tick.png";
+  static const ICON_CLOSE="assets/images/icon_close.png";
 
   static const IMAGE_CAMERA="assets/images/image_camera.png";
 }

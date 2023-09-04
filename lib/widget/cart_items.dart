@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:ycsh/model/address.dart';
+import 'package:ycsh/model/product.dart';
+import 'package:ycsh/service/image_chooser.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/sizer.dart';
@@ -11,8 +14,10 @@ import 'package:ycsh/widget/login_items.dart';
 
 class CartItemContainer extends StatelessWidget {
 
-  final void Function()? onTap,onDelete;
-  const CartItemContainer({Key? key,this.onTap,this.onDelete,})
+  final void Function(int val)? onTap;
+  final void Function()? onDelete;
+  final Product product;
+  const CartItemContainer({Key? key,this.onTap,this.onDelete,required this.product,})
       : super(key: key);
 
   @override
@@ -50,29 +55,35 @@ class CartItemContainer extends StatelessWidget {
                     width: imgHeight,height: imgHeight,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(radius),
-                        child: CustomImage(image: AssetPath.IMAGE_SAMPLE2,
-                          fit: BoxFit.cover,))),
+                        child: CustomImage(image: product.image,
+                          fit: BoxFit.cover,imageType: ImageType.TYPE_NETWORK,))),
                 SizedBox(width: AppSizer.getWidth(15),),
                 Expanded(child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  CustomText(text: "Red Snapper Fillet",fontsize: 14,
+                  CustomText(text: "${product.name}",fontsize: 14,
                     fontweight: FontWeight.bold,),
                   SizedBox(height: AppSizer.getHeight(4),),
-                  CustomText(text: "Fried or Grilled",
+                  CustomText(text: "${product.cook_type}",
                     fontcolor: AppColor.COLOR_GREY4,fontsize: 9,),
                     SizedBox(height: AppSizer.getHeight(16),),
-                    CustomText(text: "\$20",fontsize: 19,fontweight: FontWeight.w500,)
+                    CustomText(text: "\$${product.price}",
+                      fontsize: 19,fontweight: FontWeight.w500,)
                 ],)),
                 Padding(
                   padding: EdgeInsets.only(right: AppSizer.getWidth(20)),
                   child: Column(
                     children: [
-                    buildButton("-",),
+                    buildButton("-",onTap: (){
+                      onTap?.call(-1);
+                    }),
                     Padding(padding: EdgeInsets.symmetric(vertical: AppSizer.getHeight(17)),
-                      child: CustomText(text: "2",fontweight: FontWeight.w500,
+                      child: CustomText(text: "${product.quantity}",
+                        fontweight: FontWeight.w500,
                         line_spacing: 1,),),
-                    buildButton("+",),
+                    buildButton("+",onTap: (){
+                      onTap?.call(1);
+                    }),
                   ],),
                 ),
               ],
@@ -83,44 +94,49 @@ class CartItemContainer extends StatelessWidget {
   }
 
   Widget buildButton(String text,{Function()? onTap}){
-    return Container(//color: Colors.red,
-      child: TappableText(text: text,fontcolor: AppColor.COLOR_BLACK,fontsize: 24,
-        fontweight: FontWeight.w600,onTap: onTap,line_spacing: 1,),
-    );
+    return TappableText(
+      text: text,fontcolor: AppColor.COLOR_BLACK,fontsize: 24,
+      fontweight: FontWeight.w600,onTap: onTap,line_spacing: 1,);
   }
 
 }
 
 class AddressContainer extends StatelessWidget {
-  const AddressContainer({Key? key}) : super(key: key);
+
+  final Address address;
+  final void Function()? onTap;
+  const AddressContainer({Key? key,required this.address,this.onTap,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final double imgHeight=AppSizer.getHeight(90);
     final double radius=AppSizer.getRadius(AppDimen.ADDRESS_CON_RADIUS);
-    return ShadowContainer(
-      radius: radius,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: AppSizer.getHeight(10),
-            horizontal: AppSizer.getWidth(10)),
-        decoration: const BoxDecoration(//borderRadius: BorderRadius.circular(radius),
-            color: AppColor.COLOR_WHITE),
-        child: Row(children: [
-        Container(
-          height: imgHeight,width: imgHeight*1.6,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(radius),
-          color: AppColor.THEME_COLOR_PRIMARY1,
-          ),),
-          SizedBox(width: AppSizer.getWidth(13),),
-          Expanded(child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            const CustomText(text: AppString.TEXT_HOME,fontsize: 14,fontweight: FontWeight.bold,),
-            SizedBox(height: AppSizer.getHeight(5),),
-            CustomText(text: "25 East 38th Street, New York, NY, 10016, USA",fontsize: 11,
-              fontcolor: AppColor.COLOR_GREY4,),
-          ],))
-      ],),),
+    return GestureDetector(
+      onTap: onTap,
+      child: ShadowContainer(
+        radius: radius,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: AppSizer.getHeight(10),
+              horizontal: AppSizer.getWidth(10)),
+          decoration: const BoxDecoration(//borderRadius: BorderRadius.circular(radius),
+              color: AppColor.COLOR_WHITE),
+          child: Row(children: [
+          Container(
+            height: imgHeight,width: imgHeight*1.6,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(radius),
+            color: AppColor.THEME_COLOR_PRIMARY1,
+            ),),
+            SizedBox(width: AppSizer.getWidth(13),),
+            Expanded(child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              const CustomText(text: AppString.TEXT_HOME,fontsize: 14,fontweight: FontWeight.bold,),
+              SizedBox(height: AppSizer.getHeight(5),),
+              CustomText(text: "${address.location?.name}",fontsize: 11,
+                fontcolor: AppColor.COLOR_GREY4,),
+            ],))
+        ],),),
+      ),
     );
   }
 }

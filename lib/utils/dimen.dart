@@ -12,6 +12,7 @@ class AppDimen{
   static const double APPBAR_ICON_BUTTON_SIZE=36;
   static const double APPBAR_PROF_PIC_SIZE=40;
   static const double CHECK_BOX_SIZE=15;
+  static const double BTN_CLOSE_SIZE=20;
   //static const double CHECK_BOX_SIZE=200;
 
 
@@ -25,6 +26,7 @@ class AppDimen{
   static const double DASHBOARD_PADDING_HORZ=LOGIN_PADDING_HORZ;
   static const double SCROLL_OFFSET_PADDING_VERT=20;
   static const double DRAWER_ITEM_PADDING_HORZ=30;
+  static const double BTN_CLOSE_PADDING=10;
 
   static const double LOGIN_BUTTON_RADIUS=30;
   static const double LOGIN_FIELD_RADIUS=10;

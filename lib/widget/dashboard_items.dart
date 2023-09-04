@@ -16,8 +16,9 @@ class CustomDrawer extends StatelessWidget{
   final List<DrawerItem> items;
   final void Function() onClose;
   final void Function()? onLogoutTap;
-  //final StakeHolder user;
-  CustomDrawer({required this.items,required this.onClose,this.onLogoutTap,});
+  final StakeHolder user;
+  CustomDrawer({required this.items,required this.onClose,this.onLogoutTap,
+    required this.user,});
 
 
   late double _sidePadd;
@@ -76,7 +77,7 @@ class CustomDrawer extends StatelessWidget{
               Center(
                 child: Padding(
                   padding:  EdgeInsets.only(left: radius*0.18),
-                  child: CircularPic(diameter: height*0.45,),
+                  child: CircularPic(diameter: height*0.45,image: user.image,),
                 ),
               ),
               SizedBox(width: AppSizer.getWidth(18),),
@@ -84,9 +85,9 @@ class CustomDrawer extends StatelessWidget{
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                  CustomText(text:"Jane Doe",fontweight: FontWeight.bold,fontsize: 17,),
+                  CustomText(text:"${user.fullname}",fontweight: FontWeight.bold,fontsize: 17,),
                   SizedBox(height: AppSizer.getHeight(3),),
-                  CustomText(text:"info@chinchu.com",fontcolor: AppColor.COLOR_WHITE,
+                  CustomText(text:"${user.email}",fontcolor: AppColor.COLOR_WHITE,
                     fontsize: 11,fontweight: FontWeight.bold,),
                 ],),
               ),
