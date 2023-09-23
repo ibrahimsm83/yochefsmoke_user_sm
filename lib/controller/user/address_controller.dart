@@ -64,6 +64,18 @@ class AddressController extends GetxController{
     }
   }
 
+  Future<bool> deleteAddress(Address address,) async{
+    AppLoader.showLoader();
+    bool status=await addressProvider.deleteAddress(dashboardController.user.accesstoken!,
+        address.id!);
+    AppLoader.dismissLoader();
+    if(status){
+      _addresses?.remove(address);
+      update();
+    }
+    return status;
+  }
+
   Future<void> loadAllAddresses() async{
   //  _defaultAddress=null;
     await addressProvider.getAddresses(dashboardController.user.accesstoken!,onTask: (add){

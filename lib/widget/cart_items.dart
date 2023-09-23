@@ -25,6 +25,7 @@ class CartItemContainer extends StatelessWidget {
     final double radius=AppSizer.getRadius(AppDimen.FOOD_CON_RADIUS);
     final double imgHeight=AppSizer.getHeight(100);
     final double padding=AppSizer.getHeight(10);
+    final double iconsize=AppSizer.getHeight(AppDimen.OPT_ICON_SIZE);
     return Slidable(
       endActionPane: ActionPane(//closeThreshold: 0.3,openThreshold: 0.1,
         dragDismissible: false,
@@ -37,7 +38,7 @@ class CartItemContainer extends StatelessWidget {
             decoration: BoxDecoration(color: AppColor.COLOR_RED_LIGHT,
                 borderRadius: BorderRadius.circular(radius)),
             alignment: Alignment.center,
-            child: CustomIconButton(icon: IconDelete(size: AppSizer.getHeight(20),
+            child: CustomIconButton(icon: IconDelete(size: iconsize,
               color: AppColor.COLOR_RED1,),
               onTap: onDelete,),
           ),

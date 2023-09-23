@@ -96,7 +96,7 @@ class _ContentLoadingState extends State<ContentLoading> with SingleTickerProvid
 
   @override
   void initState() {
-    _cont=AnimationController(duration: Duration(seconds: 1,),vsync: this);
+    _cont=AnimationController(duration: const Duration(seconds: 1,),vsync: this);
     _cont.addListener(() {
       setState(() {
         //print("val: "+_cont.value.toString());

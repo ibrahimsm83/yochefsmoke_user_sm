@@ -77,7 +77,8 @@ class CustomDrawer extends StatelessWidget{
               Center(
                 child: Padding(
                   padding:  EdgeInsets.only(left: radius*0.18),
-                  child: CircularPic(diameter: height*0.45,image: user.image,),
+                  child: CircularPic(diameter: height*0.45,image: user.image,
+                    imageType: ImageType.TYPE_NETWORK,),
                 ),
               ),
               SizedBox(width: AppSizer.getWidth(18),),

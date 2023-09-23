@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ycsh/controller/user/controllers.dart';
+import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
@@ -18,6 +21,14 @@ class ContactUsScreen extends StatefulWidget {
 }
 
 class _ContactUsScreenState extends State<ContactUsScreen> {
+
+  final GlobalKey<FormState> validatorKey=GlobalKey();
+
+  final DashboardController dashboardController=Get.find<DashboardController>();
+
+  final TextEditingController name=TextEditingController(),
+      email=TextEditingController(),description=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final double radius=AppSizer.getRadius(AppDimen.BOTTOM_PANEL_RADIUS);
@@ -41,7 +52,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           ),
           child: Stack(
             children: [
-              Positioned.fill(child: CustomImage(image: AssetPath.CONTACT_US_BG,
+              Positioned.fill(child: const CustomImage(image: AssetPath.CONTACT_US_BG,
                 fit: BoxFit.cover,)),
               Positioned.fill(
                 top: AppSizer.getHeight(25),
@@ -50,21 +61,40 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       horizontal: AppSizer.getWidth(AppDimen.DASHBOARD_PADDING_HORZ),
                     vertical: AppDimen.SCROLL_OFFSET_PADDING_VERT,
                   ),
-                  child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                  buildFieldValue(AppString.TEXT_YOUR_NAME, CustomField(bgColor: bgColor,
-                    focusedBorderColor: focusColor,)),
-                  SizedBox(height: spacing,),
-                  buildFieldValue(AppString.TEXT_YOUR_EMAIL, CustomField(bgColor: bgColor,
-                  focusedBorderColor: focusColor,)),
+                  child: Form(
+                    key: validatorKey,
+                    child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                    buildFieldValue(AppString.TEXT_YOUR_NAME, CustomField(bgColor: bgColor,
+                      controller: name,
+                      focusedBorderColor: focusColor,onValidate: (val){
+                        return FormValidator.validateEmpty(val!);
+                      },)),
                     SizedBox(height: spacing,),
-                  buildFieldValue(AppString.TEXT_YOUR_MESSAGE,
-                      DescriptionField(height: AppSizer.getHeight(150),bgColor: bgColor,
-                        focusedBorderColor: focusColor,)),
-                    SizedBox(height: AppSizer.getHeight(50),),
-                  CustomButton(text: AppString.TEXT_SEND,bgColor: AppColor.COLOR_WHITE,),
-        ],),),
+                    buildFieldValue(AppString.TEXT_YOUR_EMAIL, CustomField(bgColor: bgColor,
+                    focusedBorderColor: focusColor,
+                      controller: email,
+                      onValidate: (val){
+                        return FormValidator.validateEmail(val!);
+                      },)),
+                      SizedBox(height: spacing,),
+                    buildFieldValue(AppString.TEXT_YOUR_MESSAGE,
+                        DescriptionField(height: AppSizer.getHeight(150),bgColor: bgColor,
+                          controller: description,
+                          focusedBorderColor: focusColor,onValidate: (val){
+                            return FormValidator.validateEmpty(val!);
+                          },)),
+                      SizedBox(height: AppSizer.getHeight(50),),
+                    CustomButton(text: AppString.TEXT_SEND,bgColor: AppColor.COLOR_WHITE,
+                      onTap: (){
+                        if(FormValidator.validateForm(validatorKey)){
+                          dashboardController.postContactUs(name.text, email.text,
+                              description.text);
+                        }
+                      },),
+        ],),
+                  ),),
               ),
             ],
           ),))

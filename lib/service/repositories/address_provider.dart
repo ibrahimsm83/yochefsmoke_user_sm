@@ -122,6 +122,36 @@ class AddressProvider {
     return user_id;
   }
 
+  Future<bool> deleteAddress(String token,String add_id,) async {
+    bool order=false;
+    const String url = AppConfig.DIRECTORY + "user/delete-address";
+    print("deleteAddress url: $url");
+
+    final Map map = {
+      "address_id":add_id,
+    };
+
+    final String json = jsonEncode(map);
+
+    print("deleteAddress map: $json");
+
+    await Network().post(
+      url,
+      json,
+      headers: {'Content-type': 'application/json',"Authorization":"Bearer ${token}",},
+      onSuccess: (val) {
+        print("postOrder response: $val");
+        var map=jsonDecode(val);
+        bool status=map["statusCode"]==Network.STATUS_OK;
+        order=status;
+        // order=status;
+        AppMessage.showMessage(map["message"].toString());
+      },
+    );
+    return order;
+  }
+
+
   Future<List<Address>?> getAddresses(String token,{Function(Address address)? onTask,}) async{
     List<Address>? users;
     const String url=AppConfig.DIRECTORY+"user/get-profile";
@@ -164,6 +194,36 @@ class AddressProvider {
           }
         });
     return users;
+  }
+
+  Future<bool> postContactUs(String token,
+      String name,String email,String message,) async {
+    bool user_id=false;
+    const String url = AppConfig.DIRECTORY + "user/contact-us";
+    print("postContact url: $url");
+
+    final Map map = {
+      "name":name,
+      "email":email,
+      "message":message,
+    };
+
+    final String json = jsonEncode(map);
+
+    print("postContact map: $json");
+
+    await Network().post(
+      url,
+      json,
+      headers: {'Content-type': 'application/json',"Authorization":"Bearer ${token}",},
+      onSuccess: (val) {
+        var map=jsonDecode(val);
+        bool status=map["statusCode"]==Network.STATUS_OK;
+        user_id=status;
+        AppMessage.showMessage(map["message"].toString());
+      },
+    );
+    return user_id;
   }
 
 }

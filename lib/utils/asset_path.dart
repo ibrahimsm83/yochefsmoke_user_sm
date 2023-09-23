@@ -55,6 +55,7 @@ class AssetPath {
   static const ICON_CASH_DELIVERY = "assets/images/icon_cash_delivery.png";
   static const ICON_TICK= "assets/images/icon_tick.png";
   static const ICON_CLOSE="assets/images/icon_close.png";
+  static const ICON_CUR_LOC="assets/images/marker.png";
 
   static const IMAGE_CAMERA="assets/images/image_camera.png";
 }

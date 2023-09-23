@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:ycsh/model/address.dart';
+import 'package:ycsh/model/location.dart';
 import 'package:ycsh/model/order.dart';
 import 'package:ycsh/model/page_model.dart';
 import 'package:ycsh/model/product.dart';
+import 'package:ycsh/model/user.dart';
 import 'package:ycsh/service/network.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/config.dart';
@@ -208,7 +211,13 @@ class OrderProvider{
           List list=data["results"];
           var meta=data["meta"];
           users=PageModel(data: list.map<Order>((cat) {
+            List list = cat["product_item"];
+            var address=cat["address"];
             return Order.fromMap(cat,
+                user: User.fromMap(cat["user"]),
+                rider: cat["rider"]!=null?Rider.fromMap(cat["rider"]):null,
+                address: address!=null?Address.fromMap(address,
+                    location: Location.fromAddressMap(address)):null,
                 products: list.map<Product>((cat) {
                   var prod = cat["product"];
                   return Product.fromMap(prod, quantity: cat["quantity"],
@@ -229,5 +238,88 @@ class OrderProvider{
         });
     return users;
   }
+
+  Future<PageModel<Order>?> getActiveOrders(String token,{int page=1,
+    int limit=AppInteger.PAGE_LIMIT,}) async{
+    PageModel<Order>? users;
+    final String url=AppConfig.DIRECTORY+"orders/user-current-orders?page=$page&limit=$limit";
+    print("getActiveOrders url: $url");
+
+    await Network().get(url,headers: {"Authorization":"Bearer ${token}",
+      'Content-type': 'application/json'},
+        onSuccess: (val){
+          print("getActiveOrders response: ${val}");
+          var map = jsonDecode(val);
+          var data=map["data"];
+          List list=data["results"];
+          var meta=data["meta"];
+          users=PageModel(data: list.map<Order>((cat) {
+            List list = cat["product_item"];
+            var address=cat["address"];
+            return Order.fromMap(cat,
+                user: User.fromMap(cat["user"]),
+                rider: cat["rider"]!=null?Rider.fromMap(cat["rider"]):null,
+                address: address!=null?Address.fromMap(address,
+                    location: Location.fromAddressMap(address)):null,
+                products: list.map<Product>((cat) {
+                  var prod = cat["product"];
+                  return Product.fromMap(prod, quantity: cat["quantity"],
+                    detail_id:cat["id"].toString(),
+                    varients: (cat["product_variant"] as List).map((e) {
+                      var map=e["product_variant_price"];
+                      return ProductVariant.fromMap(map,quantity: e["quantity"]);
+                    }).toList(),
+                    sidelines: (cat["product_sideline"] as List).map((e) {
+                      var map=e["product_sideline_price"];
+                      return ProductSideline.fromMap(map,
+                          quantity: e["quantity"],
+                          name: e["sideline"]["name"]);
+                    }).toList(),
+                  );
+                }).toList());
+          }).toList(), total_page: meta["totalPages"]);
+        });
+    return users;
+  }
+
+/*  Future<List<Order>?> getActiveOrders(String token,{Function(Order address)? onTask,}) async{
+    List<Order>? users;
+    const String url=AppConfig.DIRECTORY+"orders/user-current-orders";
+    print("getActiveOrders url: $url");
+
+    await Network().get(url,headers: {"Authorization":"Bearer ${token}"},
+        onSuccess: (val){
+          print("getActiveOrders response: ${val}");
+          users = [];
+          var map = jsonDecode(val);
+          var data=map["data"];
+          List list=data;
+          list.forEach((cat) {
+            List list = cat["product_item"];
+            final order=Order.fromMap(cat,
+                user: User.fromMap(cat["user"]),
+                rider: cat["rider"]!=null?Rider.fromMap(cat["rider"]):null,
+                products: list.map<Product>((cat) {
+                  var prod = cat["product"];
+                  return Product.fromMap(prod, quantity: cat["quantity"],
+                    detail_id:cat["id"].toString(),
+                    varients: (cat["product_variant"] as List).map((e) {
+                      var map=e["product_variant_price"];
+                      return ProductVariant.fromMap(map,quantity: e["quantity"]);
+                    }).toList(),
+                    sidelines: (cat["product_sideline"] as List).map((e) {
+                      var map=e["product_sideline_price"];
+                      return ProductSideline.fromMap(map,
+                          quantity: e["quantity"],
+                          name: e["sideline"]["name"]);
+                    }).toList(),
+                  );
+                }).toList());
+            users!.add(order);
+            onTask?.call(order);
+          });
+        });
+    return users;
+  }*/
 
 }

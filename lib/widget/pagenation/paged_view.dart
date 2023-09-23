@@ -92,6 +92,7 @@ abstract class PagedViewState<T> extends State<PagedView> {
         }
       } catch (error) {
         print("pagenation error: $error");
+        throw error;
         // _pagingController.error = error;
       }
     }

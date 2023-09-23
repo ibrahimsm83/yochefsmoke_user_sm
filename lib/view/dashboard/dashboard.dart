@@ -9,10 +9,10 @@ import 'package:ycsh/utils/strings.dart';
 import 'package:ycsh/view/dashboard/Profile/profile.dart';
 import 'package:ycsh/view/dashboard/address/address.dart';
 import 'package:ycsh/view/dashboard/cart/cart.dart';
-import 'package:ycsh/view/dashboard/contact_us.dart';
-import 'package:ycsh/view/dashboard/event/event.dart';
+import 'package:ycsh/view/dashboard/contact_us/contact_us.dart';
 import 'package:ycsh/view/dashboard/favourite_product/favaurite_product.dart';
 import 'package:ycsh/view/dashboard/home/home.dart';
+import 'package:ycsh/view/dashboard/order_history/active_orders.dart';
 import 'package:ycsh/view/dashboard/order_history/order_history.dart';
 import 'package:ycsh/view/dashboard/payment/card.dart';
 import 'package:ycsh/view/splash/onboarding/onboarding.dart';
@@ -122,6 +122,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         DrawerItem(title: AppString.TEXT_FAVOURITES,icon: AssetPath.ICON_HEART,onTap: (){
           goTo(FavouriteProductScreen());
         }),
+        DrawerItem(title: AppString.TEXT_ACTIVE_ORDERS,icon: AssetPath.ICON_LOCATION,onTap: (){
+          goTo(ActiveOrdersScreen());
+        },),
         DrawerItem(title: AppString.TEXT_ORDER_HISTORY,icon: AssetPath.ICON_DINER,onTap: (){
           goTo(OrderHistoryScreen());
         }),
@@ -131,9 +134,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         DrawerItem(title: AppString.TEXT_ADDRESSES,icon: AssetPath.ICON_LOCATION2,onTap: (){
           goTo(AddressScreen());
         }),
-        DrawerItem(title: AppString.TEXT_TRACK_ORDER,icon: AssetPath.ICON_LOCATION,onTap: (){
+       /* DrawerItem(title: AppString.TEXT_TRACK_ORDER,icon: AssetPath.ICON_LOCATION,onTap: (){
           goTo(TrackOrderScreen());
-        },),
+        },),*/
         DrawerItem(title: AppString.TEXT_ADD_CARDS,icon: AssetPath.ICON_CARD,onTap: (){
             goTo(CardScreen());
           //goTo(EventScreen());

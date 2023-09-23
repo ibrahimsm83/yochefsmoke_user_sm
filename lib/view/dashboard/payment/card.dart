@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ycsh/controller/user/controllers.dart';
 import 'package:ycsh/model/payment.dart';
+import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
@@ -64,10 +65,18 @@ class _CardScreenState extends State<CardScreen> {
                     itemCount: list.length,
                     itemBuilder: (con, ind) {
                       var add = list[ind];
+                      bool isDefault=add.id == cont.defaultCard?.id;
                       return CardContainer(
                           card: add,
-                          selected: add.id == cont.defaultCard?.id,
-                          onDelete: () {},
+                          selected: isDefault,
+                          onDelete: () {
+                            if(!isDefault){
+                              cont.deleteCard(add);
+                            }
+                            else{
+                              AppMessage.showMessage("Default card cannot be deleted");
+                            }
+                          },
                           onTap: (selected) {
                             if (!selected) {
                               cont.setDefaultCard(add);

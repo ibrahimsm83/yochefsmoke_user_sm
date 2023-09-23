@@ -13,6 +13,7 @@ class AppDimen{
   static const double APPBAR_PROF_PIC_SIZE=40;
   static const double CHECK_BOX_SIZE=15;
   static const double BTN_CLOSE_SIZE=20;
+  static const double OPT_ICON_SIZE=20;
   //static const double CHECK_BOX_SIZE=200;
 
 

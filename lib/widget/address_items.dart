@@ -9,44 +9,68 @@ import 'package:ycsh/widget/icons.dart';
 
 class ProfileAddressContainer extends StatelessWidget {
   final void Function(bool selected)? onTap;
-  final void Function()? onEdit;
+  final void Function()? onEdit,onDelete;
   final Address address;
   final bool selected;
-  const ProfileAddressContainer({Key? key,this.onEdit,this.onTap,required this.address,
+  const ProfileAddressContainer({Key? key,this.onEdit,this.onDelete,
+    this.onTap,required this.address,
     this.selected=false,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final double radius=AppSizer.getRadius(AppDimen.FOOD_CON_RADIUS);
     final double imgHeight=AppSizer.getHeight(90);
+    final double iconsize=AppSizer.getHeight(AppDimen.OPT_ICON_SIZE);
     return Slidable(
         endActionPane: ActionPane(
           //closeThreshold: 0.3,openThreshold: 0.1,
           dragDismissible: false,
           children: [],
-          extentRatio: 0.20,
+          extentRatio: 0.30,
           //extentRatio: 0.5,
           motion: Padding(
             padding: EdgeInsets.only(left: AppSizer.getWidth(15)),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: AppColor.COLOR_RED_LIGHT,
-                  borderRadius: BorderRadius.circular(radius)),
-              alignment: Alignment.center,
-              child: Builder(
-                builder: (cont) {
-                  return CustomIconButton(
-                    icon: IconEdit(
-                      size: AppSizer.getHeight(20),
-                      color: AppColor.COLOR_RED1,
+            child: Builder(
+              builder: (cont) {
+                return Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: AppColor.COLOR_RED_LIGHT,
+                          borderRadius: BorderRadius.circular(radius)),
+                      alignment: Alignment.center,
+                      child: CustomIconButton(
+                        icon: IconDelete(
+                          size: iconsize,
+                          color: AppColor.COLOR_RED1,
+                        ),
+                        onTap: (){
+                          onDelete?.call();
+                          Slidable.of(cont)?.close();
+                        },
+                      ),
                     ),
-                    onTap: (){
-                      onEdit?.call();
-                      Slidable.of(cont)?.close();
-                    },
-                  );
-                }
-              ),
+
+                    SizedBox(width: AppSizer.getWidth(10),),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: AppColor.COLOR_RED_LIGHT,
+                          borderRadius: BorderRadius.circular(radius)),
+                      alignment: Alignment.center,
+                      child: CustomIconButton(
+                        icon: IconEdit(
+                          size: iconsize,
+                          color: AppColor.COLOR_RED1,
+                        ),
+                        onTap: (){
+                          onEdit?.call();
+                          Slidable.of(cont)?.close();
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              }
             ),
           ),
         ),

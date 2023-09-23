@@ -6,6 +6,29 @@ import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/regex.dart';
 import 'package:ycsh/utils/strings.dart';
 import 'package:ycsh/widget/loader.dart';
+import 'package:url_launcher/url_launcher.dart' as url;
+
+class AppUrlLauncher{
+
+  static void launchPhoneNumber(String phone) async{
+    launchUrl("tel:$phone");
+  }
+
+  static void launchUrl(String ur) async{
+    print("url to launch: $ur");
+    final Uri uri=Uri.parse(ur);
+    if(await url.canLaunchUrl(uri)) {
+      // url.launchUrl(Uri.parse(ur,),mode: url.LaunchMode.externalNonBrowserApplication);
+      url.launchUrl(Uri.parse(ur,),mode: url.LaunchMode.externalApplication);
+      //  url.launch(ur,forceWebView: false);
+    }
+    else{
+      AppMessage.showMessage("Unable to show");
+    }
+  }
+
+}
+
 
 class AppMessage{
   static void showMessage(String? message,{Toast length=Toast.LENGTH_LONG}){

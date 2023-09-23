@@ -34,6 +34,18 @@ class PaymentController extends GetxController{
     }
   }
 
+  Future<bool> deleteCard(CreditCard card,) async{
+    AppLoader.showLoader();
+    bool status=await paymentProvider.deleteCard(dashboardController.user.accesstoken!,
+        card.id!);
+    AppLoader.dismissLoader();
+    if(status){
+      _cards?.remove(card);
+      update();
+    }
+    return status;
+  }
+
   Future<void> loadAllCards() async{
    // _defaultCard=null;
     await paymentProvider.getCards(dashboardController.user.accesstoken!,onTask: (add){

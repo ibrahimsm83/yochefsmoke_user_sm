@@ -97,8 +97,7 @@ class LocationService extends GetxService{
          print("yohe ${location.bearing}");
        });*/
 
-        _sub = Geolocator.getPositionStream(
-            locationSettings: Platform.isAndroid?AndroidSettings(
+        _sub = Geolocator.getPositionStream(locationSettings: Platform.isAndroid?AndroidSettings(
           intervalDuration: const Duration(seconds: 10),
           accuracy: LocationAccuracy.bestForNavigation,
           forceLocationManager:false,
@@ -113,8 +112,7 @@ class LocationService extends GetxService{
         ): LocationSettings(
           //   timeLimit: const Duration(seconds: 2)
         )).listen((position) {
-          onLocationChanged(Location.continuous(position.latitude,
-              position.longitude, position.heading));
+          onLocationChanged(Location.continuous(position.latitude, position.longitude, position.heading));
         });
       }
     }

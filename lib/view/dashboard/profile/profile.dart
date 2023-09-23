@@ -109,7 +109,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                       ),
-                      //Container(height: 900,width: 200,color: Colors.red,)
                       Padding(padding: EdgeInsets.only(
                           top: padd),
                           child: buildBottom(height2)),
@@ -148,6 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Padding(padding: EdgeInsets.only(top: AppSizer.getHeight(22),),
             child: Container(
+              height: height,
               padding: EdgeInsets.fromLTRB(horzPadd,AppSizer.getHeight(40),
                   horzPadd,vertPadd),
               clipBehavior: Clip.antiAlias,
@@ -214,14 +214,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ],),),),
-
-               /*   buildFieldValue(AppString.TEXT_PHONE_NUMBER,
-                    EditField(hinttext: AppString.TEXT_PHONE_NUMBER,),),
-                  buildFieldValue(AppString.TEXT_PHONE_NUMBER,
-                    EditField(hinttext: AppString.TEXT_PHONE_NUMBER,),),
-                  buildFieldValue(AppString.TEXT_PHONE_NUMBER,
-                    EditField(hinttext: AppString.TEXT_PHONE_NUMBER,),),*/
-
                 ],),),
           ),
           Align(

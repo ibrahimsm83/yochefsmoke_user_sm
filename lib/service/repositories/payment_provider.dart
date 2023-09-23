@@ -66,6 +66,34 @@ class PaymentProvider {
     return user_id;
   }
 
+  Future<bool> deleteCard(String token,String card_id,) async {
+    bool order=false;
+    const String url = AppConfig.DIRECTORY + "user/delete-card";
+    print("deleteCard url: $url");
+
+    final Map map = {
+      "card_id":card_id,
+    };
+
+    final String json = jsonEncode(map);
+
+    print("deleteCard map: $json");
+
+    await Network().post(
+      url,
+      json,
+      headers: {'Content-type': 'application/json',"Authorization":"Bearer ${token}",},
+      onSuccess: (val) {
+        print("postOrder response: $val");
+        var map=jsonDecode(val);
+        bool status=map["statusCode"]==Network.STATUS_OK;
+        order=status;
+        // order=status;
+        AppMessage.showMessage(map["message"].toString());
+      },
+    );
+    return order;
+  }
 
   Future<List<CreditCard>?> getCards(String token,{Function(CreditCard address)? onTask,}) async{
     List<CreditCard>? users;

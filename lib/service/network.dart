@@ -35,8 +35,8 @@ class Network{
       onError.call(ex);
     }
     else{
-      AppMessage.showMessage(ex.toString());
-      //throw ex;
+      //AppMessage.showMessage(ex.toString());
+      throw ex;
     }
   }
 

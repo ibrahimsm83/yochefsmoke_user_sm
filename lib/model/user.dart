@@ -38,16 +38,6 @@ class User extends StakeHolder{
     super.accesstoken,this.location,});
 
   factory User.fromMap(Map map,{String? accesstoken,Location? location,}){
-/*
-    "latitude": "1651456465",
-    "longitude": "64654654",
-    "address": "12313132",
-    "id": 9,
-    "device_token": null,
-    "status": 0,
-    "is_blocked": 0,
-    "otp": null,
-    "image": null,*/
     return User(id: map["id"].toString(),email: map["email"],
         fullname: map["full_name"],phone: map["mobile"],image:map["image"],
         accesstoken: accesstoken,location: location);
@@ -68,4 +58,58 @@ class User extends StakeHolder{
   @override
   String get type => StakeHolder.TYPE_USER;
 
+}
+
+class Rider extends StakeHolder {
+  Rider({
+    super.id,
+    super.fullname,
+    super.phone,
+    super.email,
+    super.image,
+    super.accesstoken,
+  });
+
+  factory Rider.fromMap(
+      Map map, {
+        String? accesstoken,
+      }) {
+/*
+    "latitude": "1651456465",
+    "longitude": "64654654",
+    "address": "12313132",
+    "id": 9,
+    "device_token": null,
+    "status": 0,
+    "is_blocked": 0,
+    "otp": null,
+    "image": null,*/
+    return Rider(
+      id: map["id"].toString(),
+      email: map["email"],
+      fullname: map["full_name"],
+      phone: map["mobile"],
+      image: map["image"],
+      accesstoken: accesstoken,
+    );
+  }
+
+  factory Rider.fromLocalMap(Map map) {
+    return Rider(
+      id: map["id"],
+      email: map["email"],
+      fullname: map["full_name"],
+      phone: map["mobile"],
+      image: map["image"],
+      accesstoken: map["accesstoken"],
+    );
+  }
+
+  @override
+  Map<String, dynamic> toLocalMap() {
+    return super.toLocalMap()..addAll({});
+  }
+
+  @override
+  String get type => StakeHolder.TYPE_RIDER;
 }

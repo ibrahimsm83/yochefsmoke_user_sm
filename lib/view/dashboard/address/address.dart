@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ycsh/controller/user/address_controller.dart';
 import 'package:ycsh/model/address.dart';
+import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
@@ -65,13 +66,22 @@ class _AddressScreenState extends State<AddressScreen> {
                     itemCount: list.length,
                     itemBuilder: (con, ind) {
                       var add = list[ind];
+                      bool isDefault=add.id == cont.defaultAddress?.id;
                       return ProfileAddressContainer(
                           address: add,
-                          selected: add.id == cont.defaultAddress?.id,
+                          selected: isDefault,
                           onEdit: () {
                             AppNavigator.navigateTo(EditAddressScreen(
                               address: add,
                             ));
+                          },
+                          onDelete: (){
+                            if(!isDefault) {
+                              cont.deleteAddress(add);
+                            }
+                            else{
+                              AppMessage.showMessage("Default address cannot be deleted");
+                            }
                           },
                           onTap: (selected) {
                             if (!selected) {

@@ -73,6 +73,7 @@ class AppString{
   static const TEXT_RATING="Rating";
   static const TEXT_ORDER="Order";
   static const TEXT_ORDER_HISTORY="Order History";
+  static const TEXT_ACTIVE_ORDERS="Active Orders";
   static const TEXT_FOLLOWERS="Followers";
 
   static const TEXT_SUBTOTAL="Subtotal";

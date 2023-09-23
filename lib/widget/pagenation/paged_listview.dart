@@ -5,10 +5,14 @@ import 'package:ycsh/widget/loader.dart';
 import 'package:ycsh/widget/pagenation/paged_view.dart';
 
 class PaginatedListView<T> extends PagedView<T> {
+
+  final Widget Function(BuildContext context,int ind,) separatorBuilder;
+
   const PaginatedListView({
     Key? key,
     required super.itemBuilder,
     required super.onFetchPage,
+    required this.separatorBuilder,
     super.shrinkWrap = false,
     super.onDispose,
     super.initialItems,
@@ -22,10 +26,15 @@ class PaginatedListView<T> extends PagedView<T> {
 }
 
 class _PagedListViewState<T> extends PagedViewState<T> {
+
+  @override
+  PaginatedListView get widget => super.widget as PaginatedListView;
+
   @override
   Widget build(BuildContext context) {
-    return PagedListView(
+    return PagedListView.separated(
       pagingController: pagingController,
+      separatorBuilder: widget.separatorBuilder,
       padding: widget.padding,
       shrinkWrap: widget.shrinkWrap,
       physics: widget.physics,

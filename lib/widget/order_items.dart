@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ycsh/model/order.dart';
+import 'package:ycsh/service/image_chooser.dart';
 import 'package:ycsh/utils/constants.dart';
+import 'package:ycsh/utils/datetime.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/widget/common.dart';
 
@@ -27,27 +29,28 @@ class OrderContainer extends StatelessWidget {
                 horizontal: AppSizer.getWidth(12),
                 vertical: AppSizer.getHeight(14),
               ),
-              child: Column(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(crossAxisAlignment: CrossAxisAlignment.end,
+                  CustomText(
+                    text: "${order.address?.location!.name}",
+                    fontcolor: AppColor.COLOR_GREY4,fontsize: 13,
+                  ),
+                  SizedBox(height: AppSizer.getHeight(7),),
+                  Row(crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
-                              text: "25 East 38th Street, New York, NY, 10016, USA",
-                              fontcolor: AppColor.COLOR_GREY4,fontsize: 13,
-                            ),
-                            SizedBox(height: AppSizer.getHeight(7),),
-                            DottedContainer(dashlength: 6,dashspacing: 12,),
+                            DottedContainer(dashlength: 4,dashspacing: 12,),
                           ],
                         ),
                       ),
                       SizedBox(width: AppSizer.getWidth(10),),
                       Container(//color: Colors.red,
                         child: CustomText(
-                          text:"status",fontcolor: AppColor.THEME_COLOR_PRIMARY1,
+                          text: order.status,
+                          fontcolor: Order.colorMap[order.status]??AppColor.THEME_COLOR_PRIMARY1,
                           line_spacing: 1,max_lines: 1,fontsize: 13,
                           fontweight: FontWeight.w600,
                         ),
@@ -57,13 +60,14 @@ class OrderContainer extends StatelessWidget {
                   SizedBox(height: AppSizer.getHeight(15),),
                   Row(
                     children: [
-                      CircularPic(diameter: AppSizer.getHeight(40),),
+                      CircularPic(diameter: AppSizer.getHeight(40),
+                        imageType: ImageType.TYPE_NETWORK,image: order.rider?.image,),
                       SizedBox(width: AppSizer.getWidth(10),),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(text:'John Smith',fontsize: 14,
+                            CustomText(text:'${order.rider?.fullname}',fontsize: 14,
                               fontweight: FontWeight.w600,),
                           ],
                         ),
@@ -96,10 +100,22 @@ class OrderContainer extends StatelessWidget {
                     )*/
                     ],
                   ),
-                  Align(
-                      alignment: Alignment.bottomRight,
-                      child: CustomText(text: "21 Sept, 2022",fontsize: 13,
-                        fontweight: FontWeight.w500,fontcolor: AppColor.COLOR_BLUE1,)),
+                  SizedBox(height: AppSizer.getHeight(10),),
+                  Row(
+                    children: [
+                      Expanded(child: CustomText(
+                        fontsize: 13,text: "Order #${order.id}",
+                        fontweight: FontWeight.w600,
+                      )),
+                      CustomText(
+                        //text: "21 Sept, 2022",
+                        text:DateTimeManager.getFormattedDateTime(order.date!,
+                          format: DateTimeManager.dateFormat2,
+                            format2: DateTimeManager.dateTimeFormat),
+                        fontsize: 13,
+                        fontweight: FontWeight.w500,fontcolor: AppColor.COLOR_BLUE1,),
+                    ],
+                  ),
                 ],
               ),
             ),
