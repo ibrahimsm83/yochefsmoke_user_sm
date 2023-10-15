@@ -165,9 +165,15 @@ class AddressProvider {
           var data=map["data"];
           List list=data["users_addresses"];
           list.forEach((cat) {
-            final address=Address.fromMap(cat,location: Location.fromAddressMap(cat));
-            users!.add(address);
-            onTask?.call(address);
+            try {
+              final address = Address.fromMap(
+                  cat, location: Location.fromAddressMap(cat));
+              users!.add(address);
+              onTask?.call(address);
+            }
+            catch(ex){
+              print("add ex: $ex");
+            }
           });
         });
     return users;
@@ -185,11 +191,16 @@ class AddressProvider {
           var data=map["data"];
           List list=data["users_addresses"];
           for(int i=0;i<list.length;i++){
-            var cat=list[i];
-            final address=Address.fromMap(cat,location: Location.fromAddressMap(cat));
-            if(address.isDefault){
-              users=address;
-              break;
+            try {
+              var cat = list[i];
+              final address = Address.fromMap(
+                  cat, location: Location.fromAddressMap(cat));
+              if (address.isDefault) {
+                users = address;
+                break;
+              }
+            }catch(ex){
+
             }
           }
         });

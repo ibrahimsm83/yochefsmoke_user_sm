@@ -41,42 +41,12 @@ class _AddressSelectionScreenState extends MapsTrackScreenState {
     super.onInit();
   }
 
-/*  @override
-  Widget build(BuildContext context) {
-    final double diameter=AppSizer.getHeight(50);
-
-    return CustomBackground(
-      child: Scaffold(extendBodyBehindAppBar: true,
-        appBar: TransparentAppbar(leading: ButtonBack(
-          onTap: (){
-            AppNavigator.pop();
-          },
-        ),action: CustomButton(
-          text: AppString.TEXT_OK,bgColor: AppColor.COLOR_TRANSPARENT,
-          textColor: AppColor.COLOR_BLACK,
-          padding: EdgeInsets.symmetric(horizontal: AppSizer.getWidth(15),
-              vertical: AppSizer.getHeight(15)),
-          onTap: (){
-            saveLocation();
-          },
-        ),),
-        floatingActionButton: CircularButton(diameter: diameter,
-          icon: AssetPath.ICON_LOCATION,
-          onTap: (){
-            getCurrentLocation();
-          },
-        ),
-        body: Container(
-          child: Stack(
-            children: [
-              buildMap(),
-              Center(child: IconLocation(size: iconsize,),),
-            ],
-          ),
-        ),
-      ),
-    );
-  }*/
+  @override
+  void onMapLoaded() {
+    if(widget.initial==null) {
+      getCurrentLocation();
+    }
+  }
 
   @override
   CustomAppbar buildAppbar() {
@@ -110,13 +80,6 @@ class _AddressSelectionScreenState extends MapsTrackScreenState {
     });
   }
 
-  void getCurrentLocation(){
-    LocationService().getCurrentLocation().then((value) {
-      if(value!=null) {
-        animateCamera(value);
-      }
-    });
-  }
 
   @override
   CameraPosition getInitialPosition() {

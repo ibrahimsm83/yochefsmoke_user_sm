@@ -16,4 +16,8 @@ class Address{
         location: location);
   }
 
+  factory Address.fromHome(Location location){
+    return Address(title: "Home",location: location);
+  }
+
 }

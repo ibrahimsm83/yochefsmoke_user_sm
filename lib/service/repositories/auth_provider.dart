@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ycsh/model/address.dart';
 import 'package:ycsh/model/location.dart';
 import 'package:ycsh/model/user.dart';
 import 'package:ycsh/service/cloud.dart';
@@ -88,12 +89,12 @@ class AuthProvider {
   StakeHolder _getUser(Map data,{String? token}){
     late StakeHolder user;
     user = User.fromMap(data, accesstoken: token,
-        location: Location.fromAddressMap(data));
+        location: Address.fromHome(Location.fromAddressMap(data)));
     return user;
   }
 
   Future<StakeHolder?> updateProfile(String token,
-      String fullname,String phone,{String? image,Location? location}) async {
+      String fullname,String phone,{String? image,Address? location}) async {
     StakeHolder? stak;
     const String url = AppConfig.DIRECTORY + "user/update-profile";
     print("edit profile: ${url}");
@@ -101,9 +102,9 @@ class AuthProvider {
 
     final Map<String,String> body={"full_name":fullname,"mobile":phone,};
     if(location!=null){
-      body.addAll({"latitude": location.latitude.toString(),
-        "longitude": location.longitude.toString(),
-        "address": location.name,});
+      body.addAll({"latitude": location.location!.latitude.toString(),
+        "longitude": location.location!.longitude.toString(),
+        "address": location.location!.name,});
     }
     print("edit profile body: ${body}");
 

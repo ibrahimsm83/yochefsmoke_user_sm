@@ -49,7 +49,7 @@ class OrderContainer extends StatelessWidget {
                       SizedBox(width: AppSizer.getWidth(10),),
                       Container(//color: Colors.red,
                         child: CustomText(
-                          text: order.status,
+                          text: Order.statusMap[order.status]!,
                           fontcolor: Order.colorMap[order.status]??AppColor.THEME_COLOR_PRIMARY1,
                           line_spacing: 1,max_lines: 1,fontsize: 13,
                           fontweight: FontWeight.w600,
@@ -58,49 +58,28 @@ class OrderContainer extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: AppSizer.getHeight(15),),
-                  Row(
-                    children: [
-                      CircularPic(diameter: AppSizer.getHeight(40),
-                        imageType: ImageType.TYPE_NETWORK,image: order.rider?.image,),
-                      SizedBox(width: AppSizer.getWidth(10),),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText(text:'${order.rider?.fullname}',fontsize: 14,
-                              fontweight: FontWeight.w600,),
-                          ],
-                        ),
+                  Visibility(
+                    visible: order.rider!=null,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: AppSizer.getHeight(10),),
+                      child: Row(
+                        children: [
+                          CircularPic(diameter: AppSizer.getHeight(40),
+                            imageType: ImageType.TYPE_NETWORK,image: order.rider?.image,),
+                          SizedBox(width: AppSizer.getWidth(10),),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(text:'${order.rider?.fullname}',fontsize: 14,
+                                  fontweight: FontWeight.w600,),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      /* Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-               *//*           ElevatedButton(
-                          onPressed: () {
-                            Constant.makePhoneCall(data.phone.toString());
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.blue,
-                            shape: const CircleBorder(),
-                            backgroundColor: Colors.blue,
-                            padding:
-                            const EdgeInsets.all(6), // <-- Splash color
-                          ),
-                          child: const Icon(
-                            Icons.call,
-                            color: Colors.white,
-                            size: 18,
-                          ),
-                        ),
-                        Text(data.dateRetour.toString(),
-                            style: const TextStyle(
-                                color: Colors.black26,
-                                fontWeight: FontWeight.w600)),*//*
-                      ],
-                    )*/
-                    ],
+                    ),
                   ),
-                  SizedBox(height: AppSizer.getHeight(10),),
                   Row(
                     children: [
                       Expanded(child: CustomText(

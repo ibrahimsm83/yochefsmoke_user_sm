@@ -68,7 +68,7 @@ class AuthController extends GetxController{
       Get.put(DashboardController(user as User));
       Get.put(ProductController());
       Get.put(CartController());
-      Get.put(AddressController());
+      Get.put(ProfileController());
       Get.put(OrderController());
       Get.put(PaymentController());
       Get.put(TrackingController());

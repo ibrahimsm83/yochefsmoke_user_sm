@@ -60,6 +60,7 @@ class AppString{
   static const TEXT_ORDER_NOW="Order Now";
   static const TEXT_BOOK_NOW="Book Now";
   static const TEXT_ADD_TO_CART="Add to Cart";
+  static const TEXT_UPDATE="Update";
   static const TEXT_MENU="Menu";
   static const TEXT_FOD_OF_DAY="Food of the Day";
   static const TEXT_SEARCH_FOOD="Search your food";
@@ -92,6 +93,8 @@ class AppString{
   static const TEXT_SEND="Send";
   static const TEXT_TIME="Time";
   static const TEXT_DATE="Date";
+  static const TEXT_SIDELINE="Sideline";
+  static const TEXT_VARIANT="Variant";
 
 
   static const TEXT_FAST_CONVENIENT="FAST & CONVENIENT ORDERING";

@@ -19,17 +19,20 @@ class CartController extends GetxController{
 
   Order? get order => _order;
 
-  Future<bool> addProductToCart(Product product,int quantity,{Map<String,ProductSideline>
-    sidelines=const {}, Map<String,ProductVariant> varients=const {} }) async{
+  Future<bool> addProductToCart(Product product,int quantity, {
+    List<ProductSideline> sidelines=const [],
+    List<ProductVariant> varients=const [],
+  }) async{
     AppLoader.showLoader();
     bool status=false;
     Order? order=await orderProvider.addToCart(dashboardController.user.accesstoken!,
-        product, quantity,sidelines: sidelines.values.toList(),
-        varients: varients.values.toList());
+        product, quantity,sidelines: sidelines,
+        varients: varients);
     AppLoader.dismissLoader();
     if(order!=null){
       status=true;
      // _order=order;
+      _order?.products=order.products;
       _order?.subtotal=order.subtotal;
       _order?.total=order.total;
       _order?.discount=order.discount;
@@ -45,7 +48,8 @@ class CartController extends GetxController{
     AppLoader.dismissLoader();
     if(order!=null){
       status=true;
-      _order!.products.remove(product);
+      //_order!.products.remove(product);
+      _order!.products=order.products;
       _order!.subtotal=order.subtotal;
       _order!.total=order.total;
       _order!.discount=order.discount;
@@ -64,7 +68,8 @@ class CartController extends GetxController{
   }
 
   void clearCart(){
-    _order=null;
+   // _order=null;
+    _order?.products.clear();
     update();
   }
 
@@ -72,7 +77,7 @@ class CartController extends GetxController{
     if(address!=null) {
       AppLoader.showLoader();
       bool status = await orderProvider.postOrder(
-          dashboardController.user.accesstoken!,order!.id!,address.id!,
+          dashboardController.user.accesstoken!,order!.id!,address.id,
           card_id: card?.id);
       AppLoader.dismissLoader();
       if(status){

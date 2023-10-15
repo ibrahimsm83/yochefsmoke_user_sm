@@ -7,6 +7,7 @@ import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
+import 'package:ycsh/view/dashboard/order_history/order_detail.dart';
 import 'package:ycsh/view/dashboard/track_order/track_order.dart';
 import 'package:ycsh/widget/app_bar.dart';
 import 'package:ycsh/widget/background.dart';
@@ -59,7 +60,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           },
           itemBuilder: (ind,item){
             return OrderContainer(order:item,onTap: (){
-              AppNavigator.navigateTo(TrackOrderScreen(order: item,));
+              AppNavigator.navigateTo(OrderDetailScreen(order: item));
             },);
           },
 

@@ -18,6 +18,10 @@ abstract class FCMCallBack{
 //void onBackgroundTap(Map data);
 }
 
+abstract class NotificationCallBack{
+  void onLocalNotificationTap(String payload);
+}
+
 abstract class LocationInterface{
   void onLocationChanged(Location location);
 }

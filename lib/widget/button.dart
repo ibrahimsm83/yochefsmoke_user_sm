@@ -16,11 +16,12 @@ class CustomButton extends StatelessWidget{
   final BorderSide border;
   final bool italic;
   final FontWeight fontWeight;
+  final bool enabled;
 
   CustomButton({this.text="",this.textColor=AppColor.COLOR_BLACK,
     this.bgColor=AppColor.THEME_COLOR_PRIMARY1,this.onTap,this.radius,this.italic=false,
     this.fontsize=AppDimen.FONT_BUTTON,this.border=BorderSide.none,
-    this.fontWeight=FontWeight.bold,
+    this.fontWeight=FontWeight.bold,this.enabled=true,
     this.padding,
   }){
     radius??=AppSizer.getRadius(AppDimen.LOGIN_BUTTON_RADIUS);
@@ -32,10 +33,10 @@ class CustomButton extends StatelessWidget{
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius!),border: Border.fromBorderSide(border),
-        color: bgColor,
+        color: enabled?bgColor:AppColor.COLOR_GREY1,
       ),
       child: Material(color: AppColor.COLOR_TRANSPARENT,
-        child: InkWell(onTap: onTap,child: Padding(
+        child: InkWell(onTap: enabled?onTap:null,child: Padding(
           padding: padding??EdgeInsets.symmetric(
               vertical: AppSizer.getHeight(AppDimen.LOGIN_BUTTON_VERT_PADDING)),
           child: child,

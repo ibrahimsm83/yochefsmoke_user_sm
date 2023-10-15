@@ -16,6 +16,7 @@ import 'package:ycsh/widget/button.dart';
 import 'package:ycsh/widget/common.dart';
 import 'package:ycsh/widget/dropdown.dart';
 import 'package:ycsh/widget/icons.dart';
+import 'package:ycsh/widget/loader.dart';
 import 'package:ycsh/widget/rating_items.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -24,18 +25,14 @@ class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({Key? key,required this.product,}) : super(key: key);
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+  State<ProductDetailScreen> createState() => ProductDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
-
-
+class ProductDetailScreenState extends State<ProductDetailScreen> {
 
   final ProductController productController=Get.find<ProductController>();
 
   late Rx<bool> isFavourite;
-
-  ProductSideline? sideline;
 
   final Map<String,ProductSideline> sidelines={};
   final Map<String,ProductVariant> varients={};
@@ -47,6 +44,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     isFavourite=widget.product.isFavourite.obs;
+    productController.loadProductDetail(widget.product);
     super.initState();
   }
 
@@ -87,7 +85,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         CustomText(text: "${widget.product.cook_type}",fontsize: 11,
         fontcolor: AppColor.COLOR_BLACK3,),
         SizedBox(height: AppSizer.getHeight(12),),
-        Row(
+/*        Row(
           children: [
             StarRating(size: AppSizer.getHeight(15),),
             SizedBox(width: AppSizer.getWidth(6),),
@@ -95,9 +93,82 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               fontcolor: AppColor.COLOR_GREY4,fontsize: 10,line_spacing: 1.4,)
           ],
         ),
-        SizedBox(height: AppSizer.getHeight(18),),
+        SizedBox(height: AppSizer.getHeight(18),),*/
         CustomText(text: "${widget.product.description}",
           fontcolor: AppColor.COLOR_GREY4,fontsize: 13,),
+
+        GetBuilder<ProductController>(builder: (cont){
+          final List<ProductSideline>? sidelines=cont.getSideLines(widget.product.id!);
+          final List<ProductVariant>? varients=cont.getVarients(widget.product.id!);
+          return (sidelines!=null || varients!=null)?Column(children: [
+            Visibility(
+              visible: sidelines?.isNotEmpty??false,
+              child: Padding(
+                padding: EdgeInsets.only(top: AppSizer.getHeight(15)),
+                child: CustomDropdown(hint: AppString.TEXT_SIDELINE,
+                  items: sidelines,//selected_value: sideline,
+                  onValueChanged: (val){
+                    addSideline(val as ProductSideline);
+                  },),
+              ),
+            ),
+            Visibility(
+                visible: this.sidelines.isNotEmpty,
+                child: Builder(
+                    builder: (context) {
+                      final List<ProductSideline> list=this.sidelines.values.toList();
+                      return ListView.separated(
+                          padding: EdgeInsets.only(top: spacing),
+                          shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (con,ind){
+                            var item=list[ind];
+                            return buildCounter(item.getText(),
+                                item.quantity,onTap: (val){
+                                  setItemCount(this.sidelines,item.id!, val);
+                                },onRemove: (){
+                                  removeItem(this.sidelines, item.id!);
+                                });
+                          }, separatorBuilder: (con,ind){
+                        return SizedBox(height: spacing,);
+                      }, itemCount: list.length);
+                    }
+                )),
+
+            Visibility(
+              visible: varients?.isNotEmpty??false,
+              child: Padding(
+                padding: EdgeInsets.only(top: AppSizer.getHeight(15)),
+                child: CustomDropdown(hint: AppString.TEXT_VARIANT,
+                  items: varients,//selected_value: sideline,
+                  onValueChanged: (val){
+                    addVarient(val as ProductVariant);
+                  },),
+              ),
+            ),
+            Visibility(
+                visible: this.varients.isNotEmpty,
+                child: Builder(
+                    builder: (context) {
+                      final List<ProductVariant> list=this.varients.values.toList();
+                      return ListView.separated(
+                          padding: EdgeInsets.only(top: spacing),
+                          shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (con,ind){
+                            var item=list[ind];
+                            return buildCounter(item.getText(),
+                                item.quantity,onTap: (val){
+                                  setItemCount(this.varients,item.id!, val);
+                                },onRemove: (){
+                                  removeItem(this.varients, item.id!);
+                                });
+                          }, separatorBuilder: (con,ind){
+                        return SizedBox(height: spacing,);
+                      }, itemCount: list.length);
+                    }
+                )),
+          ],):const ContentLoading();
+        }),
+   /*
         Visibility(
           visible: widget.product.sidelines.isNotEmpty,
           child: Padding(
@@ -163,7 +234,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       return SizedBox(height: spacing,);
                     }, itemCount: list.length);
                   }
-              )),
+              )),*/
           SizedBox(height: AppSizer.getHeight(18),),
         Row(children: [
           Expanded(child: CustomText(text: "\$${widget.product.price}",
@@ -185,29 +256,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],)
         ],),
         SizedBox(height: AppSizer.getHeight(25),),
-        Row(children: [
-          Obx(
-            () => CustomIconButton(
-                onTap: (){
-                  addFavourite();
-                },
-                icon: CustomMonoIcon(icon: isFavourite.value?
-                AssetPath.ICON_HEART_FILLED:AssetPath.ICON_HEART,
-              size: AppSizer.getHeight(25),color: AppColor.COLOR_RED1,)),
-          ),
-          SizedBox(width: AppSizer.getWidth(10),),
-          Expanded(child: CustomButton(text: AppString.TEXT_ADD_TO_CART,
-            onTap: (){
-              cartController.addProductToCart(widget.product, count,sidelines: sidelines,
-                  varients: varients).then((value) {
-                    if(value){
-                      AppNavigator.pop();
-                    }
-              });
-          },))
-        ],)
+        buildRow(),
       ],),
     ),);
+  }
+
+  Widget buildRow(){
+    return Row(children: [
+      Obx(
+            () => CustomIconButton(
+            onTap: (){
+              addFavourite();
+            },
+            icon: CustomMonoIcon(icon: isFavourite.value?
+            AssetPath.ICON_HEART_FILLED:AssetPath.ICON_HEART,
+              size: AppSizer.getHeight(25),color: AppColor.COLOR_RED1,)),
+      ),
+      SizedBox(width: AppSizer.getWidth(10),),
+      Expanded(child: CustomButton(text: AppString.TEXT_ADD_TO_CART,
+        onTap: (){
+          cartController.addProductToCart(widget.product, count,
+              sidelines: sidelines.values.toList(),
+              varients: varients.values.toList()).then((value) {
+            if(value){
+              AppNavigator.pop();
+            }
+          });
+        },))
+    ],);
   }
 
   void removeItem(Map map,String key){
@@ -220,9 +296,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     Function()? onRemove,}){
     final double diameter=AppSizer.getHeight(22);
     final double iconsize=AppSizer.getHeight(12);
-    return Row(children: [
-      CustomText(text: name,fontsize: 16,fontweight: FontWeight.w600,),
-      const Spacer(),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+      Expanded(child: CustomText(text: name,fontsize: 16,fontweight: FontWeight.w600,)),
       Row(children: [
         buildButton(AssetPath.ICON_MINUS,iconsize,onTap: (){
           onTap?.call(-1);

@@ -38,7 +38,8 @@ class Product{
     List<ProductVariant> varients=const [],int quantity=0,String? detail_id,}){
     return Product(id:map["id"].toString(),name: map["name"],image: map["image"],
         description: map["description"],price: (map["price"] as num).toDouble(),
-    isFavourite: (map["is_favorite_product"]?["is_favorite_product"]==1),
+  //  isFavourite: (map["is_favorite_product"]?["is_favorite_product"]==1),
+        isFavourite: map["is_favorite_product"]!=null,
     cur_quantity: map["current_qty"],quantity: quantity,detail_id: detail_id,
         cook_type: map["cook_type"],sidelines: sidelines,
         varients: varients);

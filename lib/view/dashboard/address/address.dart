@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ycsh/controller/user/address_controller.dart';
+import 'package:ycsh/controller/user/profile_controller.dart';
 import 'package:ycsh/model/address.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/asset_path.dart';
@@ -25,7 +25,7 @@ class AddressScreen extends StatefulWidget {
 }
 
 class _AddressScreenState extends State<AddressScreen> {
-  final AddressController addressController = Get.find<AddressController>();
+  final ProfileController addressController = Get.find<ProfileController>();
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _AddressScreenState extends State<AddressScreen> {
           },
         ),
       ),
-      body: GetBuilder<AddressController>(builder: (cont) {
+      body: GetBuilder<ProfileController>(builder: (cont) {
         final List<Address>? list = cont.addresses;
         return list != null
             ? (list.isNotEmpty

@@ -19,7 +19,7 @@ class PaginatedGridView<T> extends PagedView<T> {
   const PaginatedGridView({Key? key,required super.itemBuilder,
     required super.onFetchPage,required this.childAspectRatio,super.shrinkWrap=false,
     this.mainAxisSpacing=0,this.crossAxisSpacing=0,super.onDispose,
-    super.initialItems,super.initialCall=true,
+    super.initialItems,
     super.physics=const AlwaysScrollableScrollPhysics(),
     super.padding=EdgeInsets.zero,required this.crossAxisCount}) : super(key: key);
 

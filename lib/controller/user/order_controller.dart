@@ -35,6 +35,10 @@ class OrderController extends GetxController with SocketMessageHandler{
     return orderProvider.getActiveOrders(controller.user.accesstoken!,page: page,);
   }
 
+  Future<Order?> loadOrderDetails(String order_id) {
+    return orderProvider.getOrderDetails(controller.user.accesstoken!, order_id);
+  }
+
 /*  Future<void> loadActiveOrders({bool set=false}) async{
     //  _defaultAddress=null;
     if(set){

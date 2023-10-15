@@ -1,3 +1,4 @@
+import 'package:ycsh/model/address.dart';
 import 'package:ycsh/model/location.dart';
 import 'package:ycsh/utils/config.dart';
 
@@ -33,26 +34,27 @@ abstract class StakeHolder{
 
 class User extends StakeHolder{
 
-  Location? location;
+//  Location? location;
+  Address? address;
   User({super.id,super.fullname,super.phone,super.email,super.image,
-    super.accesstoken,this.location,});
+    super.accesstoken,this.address,});
 
-  factory User.fromMap(Map map,{String? accesstoken,Location? location,}){
+  factory User.fromMap(Map map,{String? accesstoken,Address? location,}){
     return User(id: map["id"].toString(),email: map["email"],
         fullname: map["full_name"],phone: map["mobile"],image:map["image"],
-        accesstoken: accesstoken,location: location);
+        accesstoken: accesstoken,address: location);
   }
 
   factory User.fromLocalMap(Map map){
     return User(id: map["id"],email: map["email"],
         fullname: map["full_name"],phone: map["mobile"],image:map["image"],
         accesstoken: map["accesstoken"],
-        location: Location.fromAddressMap(map["location"]));
+        address: Address.fromHome(Location.fromAddressMap(map["location"])));
   }
 
   @override
   Map<String, dynamic> toLocalMap() {
-    return super.toLocalMap()..addAll({"location":location?.toAddressMap()});
+    return super.toLocalMap()..addAll({"location":address?.location?.toAddressMap()});
   }
 
   @override

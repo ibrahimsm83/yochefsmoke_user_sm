@@ -9,4 +9,11 @@ class AppConfig{
   static const SOCKET_SERVER_URL="http://api.yochefsurfandturf.net:8083/yo-chef";
 //ws://api.yochefsurfandturf.net:8083/yo-chef
 
+
+  static const NOTIFCATION_CHANNEL_ID="ycsh_customer";
+  static const NOTIFCATION_CHANNEL_NAME="ycsh_customer notifications";
+  static const NOTIFCATION_CHANNEL_DESCRIPTION="ycsh_customer notifications";
+
+  static const RINGTONE1="ringtone1";
+
 }

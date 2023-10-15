@@ -117,13 +117,9 @@ class _MenuCategoryScreenState extends State<MenuCategoryScreen> {
                 },
                 child: PaginatedGridView<Product>(
                   key: pageKey,
-                  initialCall: (productController.categories!=null &&
-                      productController.categories!.isNotEmpty),
                   padding: EdgeInsets.symmetric(horizontal: paddHorz),
                   initialItems: productController.getProducts(getSelectedCategory(selected)?.id),
                   onDispose: (list){
-                    print("list on dispose 2: ${list?.total_page} "
-                        "${getSelectedCategory(selected)?.id} ${ (list as PageModel<Product>).data}");
                     productController.setProducts(getSelectedCategory(selected)?.id,
                         list as PageModel<Product>);
                     // productController.recentProducts=list?.cast<Product>();

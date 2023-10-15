@@ -113,4 +113,26 @@ class ProductProvider{
     );
     return user;
   }
+
+  Future<Product?> getProductDetail(String token,String id) async{
+    Product? product;
+    String url=AppConfig.DIRECTORY+"products/detail-product/$id";
+    print("getProductDetail url: $url");
+
+    await Network().get(url,headers: {"Authorization":"Bearer ${token}"},
+        onSuccess: (val){
+          print("getProductDetail response: ${val}");
+          var map = jsonDecode(val);
+          if(map["statusCode"]==Network.STATUS_OK) {
+            var data = map["data"];
+            product = Product.fromMap(data,
+                sidelines: (data["product_sidelines"] as List).map((e) {
+              return ProductSideline.fromMap(e,name: e["product"]["name"]);
+            }).toList(),varients: (data["variant"] as List).map((e) {
+              return ProductVariant.fromMap(e,);
+            }).toList());
+          }
+        });
+    return product;
+  }
 }

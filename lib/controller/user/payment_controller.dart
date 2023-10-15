@@ -76,8 +76,11 @@ class PaymentController extends GetxController{
         .then((list) {
       if(list!=null) {
         _defaultCard = list;
-        update();
       }
+      else{
+        _defaultCard=CreditCard();
+      }
+      update();
     });
   }
 

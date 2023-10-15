@@ -6,6 +6,7 @@ import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
+import 'package:ycsh/view/dashboard/cart/cart_product_detail.dart';
 import 'package:ycsh/view/dashboard/cart/checkout.dart';
 import 'package:ycsh/widget/app_bar.dart';
 import 'package:ycsh/widget/background.dart';
@@ -61,13 +62,18 @@ class _CartScreenState extends State<CartScreen> {
                           itemBuilder: (con,ind){
                             var item=list[ind];
                             return CartItemContainer(product: item,
+                              onTap: (){
+                                AppNavigator.navigateTo(CartProductDetail(product: item));
+                              },
                               onDelete: (){
                                 cartController.deleteProduct(item);
                               },
-                              onTap: (val){
+                              onCountTap: (val){
                               int c=item.quantity+val;
                               if(c>=1) {
-                                cartController.addProductToCart(item, c).then((value) {
+                                cartController.addProductToCart(item, c,
+                                    sidelines: item.sidelines,varients: item.varients)
+                                    .then((value) {
                                   if(value){
                                     item.quantity=c;
                                     cartController.update();

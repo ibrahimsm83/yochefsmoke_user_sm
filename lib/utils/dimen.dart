@@ -14,6 +14,7 @@ class AppDimen{
   static const double CHECK_BOX_SIZE=15;
   static const double BTN_CLOSE_SIZE=20;
   static const double OPT_ICON_SIZE=20;
+  static const double PANEL_MAX_HEIGHT_RATIO=0.47;
   //static const double CHECK_BOX_SIZE=200;
 
 

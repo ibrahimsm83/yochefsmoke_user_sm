@@ -7,6 +7,7 @@ import 'package:ycsh/controller/user/tracking_controller.dart';
 import 'package:ycsh/model/interface.dart';
 import 'package:ycsh/model/location.dart';
 import 'package:ycsh/model/order.dart';
+import 'package:ycsh/service/image_chooser.dart';
 import 'package:ycsh/service/location.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/asset_path.dart';
@@ -75,7 +76,7 @@ class _TrackOrderScreenState extends MapsTrackScreenState
     return SlidingUpPanel(color: AppColor.COLOR_WHITE,
       minHeight: panelMinHeight,
       padding: EdgeInsets.zero,
-      maxHeight: AppSizer.getPerHeight(0.5),
+      maxHeight: AppSizer.getPerHeight(AppDimen.PANEL_MAX_HEIGHT_RATIO),
       //    body: CustomText(text: "body",),
       defaultPanelState: PanelState.OPEN,
       borderRadius: BorderRadius.only(topLeft: Radius.circular(radius),
@@ -108,7 +109,8 @@ class _TrackOrderScreenState extends MapsTrackScreenState
                                 padding: EdgeInsets.symmetric(vertical: AppSizer.getHeight(10),
                                     horizontal: AppSizer.getWidth(15)),
                                 child: Row(children: [
-                                  CircularPic(diameter: AppSizer.getHeight(60)),
+                                  CircularPic(diameter: AppSizer.getHeight(60),
+                                    image: widget.order.rider?.image,imageType: ImageType.TYPE_NETWORK,),
                                   SizedBox(width: AppSizer.getWidth(17),),
                                   Expanded(child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +118,9 @@ class _TrackOrderScreenState extends MapsTrackScreenState
                                       CustomText(text: "${widget.order.rider?.fullname}",
                                         fontsize: 14,fontweight: FontWeight.bold,),
                                       SizedBox(height: AppSizer.getHeight(5),),
-                                      CustomText(text: "Driver - Ad 4525 USA",fontsize: 11,
+                                    /*  CustomText(text: "Driver - Ad 4525 USA",fontsize: 11,
+                                        fontcolor: AppColor.COLOR_GREY6,)*/
+                                      CustomText(text: "Driver",fontsize: 11,
                                         fontcolor: AppColor.COLOR_GREY6,)
                                     ],)),
                                   CircularButton(diameter: btnRadius, icon: AssetPath.ICON_PHONE,
@@ -155,7 +159,7 @@ class _TrackOrderScreenState extends MapsTrackScreenState
                   CustomButton(
                     bgColor: Order.colorMap[widget.order.status]??AppColor.THEME_COLOR_PRIMARY1,
                     //text: AppString.TEXT_ORDER_RECEIVED,
-                    text: widget.order.status,
+                    text: Order.statusMap[widget.order.status]!,
                     textColor: widget.order.status==Order.STATUS_ARRIVED?
                     AppColor.COLOR_WHITE:AppColor.COLOR_BLACK,)
                 ],),
@@ -166,7 +170,9 @@ class _TrackOrderScreenState extends MapsTrackScreenState
 
 
   Widget buildInfo(String icon,String text1,String text2,{void Function()? onTap,}){
-    return Row(children: [
+    return Row(
+      //crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
       CircularButton(diameter: btnRadius, icon: icon,bgColor: AppColor.COLOR_GREY7,
         color: AppColor.COLOR_BLACK,onTap: onTap,),
       SizedBox(width: AppSizer.getWidth(17),),
@@ -174,9 +180,15 @@ class _TrackOrderScreenState extends MapsTrackScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(text: text1,fontsize: 14,fontweight: FontWeight.bold,),
-          SizedBox(height: AppSizer.getHeight(5),),
-          CustomText(text: text2,fontsize: 11,
-            fontcolor: AppColor.COLOR_GREY6,)
+          Visibility(
+            visible: text2.isNotEmpty,
+
+            child: Padding(
+              padding: EdgeInsets.only(top: AppSizer.getHeight(5),),
+              child: CustomText(text: text2,fontsize: 11,
+                fontcolor: AppColor.COLOR_GREY6,),
+            ),
+          )
         ],)),
     ],);
   }

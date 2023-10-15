@@ -30,7 +30,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   CreditCard? selectedCard;
 
-  final AddressController addressController=Get.find<AddressController>();
+  final ProfileController addressController=Get.find<ProfileController>();
   final PaymentController paymentController=Get.find<PaymentController>();
 
   final CartController cartController=Get.find<CartController>();
@@ -45,6 +45,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   Widget build(BuildContext context) {
     final double spacing=AppSizer.getHeight(20);
+    final double spacing2=AppSizer.getHeight(10);
     var order=cartController.order!;
     return CustomBackground(child: Scaffold(
       appBar: DashboardAppbar(text:AppString.TEXT_PAYMENT,
@@ -61,7 +62,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
         buildFieldValue(AppString.TEXT_ADDRESS,
-            GetBuilder<AddressController>(
+            GetBuilder<ProfileController>(
               builder: (cont) {
                 var address=cont.defaultAddress;
                 return address!=null?AddressContainer(address: address,onTap: (){
@@ -77,17 +78,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               GetBuilder<PaymentController>(
                 builder: (cont) {
                   final card=cont.defaultCard;
-                  return card!=null?PaymentContainer(icon: AssetPath.IMAGE_MASTERCARD,
-                    text1: card.type!,text2: card.maskedNumber,
-                    selected: selectedCard!=null,onTap: (){
-                    setState(() {
-                     // selected=0;
-                      selectedCard=card;
-                    });
-                  },):const ContentLoading();
+                  return card!=null?(card.id!=null?Padding(
+                    padding: EdgeInsets.only(bottom: spacing2),
+                    child: PaymentContainer(icon: AssetPath.IMAGE_MASTERCARD,
+                      text1: card.type!,text2: card.maskedNumber,
+                      selected: selectedCard!=null,onTap: (){
+                      setState(() {
+                       // selected=0;
+                        selectedCard=card;
+                      });
+                    },),
+                  ):Container()):Padding(
+                    padding: EdgeInsets.only(bottom: spacing2),
+                    child: const ContentLoading(),
+                  );
                 }
               ),
-              SizedBox(height: AppSizer.getHeight(10),),
               PaymentContainer(icon: AssetPath.ICON_CASH_DELIVERY,
                 text1: AppString.TEXT_CASH_ON_DELIVERY,
                 selected: selectedCard==null,onTap: (){
@@ -108,10 +114,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
             ],),
           SizedBox(height: AppSizer.getHeight(30),),
-          AddVoucherButton(onTap: (){
+/*          AddVoucherButton(onTap: (){
 
           },),
-          SizedBox(height: AppSizer.getHeight(24),),
+          SizedBox(height: AppSizer.getHeight(24),),*/
           CustomButton(text:AppString.TEXT_PLACE_ORDER,onTap: (){
             cartController.postOrder(addressController.defaultAddress,card: selectedCard,);
           //  AppNavigator.navigateTo(ReviewScreen());

@@ -12,9 +12,10 @@ class ProductController extends GetxController{
 
   List<FoodCategory>? _categories;
 
-  //final Map<String,List<Product>?> _products={};
+  final Map<String,List<ProductSideline>> _productSidelines={};
+  final Map<String,List<ProductVariant>> _productVarients={};
 
-  final Map<String,PageModel<Product>?> _products={},_favProducts={};
+  final Map<String,PageModel<Product>?> _products={},_favProducts={};//cat_id:products
 
   //List<Product>? _recentProducts;
   PageModel<Product>? _recentProducts;
@@ -117,5 +118,24 @@ class ProductController extends GetxController{
 
   set recentProducts(PageModel<Product>? value) {
     _recentProducts = value;
+  }
+
+  List<ProductSideline>? getSideLines(String id){
+    return _productSidelines[id];
+  }
+
+  List<ProductVariant>? getVarients(String id){
+    return _productVarients[id];
+  }
+
+  Future<void> loadProductDetail(Product product) async{
+    await productProvider.getProductDetail(controller.user.accesstoken!,product.id!)
+        .then((list) {
+      if (list != null) {
+        _productSidelines[product.id!]=list.sidelines;
+        _productVarients[product.id!]=list.varients;
+        update();
+      }
+    });
   }
 }

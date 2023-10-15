@@ -8,7 +8,8 @@ class AppNavigator{
 
   static void navigateTo(Widget widget,{Transition transition=Transition.native,
     int duration=AppInteger.STANDARD_DURATION_MILLI}){
-    Get.to(widget,transition: transition,duration: Duration(milliseconds: duration));
+    Get.to(widget,transition: transition,
+        duration: Duration(milliseconds: duration),preventDuplicates: false);
   }
 
   static void popUntil(String route,){

@@ -8,6 +8,7 @@ import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/widget/app_bar.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/button.dart';
+import 'package:ycsh/widget/map_widget.dart';
 
 abstract class MapsTrackScreen extends StatefulWidget {
   const MapsTrackScreen({Key? key}) : super(key: key);
@@ -17,14 +18,13 @@ abstract class MapsTrackScreen extends StatefulWidget {
 }
 
 abstract class MapsTrackScreenState extends State<MapsTrackScreen> {
-
   GoogleMapController? _mapController;
 
-  void onInit(){
+  void onInit() {}
 
-  }
+  void onDispose() {}
 
-  void onDispose(){
+  void onMapLoaded(){
 
   }
 
@@ -41,15 +41,19 @@ abstract class MapsTrackScreenState extends State<MapsTrackScreen> {
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    final double diameter=AppSizer.getHeight(50);
+    final double diameter = AppSizer.getHeight(50);
     return CustomBackground(
-      child: Scaffold(extendBodyBehindAppBar: true,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: buildAppbar(),
-        floatingActionButton: CircularButton(diameter: diameter,
+        floatingActionButton: CircularButton(
+          diameter: diameter,
           icon: AssetPath.ICON_LOCATION,
-          onTap: (){
+          onTap: () {
             getCurrentLocation();
           },
         ),
@@ -66,48 +70,42 @@ abstract class MapsTrackScreenState extends State<MapsTrackScreen> {
   }
 
   Widget buildMap() {
-    return Container(child: GoogleMap(
-      compassEnabled: false,
-      mapToolbarEnabled: false,
-      zoomControlsEnabled: false,
-      myLocationButtonEnabled: false,
-      myLocationEnabled: true,
-      mapType: MapType.normal,
-      markers: drawMarkers(),
-      initialCameraPosition: getInitialPosition(),
-      polylines: drawPolylines(),
-      onMapCreated: (GoogleMapController controller) {
-        _mapController = controller;
-      },
-      onCameraMove: onCameraMove,
-      // onCameraMove: onCameraMove,
-    ));
+    return Container(
+      child: MapWidget(
+        markers: drawMarkers(),
+        initialCameraPosition: getInitialPosition(),
+        polylines: drawPolylines(),
+        onMapCreated: (GoogleMapController controller) {
+          _mapController = controller;
+          onMapLoaded();
+        },
+        onCameraMove: onCameraMove,
+      ),
+    );
   }
 
-
-  void animateCamera(Location location){
-    _mapController?.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-            bearing: location.heading,
-            // bearing: location.heading.value,
-            target: LatLng(location.latitude, location.longitude),
-            zoom: AppInteger.MAP_DEFAULT_ZOOM)));
+  void animateCamera(Location location) {
+    _mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        bearing: location.heading,
+        // bearing: location.heading.value,
+        target: LatLng(location.latitude, location.longitude),
+        zoom: AppInteger.MAP_DEFAULT_ZOOM)));
   }
 
   Widget buildLayout();
 
   CustomAppbar buildAppbar();
 
-  CameraPosition getInitialPosition(){
+  CameraPosition getInitialPosition() {
     return CameraPosition(
         bearing: 0,
         target: LocationService.def,
         zoom: AppInteger.MAP_DEFAULT_ZOOM);
   }
 
-  void getCurrentLocation(){
+  void getCurrentLocation() {
     LocationService().getCurrentLocation().then((value) {
-      if(value!=null) {
+      if (value != null) {
         animateCamera(value);
       }
     });

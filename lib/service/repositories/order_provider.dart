@@ -162,7 +162,7 @@ class OrderProvider{
     return order;
   }
 
-  Future<bool> postOrder(String token,String order_id,String add_id,
+  Future<bool> postOrder(String token,String order_id,String? add_id,
       {String? card_id}) async {
     bool user_id=false;
     const String url = AppConfig.DIRECTORY + "orders/order-submit";
@@ -170,9 +170,11 @@ class OrderProvider{
 
     final Map map = {
       "order_id":order_id,
-      "address_id":add_id,
       "note":"",
     };
+    if(add_id!=null){
+      map["address_id"]= add_id;
+    }
     if(card_id!=null){
       map["card_id"]=card_id;
     }
@@ -234,7 +236,7 @@ class OrderProvider{
                     }).toList(),
                   );
                 }).toList());
-          }).toList(), total_page: meta["totalPages"]);
+          }).toList(), total_page: meta["totalPages"],total_items: meta["totalItems"]);
         });
     return users;
   }
@@ -256,6 +258,7 @@ class OrderProvider{
           users=PageModel(data: list.map<Order>((cat) {
             List list = cat["product_item"];
             var address=cat["address"];
+            print("ord id: ${cat["id"]}");
             return Order.fromMap(cat,
                 user: User.fromMap(cat["user"]),
                 rider: cat["rider"]!=null?Rider.fromMap(cat["rider"]):null,
@@ -263,6 +266,8 @@ class OrderProvider{
                     location: Location.fromAddressMap(address)):null,
                 products: list.map<Product>((cat) {
                   var prod = cat["product"];
+                  print("prod id: ${cat["product_variant"]}");
+
                   return Product.fromMap(prod, quantity: cat["quantity"],
                     detail_id:cat["id"].toString(),
                     varients: (cat["product_variant"] as List).map((e) {
@@ -280,6 +285,48 @@ class OrderProvider{
           }).toList(), total_page: meta["totalPages"]);
         });
     return users;
+  }
+
+  Future<Order?> getOrderDetails(String token,String order_id,) async{
+    Order? order;
+    final String url=AppConfig.DIRECTORY+"orders/order-detail/$order_id";
+    print("getOrderDetails url: $url");
+
+    await Network().get(url,headers: {"Authorization":"Bearer ${token}",
+      'Content-type': 'application/json'},
+        onSuccess: (val){
+          print("getOrderDetails response: ${val}");
+          var map = jsonDecode(val);
+          if(map["statusCode"]==Network.STATUS_OK) {
+            var cat = map["data"];
+            List list = cat["product_item"];
+            var address=cat["address"];
+            order=Order.fromMap(cat,
+                user: User.fromMap(cat["user"]),
+                rider: cat["rider"]!=null?Rider.fromMap(cat["rider"]):null,
+                address: address!=null?Address.fromMap(address,
+                    location: Location.fromAddressMap(address)):null,
+                products: list.map<Product>((cat) {
+                  var prod = cat["product"];
+                  print("prod id: ${cat["product_variant"]}");
+
+                  return Product.fromMap(prod, quantity: cat["quantity"],
+                    detail_id:cat["id"].toString(),
+                    varients: (cat["product_variant"] as List).map((e) {
+                      var map=e["product_variant_price"];
+                      return ProductVariant.fromMap(map,quantity: e["quantity"]);
+                    }).toList(),
+                    sidelines: (cat["product_sideline"] as List).map((e) {
+                      var map=e["product_sideline_price"];
+                      return ProductSideline.fromMap(map,
+                          quantity: e["quantity"],
+                          name: e["sideline"]["name"]);
+                    }).toList(),
+                  );
+                }).toList());
+          }
+        });
+    return order;
   }
 
 /*  Future<List<Order>?> getActiveOrders(String token,{Function(Order address)? onTask,}) async{

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ycsh/model/address.dart';
 import 'package:ycsh/utils/constants.dart';
 import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/widget/button.dart';
 import 'package:ycsh/widget/common.dart';
 import 'package:ycsh/widget/icons.dart';
+import 'package:ycsh/widget/map_widget.dart';
 
 class ProfileAddressContainer extends StatelessWidget {
   final void Function(bool selected)? onTap;
@@ -84,14 +86,21 @@ class ProfileAddressContainer extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: AppSizer.getHeight(10),
                   horizontal: AppSizer.getWidth(10)),
               decoration: BoxDecoration(//borderRadius: BorderRadius.circular(radius),
-                  color: selected?AppColor.THEME_COLOR_PRIMARY1.withOpacity(0.5)
-                      :AppColor.COLOR_WHITE),
+                  color: selected?AppColor.THEME_COLOR_PRIMARY1 :AppColor.COLOR_WHITE),
               child: Row(children: [
                 Container(
                   height: imgHeight,width: imgHeight*1.4,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(radius),
-                    color: AppColor.THEME_COLOR_PRIMARY1,
-                  ),),
+                    //color: AppColor.THEME_COLOR_PRIMARY1,
+                  ),child: MapWidget(
+                  myLocationEnabled: false,
+                  zoomGesturesEnabled: false,
+                  rotateGesturesEnabled: false,
+                  scrollGesturesEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    bearing: 0,
+                    target: LatLng(address.location!.latitude,address.location!.longitude),
+                    zoom: AppInteger.MAP_DEFAULT_ZOOM),),),
                 SizedBox(width: AppSizer.getWidth(13),),
                 Expanded(child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

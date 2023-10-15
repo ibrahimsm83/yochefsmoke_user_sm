@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:ycsh/controller/user/profile_controller.dart';
 import 'package:ycsh/controller/user/dashboard_controller.dart';
+import 'package:ycsh/model/address.dart';
 import 'package:ycsh/model/location.dart';
 import 'package:ycsh/service/image_chooser.dart';
 import 'package:ycsh/utils/asset_path.dart';
@@ -34,20 +36,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final DashboardController controller=Get.find<DashboardController>();
 
+  final ProfileController addressController=Get.find<ProfileController>();
+
   final MaskTextInputFormatter phoneFormattor=MaskTextInputFormatter(
       mask: ValidationRegex.PHONE_FORMAT);
 
   String? image;
   ImageType imageType=ImageType.TYPE_NETWORK;
 
-  Location? location;
+  Address? location;
 
   @override
   void initState() {
     fullname=TextEditingController(text: controller.user.fullname);
     mobile=TextEditingController(text: controller.user.phone);
     image=controller.user.image;
-    location=controller.user.location;
+    location=controller.user.address;
+    addressController.loadOrderCount();
     super.initState();
   }
 
@@ -123,18 +128,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buildStats(){
     final double radius=AppSizer.getRadius(12);
-    return ShadowContainer(radius: radius,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: AppSizer.getHeight(5)),
-        color: AppColor.COLOR_WHITE,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-         //   buildStatContainer(AppString.TEXT_RATING, 4.5),
-            buildStatContainer(AppString.TEXT_ORDER, 40,border: false),
-          //  buildStatContainer(AppString.TEXT_FOLLOWERS, 80,border: false),
-          ],),
-      ),);
+    return GetBuilder<ProfileController>(
+      builder: (cont) {
+        return ShadowContainer(radius: radius,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: AppSizer.getHeight(5)),
+            color: AppColor.COLOR_WHITE,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+             //   buildStatContainer(AppString.TEXT_RATING, 4.5),
+                buildStatContainer(AppString.TEXT_ORDER, cont.orderCount,border: false),
+              //  buildStatContainer(AppString.TEXT_FOLLOWERS, 80,border: false),
+              ],),
+          ),);
+      }
+    );
   }
 
   Widget buildBottom(double height){
@@ -188,18 +197,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Row(
                         children: [
                           Expanded(
-                            child: CustomText(text: "${location?.name}",
+                            child: CustomText(text: "${location?.location?.name}",
                             fontsize: 12,line_spacing: 1.6,),),
                           GestureDetector(
                             onTap: (){
                               AppNavigator.navigateTo(AddressSelectionScreen(
-                                initial: location,
+                                initial: location?.location,
                                 onLocationSelected: (loc){
+                                  var address=Address.fromHome(loc);
                                   controller.editProfile(fullname.text,mobile.text,
-                                      location: loc)
+                                      location: address)
                                       .then((value) {
                                     setState(() {
-                                      location=loc;
+                                      location=address;
                                     });
                                   });
 

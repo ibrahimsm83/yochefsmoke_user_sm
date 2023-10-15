@@ -16,7 +16,6 @@ class PaginatedListView<T> extends PagedView<T> {
     super.shrinkWrap = false,
     super.onDispose,
     super.initialItems,
-    super.initialCall = true,
     super.physics = const AlwaysScrollableScrollPhysics(),
     super.padding = EdgeInsets.zero,
   }) : super(key: key);

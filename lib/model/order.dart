@@ -22,8 +22,18 @@ class Order{
     STATUS_CANCEL:AppColor.COLOR_RED1,
   };
 
+  static const Map<String,String> statusMap={
+    STATUS_PENDING:"Pending",
+    STATUS_RIDER_ASSIGN:"Assigned",
+    STATUS_INROUTE:"In Route",
+    STATUS_ARRIVED:"Arrived",
+    STATUS_DELIVERED:"Delivered",
+    STATUS_COMPLETE:"Complete",
+    STATUS_CANCEL:"Cancelled",
+  };
+
   final String? id;
-  final List<Product> products;
+  List<Product> products;
   String status;
   double total,subtotal,discount;
   final String? date;

@@ -114,7 +114,7 @@ class PaymentProvider {
               onTask?.call(address);
             }
             catch(ex){
-
+              print("card ex: $ex");
             }
           });
         });

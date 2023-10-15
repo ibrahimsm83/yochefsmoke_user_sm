@@ -33,7 +33,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
 
   Location? location;
 
-  final AddressController addressController=Get.find<AddressController>();
+  final ProfileController addressController=Get.find<ProfileController>();
 
   String get btnText => AppString.TEXT_CREATE_ADDRESS;
 

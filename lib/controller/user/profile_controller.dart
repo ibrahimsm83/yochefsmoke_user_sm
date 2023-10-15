@@ -2,24 +2,31 @@ import 'package:get/get.dart';
 import 'package:ycsh/controller/user/controllers.dart';
 import 'package:ycsh/model/address.dart';
 import 'package:ycsh/service/repositories/address_provider.dart';
+import 'package:ycsh/service/repositories/order_provider.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/navigation.dart';
 
 import '../../model/location.dart';
 
-class AddressController extends GetxController{
+class ProfileController extends GetxController{
 
   final AddressProvider addressProvider=AddressProvider();
+  final OrderProvider orderProvider=OrderProvider();
   final DashboardController dashboardController=Get.find<DashboardController>();
 
   List<Address>? _addresses;
 
   Address? _defaultAddress;
 
+  int _orderCount=0;
+
 
   Address? get defaultAddress => _defaultAddress;
 
   List<Address>? get addresses => _addresses;
+
+
+  int get orderCount => _orderCount;
 
   void createAddress(String title,String city,String state,String country,
       String zipcode,{Location? location}) async{
@@ -95,8 +102,21 @@ class AddressController extends GetxController{
         .then((list) {
           if(list!=null) {
             _defaultAddress = list;
-            update();
           }
+          else{
+            _defaultAddress=dashboardController.user.address;
+          }
+          update();
+    });
+  }
+
+  Future<void> loadOrderCount() async{
+    await orderProvider.getOrderHistory(dashboardController.user.accesstoken!,)
+        .then((list) {
+      if(list!=null) {
+        _orderCount=list.total_items;
+        update();
+      }
     });
   }
 
