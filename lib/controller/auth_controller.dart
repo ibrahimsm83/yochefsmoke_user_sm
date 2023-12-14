@@ -8,32 +8,50 @@ import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/view/dashboard/dashboard.dart';
 
-class AuthController extends GetxController{
-
-  final AuthProvider _authProvider=AuthProvider();
-  final LocalDatabase database=Get.find<LocalDatabase>();
+class AuthController extends GetxController {
+  final AuthProvider _authProvider = AuthProvider();
+  final LocalDatabase database = Get.find<LocalDatabase>();
 
   void signUp(String fullname, String email, String password, String phone,
-      {Location? location}) async{
+      {Location? location}) async {
     //  if(_location!=null) {
-    if(location!=null) {
+    if (location != null) {
       AppLoader.showLoader();
-      StakeHolder? user = await _authProvider.signUpUser(
-        fullname, email, password, phone,location: location);
+      StakeHolder? user = await _authProvider
+          .signUpUser(fullname, email, password, phone, location: location);
       AppLoader.dismissLoader();
       if (user != null) {
         _goToDashboard(user);
       }
-    }
-    else{
+    } else {
       AppMessage.showMessage("Please select location");
     }
   }
 
-  void login(String email,String password) async{
+  Future<bool> forgetPassword(email) async {
     AppLoader.showLoader();
-    StakeHolder? user = await _authProvider.loginUser(
-        email, password,"");
+    var isForget = await _authProvider.forgetpassword(email);
+    AppLoader.dismissLoader();
+    if (isForget != null) {
+      return isForget;
+    }
+    return false;
+  }
+
+  changePassword(String email, String otp, String pass, String conpass) async {
+    AppLoader.showLoader();
+    var isForget =
+        await _authProvider.changePassword(email, otp, pass, conpass);
+    AppLoader.dismissLoader();
+    if (isForget != null) {
+      return isForget;
+    }
+    return false;
+  }
+
+  void login(String email, String password) async {
+    AppLoader.showLoader();
+    StakeHolder? user = await _authProvider.loginUser(email, password, "");
     AppLoader.dismissLoader();
     if (user != null) {
       _goToDashboard(user);
@@ -61,10 +79,10 @@ class AuthController extends GetxController{
     }
   }
 
-  void _goToDashboard(StakeHolder user){
+  void _goToDashboard(StakeHolder user) {
     database.saveUser(user);
     //Get.delete<AuthController>();
-    AppNavigator.navigateToReplaceAll((){
+    AppNavigator.navigateToReplaceAll(() {
       Get.put(DashboardController(user as User));
       Get.put(ProductController());
       Get.put(CartController());
@@ -74,6 +92,5 @@ class AuthController extends GetxController{
       Get.put(TrackingController());
       return DashboardScreen();
     });
-
   }
 }

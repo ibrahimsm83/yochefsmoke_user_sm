@@ -33,7 +33,7 @@ class _CartProductDetailState extends ProductDetailScreenState{
     return CustomButton(text: AppString.TEXT_UPDATE,
       onTap: (){
         cartController.addProductToCart(widget.product, count,
-            sidelines: sidelines.values.toList(),
+            sidelines: sidelines.values.toList(),checkvars: true,
             varients: varients.values.toList()).then((value) {
           if(value){
             AppNavigator.pop();

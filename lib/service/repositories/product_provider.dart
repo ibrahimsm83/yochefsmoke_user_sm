@@ -82,10 +82,12 @@ class ProductProvider{
           List list=data["results"];
           var meta=data["meta"];
           users=PageModel(data: list.map<Product>((cat) {
+            print("prod id: ${cat["id"]}");
             return Product.fromMap(cat,
                 sidelines: (cat["product_sidelines"] as List).map((e) {
                   return ProductSideline.fromMap(e,name: e["product"]["name"]);
-                }).toList(),varients: (cat["variant"] as List).map((e) {
+                }).toList(),
+                varients: (cat["variant"] as List).map((e) {
                   return ProductVariant.fromMap(e,);
                 }).toList());
           }).toList(), total_page: meta["totalPages"]);
@@ -128,7 +130,8 @@ class ProductProvider{
             product = Product.fromMap(data,
                 sidelines: (data["product_sidelines"] as List).map((e) {
               return ProductSideline.fromMap(e,name: e["product"]["name"]);
-            }).toList(),varients: (data["variant"] as List).map((e) {
+            }).toList(),
+                varients: (data["variant"] as List).map((e) {
               return ProductVariant.fromMap(e,);
             }).toList());
           }

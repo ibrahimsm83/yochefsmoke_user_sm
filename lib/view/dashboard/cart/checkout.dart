@@ -9,12 +9,16 @@ import 'package:ycsh/utils/sizer.dart';
 import 'package:ycsh/utils/strings.dart';
 import 'package:ycsh/view/dashboard/address/address.dart';
 import 'package:ycsh/view/dashboard/cart/review.dart';
+import 'package:ycsh/view/dashboard/payment/add_card.dart';
+import 'package:ycsh/view/dashboard/payment/card.dart';
+import 'package:ycsh/widget/address_items.dart';
 import 'package:ycsh/widget/app_bar.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/button.dart';
 import 'package:ycsh/widget/cart_items.dart';
 import 'package:ycsh/widget/common.dart';
 import 'package:ycsh/widget/loader.dart';
+import 'package:ycsh/widget/login_items.dart';
 import 'package:ycsh/widget/payment_items.dart';
 
 class CheckOutScreen extends StatefulWidget {
@@ -78,15 +82,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               GetBuilder<PaymentController>(
                 builder: (cont) {
                   final card=cont.defaultCard;
-                  return card!=null?(card.id!=null?Padding(
-                    padding: EdgeInsets.only(bottom: spacing2),
-                    child: PaymentContainer(icon: AssetPath.IMAGE_MASTERCARD,
+                  return card!=null?(card.card_id!=null?Padding(
+                    padding: EdgeInsets.zero,
+                    //padding: EdgeInsets.only(bottom: spacing2),
+                    child: PaymentContainer(icon: AssetPath.ICON_CARD,
                       text1: card.type!,text2: card.maskedNumber,
-                      selected: selectedCard!=null,onTap: (){
-                      setState(() {
-                       // selected=0;
+                      //selected: selectedCard!=null,
+                      selected: true,
+                      onTap: (){
+                 /*     setState(() {
                         selectedCard=card;
-                      });
+                      });*/
                     },),
                   ):Container()):Padding(
                     padding: EdgeInsets.only(bottom: spacing2),
@@ -94,15 +100,19 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   );
                 }
               ),
-              PaymentContainer(icon: AssetPath.ICON_CASH_DELIVERY,
+    /*          PaymentContainer(icon: AssetPath.ICON_CASH_DELIVERY,
                 text1: AppString.TEXT_CASH_ON_DELIVERY,
                 selected: selectedCard==null,onTap: (){
                 setState(() {
                  // selected=1;
                   selectedCard=null;
                 });
-              },),
-          ],)),
+              },),*/
+          ],),
+              option: TappableText(text: AppString.TEXT_ADD_CARD,onTap: (){
+                AppNavigator.navigateTo(CardScreen());
+              },fontweight: FontWeight.bold,fontsize: 13,
+                fontcolor: AppColor.THEME_COLOR_PRIMARY1,)),
          // SizedBox(height: spacing,),
           SizedBox(height: AppSizer.getHeight(40),),
           Column(
@@ -119,7 +129,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           },),
           SizedBox(height: AppSizer.getHeight(24),),*/
           CustomButton(text:AppString.TEXT_PLACE_ORDER,onTap: (){
-            cartController.postOrder(addressController.defaultAddress,card: selectedCard,);
+            cartController.postOrder(addressController.defaultAddress,
+              card: paymentController.defaultCard,);
           //  AppNavigator.navigateTo(ReviewScreen());
           },)
 
@@ -140,11 +151,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     );
   }
 
-  Widget buildFieldValue(String field,Widget value){
+  Widget buildFieldValue(String field,Widget value,{Widget? option}){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-      buildHeading(field),
+      Row(
+        children: [
+          Expanded(child: buildHeading(field)),
+          option??Container(),
+        ],
+      ),
       SizedBox(height: AppSizer.getHeight(23),),
       value,
     ],);

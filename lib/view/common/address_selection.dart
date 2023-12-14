@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ycsh/model/location.dart';
 import 'package:ycsh/service/location.dart';
+import 'package:ycsh/service/place_finder.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/asset_path.dart';
 import 'package:ycsh/utils/constants.dart';
@@ -12,6 +13,7 @@ import 'package:ycsh/view/common/maps_track.dart';
 import 'package:ycsh/widget/app_bar.dart';
 import 'package:ycsh/widget/background.dart';
 import 'package:ycsh/widget/button.dart';
+import 'package:ycsh/widget/home_items.dart';
 import 'package:ycsh/widget/icons.dart';
 
 class AddressSelectionScreen extends MapsTrackScreen {
@@ -50,7 +52,29 @@ class _AddressSelectionScreenState extends MapsTrackScreenState {
 
   @override
   CustomAppbar buildAppbar() {
-    return TransparentAppbar(leading: ButtonBack(
+    return SearchAppbar(title: SearchField(enabled: false,
+      hinttext: AppString.SEARCH_LOCATION,onTap: (){
+        print("search ontap");
+        PlaceFinder().findLocation(context).then((loc) {
+          print("loc is: $loc");
+          if (loc != null) {
+            animateCamera(loc);
+          }
+        });
+      },),
+      color: AppColor.COLOR_TRANSPARENT,
+      leading: ButtonBack(onTap: (){
+        AppNavigator.pop();
+      },),action: CustomButton(
+        text: AppString.TEXT_OK,bgColor: AppColor.COLOR_TRANSPARENT,
+        textColor: AppColor.COLOR_BLACK,
+        padding: EdgeInsets.symmetric(horizontal: AppSizer.getWidth(15),
+            vertical: AppSizer.getHeight(15)),
+        onTap: (){
+          saveLocation();
+        },
+      ),);
+/*    return TransparentAppbar(leading: ButtonBack(
       onTap: (){
         AppNavigator.pop();
       },
@@ -62,7 +86,7 @@ class _AddressSelectionScreenState extends MapsTrackScreenState {
       onTap: (){
         saveLocation();
       },
-    ),);
+    ),);*/
   }
 
   @override
@@ -74,6 +98,7 @@ class _AddressSelectionScreenState extends MapsTrackScreenState {
   void saveLocation(){
     AppLoader.showLoader();
     LocationService().geoCode(sel).then((value) {
+      print("loc name: ${value.name}");
       AppLoader.dismissLoader();
       AppNavigator.pop();
       widget.onLocationSelected(value);

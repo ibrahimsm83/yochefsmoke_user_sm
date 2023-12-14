@@ -16,4 +16,8 @@ class AppConfig{
 
   static const RINGTONE1="ringtone1";
 
+ // static const GOOGLE_MAPS_API_KEY="AIzaSyCIMUDGTw_cGZCXFwhLm50M7L8er19w08E";
+
+  static const GOOGLE_MAPS_API_KEY="AIzaSyB7HmDBjKnRsTnl0eFEQMu-gc5bjqBHBWo";
+
 }

@@ -92,10 +92,10 @@ class LocationService extends GetxService{
         BackgroundLocation.startLocationService(forceAndroidLocationManager: false,);
 
         //    BackgroundLocation.setAndroidConfiguration(10000);
-
         /*   BackgroundLocation.getLocationUpdates((location) {
          print("yohe ${location.bearing}");
        });*/
+
 
         _sub = Geolocator.getPositionStream(locationSettings: Platform.isAndroid?AndroidSettings(
           intervalDuration: const Duration(seconds: 10),
@@ -106,9 +106,11 @@ class LocationService extends GetxService{
           //intervalDuration: const Duration(seconds: 10),
         ):Platform.isIOS?AppleSettings(
           accuracy: LocationAccuracy.bestForNavigation,
-          activityType: ActivityType.fitness,
+          activityType: ActivityType.otherNavigation,
+          allowBackgroundLocationUpdates:true,
+          showBackgroundLocationIndicator:true,
+          //  timeLimit: const Duration(seconds: 10),
           //   distanceFilter: 100,
-          pauseLocationUpdatesAutomatically: true,
         ): LocationSettings(
           //   timeLimit: const Duration(seconds: 2)
         )).listen((position) {

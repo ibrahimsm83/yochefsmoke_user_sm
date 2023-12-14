@@ -25,9 +25,10 @@ class Product{
   int quantity;
   final List<ProductSideline> sidelines;
   final List<ProductVariant> varients;
+  final bool frozen;
   bool isFavourite;
   Product({this.id, this.name, this.description, this.category,this.quantity=0,
-    this.cur_quantity=0,
+    this.cur_quantity=0,this.frozen=false,
     this.isFavourite=false,this.detail_id,
     this.price,this.cook_type,this.sidelines= const[],this.varients=const [],
     String? image,}){
@@ -36,11 +37,12 @@ class Product{
 
   factory Product.fromMap(Map map,{List<ProductSideline> sidelines=const [],
     List<ProductVariant> varients=const [],int quantity=0,String? detail_id,}){
-    return Product(id:map["id"].toString(),name: map["name"],image: map["image"],
+    return Product(id:map["id"].toString(),name: map["name"],
+        image: map["image"],
         description: map["description"],price: (map["price"] as num).toDouble(),
-  //  isFavourite: (map["is_favorite_product"]?["is_favorite_product"]==1),
         isFavourite: map["is_favorite_product"]!=null,
-    cur_quantity: map["current_qty"],quantity: quantity,detail_id: detail_id,
+        frozen: map["frozen"]==1,
+        cur_quantity: map["current_qty"],quantity: quantity,detail_id: detail_id,
         cook_type: map["cook_type"],sidelines: sidelines,
         varients: varients);
   }
@@ -80,7 +82,8 @@ class ProductVariant with DropDownItem{
   factory ProductVariant.fromMap(Map map,{int quantity=0}){
     return ProductVariant(id:map["id"].toString(),
         price: (map["price"] as num).toDouble(),quantity: quantity,
-        name: map["attribute"]["name"],value: map["attribute_value"]["value"]);
+        name: map["attribute"]?["name"]??"",
+        value: map["attribute_value"]?["value"]??"");
   }
 
   @override

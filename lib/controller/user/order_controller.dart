@@ -4,11 +4,13 @@ import 'package:ycsh/controller/user/dashboard_controller.dart';
 import 'package:ycsh/model/interface.dart';
 import 'package:ycsh/model/order.dart';
 import 'package:ycsh/model/page_model.dart';
+import 'package:ycsh/model/stock.dart';
 import 'package:ycsh/service/repositories/order_provider.dart';
 
 class OrderController extends GetxController with SocketMessageHandler{
 
   PageModel<Order>? _orderHistory;
+  PageModel<Stock>? _stockHistory;
   PageModel<Order>? _activeOrders;
 
   final DashboardController controller=Get.find<DashboardController>();
@@ -17,6 +19,12 @@ class OrderController extends GetxController with SocketMessageHandler{
 
   PageModel<Order>? get orderHistory => _orderHistory;
   PageModel<Order>? get activeOrders => _activeOrders;
+
+  PageModel<Stock>? get stockHistory => _stockHistory;
+
+  set stockHistory(PageModel<Stock>? value) {
+    _stockHistory = value;
+  }
 
 
   set activeOrders(PageModel<Order>? value) {
@@ -37,6 +45,13 @@ class OrderController extends GetxController with SocketMessageHandler{
 
   Future<Order?> loadOrderDetails(String order_id) {
     return orderProvider.getOrderDetails(controller.user.accesstoken!, order_id);
+  }
+
+  Future<PageModel<Stock>?> loadStocks(String binding_id,int page,) {
+    return orderProvider.getRiderStocks(
+      controller.user.accesstoken!,binding_id,
+      page: page,
+    );
   }
 
 /*  Future<void> loadActiveOrders({bool set=false}) async{

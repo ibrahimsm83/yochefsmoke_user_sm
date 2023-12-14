@@ -36,6 +36,27 @@ abstract class CustomAppbar extends StatelessWidget implements PreferredSizeWidg
 
 }
 
+class SearchAppbar extends CustomAppbar{
+
+  SearchAppbar({Key? key,double? height,
+    Widget? leading,Widget? action,
+    super.title,
+    Color color=AppColor.COLOR_WHITE,
+    }):super(key: key,
+      height: height??AppSizer.getHeight(AppDimen.DASHBOARD_APPBAR_HEIGHT),
+      leading: leading,action: action,
+      color: color);
+
+/*  @override
+  Widget? get title {
+    return CustomText(text:text,fontcolor: textColor,textAlign: TextAlign.center,
+      fontsize: 16,fontweight: FontWeight.bold,);
+  }*/
+
+
+}
+
+
 class LogoAppbar extends CustomAppbar{
   LogoAppbar({Key? key,double? height,
     Widget? leading,Widget? action,

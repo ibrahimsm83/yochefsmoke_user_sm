@@ -5,6 +5,7 @@ import 'package:ycsh/model/location.dart';
 import 'package:ycsh/model/order.dart';
 import 'package:ycsh/model/page_model.dart';
 import 'package:ycsh/model/product.dart';
+import 'package:ycsh/model/stock.dart';
 import 'package:ycsh/model/user.dart';
 import 'package:ycsh/service/network.dart';
 import 'package:ycsh/utils/actions.dart';
@@ -329,44 +330,29 @@ class OrderProvider{
     return order;
   }
 
-/*  Future<List<Order>?> getActiveOrders(String token,{Function(Order address)? onTask,}) async{
-    List<Order>? users;
-    const String url=AppConfig.DIRECTORY+"orders/user-current-orders";
-    print("getActiveOrders url: $url");
+  Future<PageModel<Stock>?> getRiderStocks(String token,String binding_id,{int page=1,
+    int limit=AppInteger.PAGE_LIMIT,}) async{
+    PageModel<Stock>? users;
+    final String url=AppConfig.DIRECTORY+"orders/rider-stock/binding?"
+        "page=$page&limit=$limit";
+    print("getCurrentStocks url: $url");
 
-    await Network().get(url,headers: {"Authorization":"Bearer ${token}"},
+    final map=jsonEncode({"binding_id":binding_id});
+
+    await Network().post(url,map,
+        headers: {"Authorization":"Bearer ${token}",
+      'Content-type': 'application/json'},
         onSuccess: (val){
-          print("getActiveOrders response: ${val}");
-          users = [];
+          print("getCurrentStocks response: ${val}");
           var map = jsonDecode(val);
           var data=map["data"];
-          List list=data;
-          list.forEach((cat) {
-            List list = cat["product_item"];
-            final order=Order.fromMap(cat,
-                user: User.fromMap(cat["user"]),
-                rider: cat["rider"]!=null?Rider.fromMap(cat["rider"]):null,
-                products: list.map<Product>((cat) {
-                  var prod = cat["product"];
-                  return Product.fromMap(prod, quantity: cat["quantity"],
-                    detail_id:cat["id"].toString(),
-                    varients: (cat["product_variant"] as List).map((e) {
-                      var map=e["product_variant_price"];
-                      return ProductVariant.fromMap(map,quantity: e["quantity"]);
-                    }).toList(),
-                    sidelines: (cat["product_sideline"] as List).map((e) {
-                      var map=e["product_sideline_price"];
-                      return ProductSideline.fromMap(map,
-                          quantity: e["quantity"],
-                          name: e["sideline"]["name"]);
-                    }).toList(),
-                  );
-                }).toList());
-            users!.add(order);
-            onTask?.call(order);
-          });
+          List list=data["results"];
+          var meta=data["meta"];
+          users=PageModel(data: list.map<Stock>((cat) {
+            return Stock.fromMap(cat,product: Product.fromMap(cat["product"]));
+          }).toList(), total_page: meta["totalPages"],total_items: meta["totalItems"]);
         });
     return users;
-  }*/
+  }
 
 }

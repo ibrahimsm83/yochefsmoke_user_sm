@@ -1,3 +1,4 @@
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -21,15 +22,20 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 
 
-flutter.minSdkVersion = localProperties.getProperty('flutter.minSdkVersion').toInteger()
-flutter.compileSdkVersion = localProperties.getProperty('flutter.compileSdkVersion').toInteger()
-flutter.targetSdkVersion = localProperties.getProperty('flutter.targetSdkVersion').toInteger()
+//flutter.minSdkVersion = localProperties.getProperty('flutter.minSdkVersion').toInteger()
+//flutter.compileSdkVersion = localProperties.getProperty('flutter.compileSdkVersion').toInteger()
+//flutter.targetSdkVersion = localProperties.getProperty('flutter.targetSdkVersion').toInteger()
 
 
 android {
@@ -46,20 +52,29 @@ android {
         applicationId "com.app.ycsh"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 20
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            storeType keystoreProperties['JKS']
+        }
+    }
+//
     buildTypes {
         release {
-            shrinkResources false
-            minifyEnabled true
-//            useProguard true
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
         }
     }
 }

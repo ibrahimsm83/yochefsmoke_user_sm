@@ -24,7 +24,8 @@ class PaymentController extends GetxController{
   void createCard(String card_num,String exp_month,String exp_year,String cvv,) async{
     AppLoader.showLoader();
     bool status=await paymentProvider.addCard(dashboardController.user.accesstoken!,
-        card_num, exp_month, exp_year, cvv);
+        card_num, exp_month, exp_year, cvv,
+        isDefault: (_cards==null || _cards!.isEmpty));
     AppLoader.dismissLoader();
     if(status){
       _cards=null;

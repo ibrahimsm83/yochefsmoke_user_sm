@@ -11,20 +11,20 @@ class PaymentProvider {
   Future<bool> addDefaultCard(String token, String card_id,) async {
     bool user_id=false;
     const String url = AppConfig.DIRECTORY + "user/set-default-card";
-    print("addAddress url: $url");
+    print("addDefaultCard url: $url");
 
     final Map map = {
       "card_id":card_id,
     };
 
     final String json = jsonEncode(map);
-    print("address map: $json");
+    print("addDefaultCard map: $json");
     await Network().post(
       url,
       json,
       headers: {'Content-type': 'application/json',"Authorization":"Bearer ${token}",},
       onSuccess: (val) {
-        print("addAddress response: $val");
+        print("addDefaultCard response: $val");
         var map=jsonDecode(val);
         bool status=map["statusCode"]==Network.STATUS_OK;
         user_id=status;
@@ -35,16 +35,17 @@ class PaymentProvider {
   }
 
   Future<bool> addCard(String token, String card_num,String exp_month,String exp_year,
-      String cvv,) async {
+      String cvv,{bool isDefault=false,}) async {
     bool user_id=false;
     const String url = AppConfig.DIRECTORY + "user/create-card";
     print("addCard url: $url");
 
     final Map map = {
-      "type":"das",
       "card_number":card_num,
-      "expire":"$exp_month/$exp_year",
+      "month":exp_month,
+      "year":exp_year,
       "cvc":cvv,
+      "default_card":isDefault?1:0,
     };
 
     final String json = jsonEncode(map);
@@ -54,9 +55,10 @@ class PaymentProvider {
     await Network().post(
       url,
       json,
-      headers: {'Content-type': 'application/json',"Authorization":"Bearer ${token}",},
+      headers: {'Content-type': 'application/json',
+        "Authorization":"Bearer ${token}",},
       onSuccess: (val) {
-        print("signup response: $val");
+        print("addCard response: $val");
         var map=jsonDecode(val);
         bool status=map["statusCode"]==Network.STATUS_OK;
         user_id=status;
@@ -108,14 +110,10 @@ class PaymentProvider {
           var data=map["data"];
           List list=data;
           list.forEach((cat) {
-            try {
               final address = CreditCard.fromMap(cat,);
               users!.add(address);
               onTask?.call(address);
-            }
-            catch(ex){
-              print("card ex: $ex");
-            }
+
           });
         });
     return users;

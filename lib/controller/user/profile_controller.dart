@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ycsh/controller/user/controllers.dart';
 import 'package:ycsh/model/address.dart';
+import 'package:ycsh/service/location.dart';
 import 'package:ycsh/service/repositories/address_provider.dart';
 import 'package:ycsh/service/repositories/order_provider.dart';
 import 'package:ycsh/utils/actions.dart';
@@ -31,10 +33,11 @@ class ProfileController extends GetxController{
   void createAddress(String title,String city,String state,String country,
       String zipcode,{Location? location}) async{
     AppLoader.showLoader();
-    bool status=await addressProvider.addAddress(dashboardController.user.accesstoken!,
-        title, city, state, country, zipcode,location: location);
+    Address? address=await addressProvider.addAddress(dashboardController.user.accesstoken!,
+        title, city, state, country, zipcode,location: location,
+        isDefault: (_addresses==null || _addresses!.isEmpty));
     AppLoader.dismissLoader();
-    if(status){
+    if(address!=null){
       _addresses=null;
       update();
       loadAllAddresses();
@@ -99,12 +102,22 @@ class ProfileController extends GetxController{
 
   Future<void> loadDefaultAddresses() async{
     await addressProvider.getDefaultAddress(dashboardController.user.accesstoken!,)
-        .then((list) {
+        .then((list) async{
           if(list!=null) {
             _defaultAddress = list;
           }
           else{
-            _defaultAddress=dashboardController.user.address;
+            var add=dashboardController.user.address!;
+            var loc=await LocationService().geoCode(LatLng(add.location!.latitude,
+                add.location!.longitude));
+
+            Address? address=await addressProvider.addAddress(dashboardController.user.accesstoken!,
+                "Home", loc.city, loc.state, loc.country, loc.postalCode,
+              location: loc,isDefault: true,);
+            if(address!=null){
+              _defaultAddress=address;
+            }
+           // _defaultAddress=dashboardController.user.address;
           }
           update();
     });

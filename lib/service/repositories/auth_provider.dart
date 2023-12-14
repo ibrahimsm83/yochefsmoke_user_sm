@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:ycsh/model/address.dart';
 import 'package:ycsh/model/location.dart';
 import 'package:ycsh/model/user.dart';
@@ -6,12 +8,62 @@ import 'package:ycsh/service/cloud.dart';
 import 'package:ycsh/service/network.dart';
 import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/config.dart';
-import 'package:http/http.dart' as http;
 
 class AuthProvider {
+  Future<bool> forgetpassword(String email) async {
+    const String url = AppConfig.DIRECTORY + "auth/send-otp";
+    final Map map = {
+      "email": email,
+    };
+    bool value = false;
+    final String json = jsonEncode(map);
+    await Network().post(
+      url,
+      json,
+      headers: {'Content-type': 'application/json'},
+      onSuccess: (val) {
+        print("ForgetPassword response: $val");
+        var map = jsonDecode(val);
+        bool status = map["statusCode"] == Network.STATUS_OK;
+        if (status) {
+          value = true;
+        }
+        AppMessage.showMessage(map["message"].toString());
+      },
+    );
+    return value;
+  }
 
-  Future<StakeHolder?> signUpUser(String fullname, String email,
-      String password, String phone,{Location? location}) async {
+  changePassword(String email, String otp, String pass, String conpass) async {
+    const String url = AppConfig.DIRECTORY + "auth/change-password";
+    final Map map = {
+      "email": email,
+      "password": pass,
+      "confirm_password": conpass,
+      "otp": otp,
+    };
+    bool value = false;
+    final String json = jsonEncode(map);
+    await Network().post(
+      url,
+      json,
+      headers: {'Content-type': 'application/json'},
+      onSuccess: (val) {
+        print("ForgetPassword response: $val");
+        var map = jsonDecode(val);
+        bool status = map["statusCode"] == Network.STATUS_OK;
+        if (status) {
+          value = true;
+        }
+        AppMessage.showMessage(map["message"].toString());
+      },
+    );
+    return value;
+  }
+
+  Future<StakeHolder?> signUpUser(
+      String fullname, String email, String password, String phone,
+      {Location? location}) async {
     StakeHolder? user_id;
     const String url = AppConfig.DIRECTORY + "auth/sign-up";
     print("sign up url: $url");
@@ -26,10 +78,12 @@ class AuthProvider {
       "role": StakeHolder.TYPE_USER,
     };
 
-    if(location!=null){
-      map.addAll({"latitude": location.latitude,
+    if (location != null) {
+      map.addAll({
+        "latitude": location.latitude,
         "longitude": location.longitude,
-        "address": location.name,});
+        "address": location.name,
+      });
     }
 
     final String json = jsonEncode(map);
@@ -42,11 +96,11 @@ class AuthProvider {
       headers: {'Content-type': 'application/json'},
       onSuccess: (val) {
         print("signup response: $val");
-        var map=jsonDecode(val);
-        bool status=map["statusCode"]==Network.STATUS_OK;
-        if(status) {
+        var map = jsonDecode(val);
+        bool status = map["statusCode"] == Network.STATUS_OK;
+        if (status) {
           var data = map["data"];
-          user_id=_getUser(data["user_details"], token: data["token"]);
+          user_id = _getUser(data["user_details"], token: data["token"]);
         }
         AppMessage.showMessage(map["message"].toString());
       },
@@ -74,11 +128,11 @@ class AuthProvider {
       headers: {'Content-type': 'application/json'},
       onSuccess: (val) {
         print("login response: $val");
-        var map=jsonDecode(val);
-        bool status=map["statusCode"]==Network.STATUS_OK;
-        if(status) {
+        var map = jsonDecode(val);
+        bool status = map["statusCode"] == Network.STATUS_OK;
+        if (status) {
           var data = map["data"];
-          user=_getUser(data["user_details"], token: data["token"]);
+          user = _getUser(data["user_details"], token: data["token"]);
         }
         AppMessage.showMessage(map["message"].toString());
       },
@@ -86,25 +140,32 @@ class AuthProvider {
     return user;
   }
 
-  StakeHolder _getUser(Map data,{String? token}){
+  StakeHolder _getUser(Map data, {String? token}) {
     late StakeHolder user;
-    user = User.fromMap(data, accesstoken: token,
+    user = User.fromMap(data,
+        accesstoken: token,
         location: Address.fromHome(Location.fromAddressMap(data)));
     return user;
   }
 
-  Future<StakeHolder?> updateProfile(String token,
-      String fullname,String phone,{String? image,Address? location}) async {
+  Future<StakeHolder?> updateProfile(
+      String token, String fullname, String phone,
+      {String? image, Address? location}) async {
     StakeHolder? stak;
     const String url = AppConfig.DIRECTORY + "user/update-profile";
     print("edit profile: ${url}");
-    final List<http.MultipartFile> files=[];
+    final List<http.MultipartFile> files = [];
 
-    final Map<String,String> body={"full_name":fullname,"mobile":phone,};
-    if(location!=null){
-      body.addAll({"latitude": location.location!.latitude.toString(),
+    final Map<String, String> body = {
+      "full_name": fullname,
+      "mobile": phone,
+    };
+    if (location != null) {
+      body.addAll({
+        "latitude": location.location!.latitude.toString(),
         "longitude": location.location!.longitude.toString(),
-        "address": location.location!.name,});
+        "address": location.location!.name,
+      });
     }
     print("edit profile body: ${body}");
 
@@ -113,36 +174,62 @@ class AuthProvider {
     }
     print("edit profile files: $files");
     await Network().multipartPost(url, body,
-      headers: {"Authorization": "Bearer ${token}",},
-      files: files,onSuccess: (val){
-          print("edit profile response: ${val}");
-          var map=jsonDecode(val);
-          bool status=map["statusCode"]==Network.STATUS_OK;
-          if(status) {
-            var data = map["data"];
-            stak=_getUser(data, token: data["token"]);
-          }
-          AppMessage.showMessage(map["message"].toString());
-      });
+        headers: {
+          "Authorization": "Bearer ${token}",
+        },
+        files: files, onSuccess: (val) {
+      print("edit profile response: ${val}");
+      var map = jsonDecode(val);
+      bool status = map["statusCode"] == Network.STATUS_OK;
+      if (status) {
+        var data = map["data"];
+        stak = _getUser(data, token: data["token"]);
+      }
+      AppMessage.showMessage(map["message"].toString());
+    });
     return stak;
   }
 
-  Future<bool> logoutUser(String token,) async {
-    bool status=false;
+  Future<bool> logoutUser(
+    String token,
+  ) async {
+    bool status = false;
     const String url = AppConfig.DIRECTORY + "auth/logout";
     print("logout url: $url");
-    await Network().post(url, jsonEncode({}),
-      headers: {'Content-type': 'application/json',"Authorization": "Bearer ${token}",},
-      onSuccess: (val) {
-        print("logout response: $val");
-        var map=jsonDecode(val);
-        status=true;
-        AppMessage.showMessage(map["message"].toString());
-      },
-      onError: (err){
-
-      }
-    );
+    await Network().post(url, jsonEncode({}), headers: {
+      'Content-type': 'application/json',
+      "Authorization": "Bearer ${token}",
+    }, onSuccess: (val) {
+      print("logout response: $val");
+      var map = jsonDecode(val);
+      status = true;
+      AppMessage.showMessage(map["message"].toString());
+    }, onError: (err) {});
     return status;
+  }
+
+  Future<String?> aboutUsContent(
+    String token,
+  ) async {
+    String? content;
+    const String url = AppConfig.DIRECTORY + "user/app-content";
+    print("aboutUsContent url: $url");
+    await Network().get(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        "Authorization": "Bearer ${token}",
+      },
+      onSuccess: (val) {
+        print("aboutUsContent response: $val");
+        var map = jsonDecode(val);
+        bool status = map["statusCode"] == Network.STATUS_OK;
+        if (status) {
+          var data = map["data"];
+          content = data;
+        }
+      },
+    );
+    return content;
   }
 }

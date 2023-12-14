@@ -38,10 +38,10 @@ class AddressProvider {
     return user_id;
   }
 
-  Future<bool> addAddress(String token,
+  Future<Address?> addAddress(String token,
       String title,String city,String state,String country,
-      String zipcode,{Location? location}) async {
-    bool user_id=false;
+      String zipcode,{Location? location,bool isDefault=false,}) async {
+    Address? user_id;
     const String url = AppConfig.DIRECTORY + "user/create-address";
     print("addAddress url: $url");
 
@@ -52,6 +52,9 @@ class AddressProvider {
       "state":state,
       "country":country,
     };
+    if(isDefault){
+      map["is_default"]=1;
+    }
 
     if(location!=null){
       map.addAll({"latitude": location.latitude,
@@ -61,17 +64,19 @@ class AddressProvider {
 
     final String json = jsonEncode(map);
 
-    print("address map: $json");
+    print("add address map: $json");
 
     await Network().post(
       url,
       json,
       headers: {'Content-type': 'application/json',"Authorization":"Bearer ${token}",},
       onSuccess: (val) {
-        print("signup response: $val");
+        print("add address response: $val");
         var map=jsonDecode(val);
-        bool status=map["statusCode"]==Network.STATUS_OK;
-        user_id=status;
+        if(map["statusCode"]==Network.STATUS_OK){
+          var data=map["data"];
+          user_id=Address.fromMap(data,location: Location.fromAddressMap(data));
+        }
         AppMessage.showMessage(map["message"].toString());
       },
     );

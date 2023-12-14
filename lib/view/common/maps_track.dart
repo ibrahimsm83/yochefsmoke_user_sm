@@ -41,7 +41,7 @@ abstract class MapsTrackScreenState extends State<MapsTrackScreen> {
     super.dispose();
   }
 
-
+  bool get button => true;
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +50,13 @@ abstract class MapsTrackScreenState extends State<MapsTrackScreen> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: buildAppbar(),
-        floatingActionButton: CircularButton(
+        floatingActionButton: button?CircularButton(
           diameter: diameter,
           icon: AssetPath.ICON_LOCATION,
           onTap: () {
             getCurrentLocation();
           },
-        ),
+        ):null,
         body: Container(
           child: Stack(
             children: [

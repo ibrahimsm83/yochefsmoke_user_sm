@@ -15,14 +15,14 @@ class CustomDropdown extends StatelessWidget {
   final Color hintcolor;
   CustomDropdown(
       {this.hint = "",
-        this.items,
-        required this.onValueChanged,
-        this.selected_value,
-        this.hintcolor = AppColor.COLOR_GREY8,
-        //    this.default_value,
-        this.fontsize = AppDimen.FONT_TEXT_FIELD,
-        this.elevation = 0,
-        double? radius}) {
+      this.items,
+      required this.onValueChanged,
+      this.selected_value,
+      this.hintcolor = AppColor.COLOR_GREY8,
+      //    this.default_value,
+      this.fontsize = AppDimen.FONT_TEXT_FIELD,
+      this.elevation = 0,
+      double? radius}) {
     _radius = radius ?? AppSizer.getRadius(AppDimen.LOGIN_FIELD_RADIUS);
   }
 
@@ -33,41 +33,41 @@ class CustomDropdown extends StatelessWidget {
       child: buildContainer(
         DropdownButtonHideUnderline(
             child: DropdownButton<DropDownItem>(
-              //menuMaxHeight: 40,
-              icon: buildArrow(),
-              iconSize: iconsize,
-              isDense: true,
-              isExpanded: true, //alignment: Alignment.center,
-              dropdownColor: dropdownColor,
-              hint: CustomText(
-                text: hint,
-                fontsize: fontsize,
-                fontcolor: hintcolor,
-              ),
-              value: selected_value,
-              // isExpanded: true,
-              // icon: Expanded(child:Container(child:Text("a"))),
-              items: items != null
-                  ? items!.map<DropdownMenuItem<DropDownItem>>((DropDownItem it) {
-                return DropdownMenuItem(
-                  value: it,
-                  child: buildItem(
-                    it.getText(),
-                  ),
-                );
-              }).toList()
-                  : [
-                /*    DropdownMenuItem(
+          //menuMaxHeight: 40,
+          icon: buildArrow(),
+          iconSize: iconsize,
+          isDense: true,
+          isExpanded: true, //alignment: Alignment.center,
+          dropdownColor: dropdownColor,
+          hint: CustomText(
+            text: hint,
+            fontsize: fontsize,
+            fontcolor: hintcolor,
+          ),
+          value: selected_value,
+          // isExpanded: true,
+          // icon: Expanded(child:Container(child:Text("a"))),
+          items: items != null
+              ? items!.map<DropdownMenuItem<DropDownItem>>((DropDownItem it) {
+                  return DropdownMenuItem(
+                    value: it,
+                    child: buildItem(
+                      it.getText(),
+                    ),
+                  );
+                }).toList()
+              : [
+                  /*    DropdownMenuItem(
                   child: Center(child: const ContentLoading()),
                 )*/
-              ],
-              onChanged: onValueChanged,
-            )),
+                ],
+          onChanged: onValueChanged,
+        )),
       ),
     );
   }
 
-  final double iconsize=AppSizer.getHeight(18);
+  final double iconsize = AppSizer.getHeight(18);
 
   Color get dropdownColor => AppColor.COLOR_WHITE;
 

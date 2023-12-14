@@ -14,6 +14,8 @@ class CartController extends GetxController{
 
   final DashboardController dashboardController=Get.find<DashboardController>();
 
+  final ProductController productController=Get.find<ProductController>();
+
   Order? _order;
 
 
@@ -22,22 +24,49 @@ class CartController extends GetxController{
   Future<bool> addProductToCart(Product product,int quantity, {
     List<ProductSideline> sidelines=const [],
     List<ProductVariant> varients=const [],
+    bool checkvars=false,
   }) async{
-    AppLoader.showLoader();
     bool status=false;
-    Order? order=await orderProvider.addToCart(dashboardController.user.accesstoken!,
-        product, quantity,sidelines: sidelines,
-        varients: varients);
-    AppLoader.dismissLoader();
-    if(order!=null){
-      status=true;
-     // _order=order;
-      _order?.products=order.products;
-      _order?.subtotal=order.subtotal;
-      _order?.total=order.total;
-      _order?.discount=order.discount;
+    if(!checkvars || checkVarients(product,quantity, varients)) {
+      AppLoader.showLoader();
+      Order? order = await orderProvider.addToCart(
+          dashboardController.user.accesstoken!,
+          product, quantity, sidelines: sidelines,
+          varients: varients);
+      AppLoader.dismissLoader();
+      if (order != null) {
+        status = true;
+        // _order=order;
+        _order?.products = order.products;
+        _order?.subtotal = order.subtotal;
+        _order?.total = order.total;
+        _order?.discount = order.discount;
+      }
     }
     return status;
+  }
+
+  bool checkVarients(Product prod,int quantity,List<ProductVariant> sel_varients){
+    bool allow=false;
+    List<ProductVariant>? vars=productController.getVarients(prod.id!);
+    if(vars!=null) {
+      if (vars.isEmpty) {
+        allow = true;
+      }
+      else {
+        int count = 0;
+        sel_varients.forEach((element) {
+          count += element.quantity;
+        });
+        if (count == quantity) {
+          allow=true;
+        }
+        else {
+          AppMessage.showMessage("You must select valid varients");
+        }
+      }
+    }
+    return allow;
   }
 
   Future<bool> deleteProduct(Product product,) async{
@@ -75,14 +104,19 @@ class CartController extends GetxController{
 
   Future<void> postOrder(Address? address,{CreditCard? card}) async{
     if(address!=null) {
-      AppLoader.showLoader();
-      bool status = await orderProvider.postOrder(
-          dashboardController.user.accesstoken!,order!.id!,address.id,
-          card_id: card?.id);
-      AppLoader.dismissLoader();
-      if(status){
-        clearCart();
-        AppNavigator.pop();
+      if(card!=null && card.id!=null) {
+        AppLoader.showLoader();
+        bool status = await orderProvider.postOrder(
+            dashboardController.user.accesstoken!, order!.id!, address.id,
+            card_id: card?.id);
+        AppLoader.dismissLoader();
+        if (status) {
+          clearCart();
+          AppNavigator.pop();
+        }
+      }
+      else{
+        AppMessage.showMessage("Please select a card");
       }
     }
     else{

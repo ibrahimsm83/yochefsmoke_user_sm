@@ -12,6 +12,7 @@ import 'package:ycsh/widget/textfield.dart';
 
 class SearchField extends CustomField{
   SearchField({TextEditingController? controller,
+    super.enabled=true,super.onTap,
     String hinttext="",void Function(String val)? onSubmit}):super(
       controller: controller,hinttext: hinttext,
     textInputAction: TextInputAction.search,
@@ -153,11 +154,22 @@ class FoodContainer extends StatelessWidget {
             fontsize: 10,),
           // Spacer(flex: 1,),
             SizedBox(height: AppSizer.getHeight(10),),
-          Row(children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
             CustomText(text: "\$${product.price}",fontcolor: AppColor.COLOR_BLACK3,
               fontweight: FontWeight.bold,fontsize: 15,),
-            SizedBox(width: AppSizer.getWidth(25),),
-            Expanded(child: CartButton(text: AppString.TEXT_ADD_TO_CART,onTap: onCartTap,)),
+            //SizedBox(width: AppSizer.getWidth(25),),
+              //const Spacer(),
+              Expanded(child: product.varients.isEmpty?Padding(
+                padding: EdgeInsets.only(left: AppSizer.getWidth(25)),
+                child: CartButton(
+                  text: AppString.TEXT_ADD_TO_CART,onTap: onCartTap,),
+              ):
+              const CustomText(text: AppString.TEXT_VIEW_DETAIL,
+                textAlign: TextAlign.end,
+                fontsize:12,fontweight: FontWeight.bold,line_spacing: 1.0,)),
+
           ],),
         ],),
       ),

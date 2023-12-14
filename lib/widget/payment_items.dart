@@ -52,6 +52,7 @@ class PaymentContainer extends StatelessWidget {
                 child: CustomImage(
                   image: icon,
                   imageType: ImageType.TYPE_ASSET,
+                  fit: BoxFit.contain,
                 ),
               ),
               SizedBox(
@@ -163,10 +164,11 @@ class CardContainer extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(radius),
                         color: AppColor.COLOR_GREY9),
-              /*      child: CustomImage(
-                      image: icon,
+                    child: const CustomImage(
+                      image: AssetPath.ICON_CARD,
                       imageType: ImageType.TYPE_ASSET,
-                    ),*/
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   SizedBox(
                     width: AppSizer.getWidth(18),

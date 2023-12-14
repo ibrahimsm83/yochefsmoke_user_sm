@@ -43,6 +43,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   void initState() {
+    print("prod fav: ${widget.product.isFavourite}");
     isFavourite=widget.product.isFavourite.obs;
     productController.loadProductDetail(widget.product);
     super.initState();
@@ -84,6 +85,14 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
         SizedBox(height: AppSizer.getHeight(3),),
         CustomText(text: "${widget.product.cook_type}",fontsize: 11,
         fontcolor: AppColor.COLOR_BLACK3,),
+          Visibility(visible: widget.product.frozen,
+            child: Padding(
+              padding: EdgeInsets.only(top: AppSizer.getHeight(2)),
+              child: const CustomText(text:'frozen',
+                  fontsize: 11,fontweight: FontWeight.w600,
+                  fontcolor:AppColor.COLOR_BLUE1),
+            ),
+          ),
         SizedBox(height: AppSizer.getHeight(12),),
 /*        Row(
           children: [
@@ -276,7 +285,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
       Expanded(child: CustomButton(text: AppString.TEXT_ADD_TO_CART,
         onTap: (){
           cartController.addProductToCart(widget.product, count,
-              sidelines: sidelines.values.toList(),
+              sidelines: sidelines.values.toList(),checkvars: true,
               varients: varients.values.toList()).then((value) {
             if(value){
               AppNavigator.pop();

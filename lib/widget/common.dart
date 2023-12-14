@@ -79,26 +79,32 @@ class CustomImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media=MediaQuery.of(context);
     return LayoutBuilder(
       builder: (con, cons) {
-        final double width = cons.biggest.width;
+        var size=cons.biggest;
+        print("image size: $size");
+        var plac=Center(
+            child: Container(
+              width: 0.4 * size.width,
+              child: Image.asset(placeholder),
+            ));
         return Container(
           child: imageType == ImageType.TYPE_NETWORK
-              ? CachedNetworkImage(
+              ?
+          CachedNetworkImage(
             imageUrl: image ?? "",
+          // width: width,height: height,
+            memCacheHeight: (size.height*media.devicePixelRatio).round(),
+            memCacheWidth: (size.width*media.devicePixelRatio).round(),
+            //maxWidthDiskCache:width.toInt(),
+         //  maxHeightDiskCache: height.toInt(),
             fit: fit,
             placeholder: (con, img) {
-              return Center(
-                  child: Container(
-                    width: 0.4 * width,
-                    child: Image.asset(placeholder),
-                  ));
+              return plac;
             },
             errorWidget: (con, _, __) {
-              return Center(
-                  child: Container(
-                      width: 0.4 * width,
-                      child: Image.asset(placeholder)));
+              return plac;
             },
           )
               : imageType == ImageType.TYPE_FILE
@@ -106,10 +112,7 @@ class CustomImage extends StatelessWidget {
             File(image ?? ""),
             fit: fit,
             errorBuilder: (_, __, ___) {
-              return Center(
-                  child: Container(
-                      width: 0.4 * width,
-                      child: Image.asset(placeholder)));
+              return plac;
             },
           )
               : imageType == ImageType.TYPE_ASSET

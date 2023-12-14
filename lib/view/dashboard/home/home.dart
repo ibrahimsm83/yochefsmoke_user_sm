@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ycsh/controller/user/controllers.dart';
-import 'package:ycsh/controller/user/dashboard_controller.dart';
 import 'package:ycsh/model/page_model.dart';
 import 'package:ycsh/model/product.dart';
 import 'package:ycsh/utils/constants.dart';

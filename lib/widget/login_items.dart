@@ -166,7 +166,7 @@ class LocationField extends CustomField {
             prefixIcon: AssetPath.ICON_ADD,
             hinttext: hinttext,
             onTap: onTap,
-            readOnly: true,
+            enabled: false,
             hintColor: AppColor.COLOR_BLACK);
 
   @override

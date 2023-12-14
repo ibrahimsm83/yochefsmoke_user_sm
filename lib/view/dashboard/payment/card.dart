@@ -65,7 +65,7 @@ class _CardScreenState extends State<CardScreen> {
                     itemCount: list.length,
                     itemBuilder: (con, ind) {
                       var add = list[ind];
-                      bool isDefault=add.id == cont.defaultCard?.id;
+                      bool isDefault=add.card_id == cont.defaultCard?.card_id;
                       return CardContainer(
                           card: add,
                           selected: isDefault,

@@ -42,25 +42,29 @@ class _DashboardNavigationBarState extends State<DashboardNavigationBar> {
   Widget build(BuildContext context) {
     final topBorderRadius=AppSizer.getRadius(12);
     final bottomBorderRadius=AppSizer.getRadius(33);
-    return Container(//color: Colors.orange,
-      height: widget.height,
-        padding: EdgeInsets.symmetric(horizontal: AppSizer.getWidth(13)),
-      child: Center(
-        child: Container(height: widget.height*0.7,//color: AppColor.COLOR_BLACK,
-           // padding: EdgeInsets.symmetric(horizontal: AppDimen.DASHBOARD_PADDING_HORZ.w),
-          clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: AppColor.THEME_COLOR_PRIMARY1,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(topBorderRadius),
-              topRight: Radius.circular(topBorderRadius),
-                  bottomLeft: Radius.circular(bottomBorderRadius),
-              bottomRight: Radius.circular(bottomBorderRadius),)
-            ),
-            child: Row(
-              children: List.generate(widget.items.length, (index) {
-                return buildItem(widget.items[index],index);
-              }),
-            ),),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: AppSizer.getWidth(13)),
+      child: SafeArea(
+        child: SizedBox(
+          height: widget.height,
+          child: Center(
+            child: Container(height: widget.height*0.7,//color: AppColor.COLOR_BLACK,
+              // padding: EdgeInsets.symmetric(horizontal: AppDimen.DASHBOARD_PADDING_HORZ.w),
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                  color: AppColor.THEME_COLOR_PRIMARY1,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(topBorderRadius),
+                    topRight: Radius.circular(topBorderRadius),
+                    bottomLeft: Radius.circular(bottomBorderRadius),
+                    bottomRight: Radius.circular(bottomBorderRadius),)
+              ),
+              child: Row(
+                children: List.generate(widget.items.length, (index) {
+                  return buildItem(widget.items[index],index);
+                }),
+              ),),
+          ),
+        ),
       ),
     );
   }

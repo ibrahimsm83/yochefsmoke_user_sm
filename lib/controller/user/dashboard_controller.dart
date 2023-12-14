@@ -14,6 +14,7 @@ import 'package:ycsh/utils/actions.dart';
 import 'package:ycsh/utils/config.dart';
 import 'package:ycsh/utils/navigation.dart';
 import 'package:ycsh/view/dashboard/order_history/order_detail.dart';
+import 'package:ycsh/view/dashboard/stock/stock_listing.dart';
 import 'package:ycsh/view/splash/onboarding/onboarding.dart';
 import 'package:http/http.dart' as http;
 import 'package:ycsh/widget/dialog/message_dialog.dart';
@@ -22,6 +23,8 @@ class DashboardController extends GetxController implements FCMCallBack{
 
   final LocalDatabase _database=Get.find<LocalDatabase>();
   final AuthProvider _authProvider=AuthProvider();
+
+  String? _about_us;
 
   final AddressProvider addressProvider=AddressProvider();
 
@@ -34,6 +37,8 @@ class DashboardController extends GetxController implements FCMCallBack{
     _initialMap=initialMap;
   }
 
+
+  String? get about_us => _about_us;
 
   @override
   void onInit() {
@@ -132,16 +137,28 @@ class DashboardController extends GetxController implements FCMCallBack{
         notification.type==Notification.TYPE_ASSIGN){
       AppNavigator.navigateTo(OrderDetailScreen(order: notification.data,load: true,));
     }
+    else if(notification.type==Notification.TYPE_RIDER_STOCK){
+      AppNavigator.navigateTo(StockListingScreen(binding_id: notification.data,));
+    }
   }
 
   Notification _getNotification(String type,Map map){
     var notData = (type==Notification.TYPE_ORDER_STATUS ||
         type==Notification.TYPE_ASSIGN)?Order(id: map["related_id"])
-        :null;
+        :type==Notification.TYPE_RIDER_STOCK?map["source_id"]:null;
     var notification=Notification.fromMap(map,data: notData,
        // sender: User(id: map["sender_id"])
     );
     return notification;
+  }
+
+  Future<void> loadAboutUs() async{
+    await _authProvider.aboutUsContent(user.accesstoken!,).then((list) {
+      if (list != null) {
+        _about_us=list;
+        update();
+      }
+    });
   }
 
   static void onBackgroundTap(Map map) async{

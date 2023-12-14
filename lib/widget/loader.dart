@@ -48,7 +48,8 @@ class _ProcessLoadingState extends State<ProcessLoading> with SingleTickerProvid
         return widget.dismissible;
       },
       child: Material(color: AppColor.COLOR_TRANSPARENT,
-        child: Container(color:const Color.fromRGBO(0, 0, 0, 0.5),
+        child: Container(
+            color:const Color.fromRGBO(0, 0, 0, 0.5),
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Visibility(

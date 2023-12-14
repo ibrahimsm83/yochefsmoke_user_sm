@@ -19,4 +19,7 @@ class AppInteger{
   static const int PAGE_LIMIT=10;
 
   static const int INCOMING_CALL_TIMEOUT=30000;//ms
+
+  static const IMAGE_CACHE_SIZE=256;
+
 }

@@ -3,7 +3,8 @@ import 'package:ycsh/utils/datetime.dart';
 
 class Notification{
 
-  static const TYPE_ORDER_STATUS="change_order_status",TYPE_ASSIGN="rider_assign_order";
+  static const TYPE_ORDER_STATUS="change_order_status",
+      TYPE_ASSIGN="rider_assign_order",TYPE_RIDER_STOCK="area_rider_stock";
 
   final String? id,title,body,type;
   bool? _isRead;

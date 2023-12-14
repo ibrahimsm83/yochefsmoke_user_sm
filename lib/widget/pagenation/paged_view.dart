@@ -55,8 +55,7 @@ abstract class PagedViewState<T> extends State<PagedView> {
   }
 
   Future<void> fetchPage(int pageKey) async {
-    // if(mounted) {
-    //try {
+    try {
       final PageModel<T>? model =
           await widget.onFetchPage(_page) as PageModel<T>?;
       print("data is: ${model?.data?.length}");
@@ -79,14 +78,11 @@ abstract class PagedViewState<T> extends State<PagedView> {
        // _page++;
         print("page item count: ${_pagingController.itemList?.length}");
       }
-/*    } catch (error) {
+    } catch (error) {
       print("pagenation error: $error");
-      _pagingController.error = error;
-    }*/
-    //   }
-/*    else{
-      print("state not mounted: ${widget.initialItems}");
-    }*/
+    //  _pagingController.error = error;
+    //  throw error;
+    }
   }
 
   void clearSaveList(

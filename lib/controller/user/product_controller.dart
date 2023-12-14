@@ -40,22 +40,8 @@ class ProductController extends GetxController{
     }
   }
 
- // Map<String, List<Product>?> get products => _products;
-
-
-  /*
-  List<Product>? get recentProducts => _recentProducts.data;
-
-
-  set recentProducts(List<Product>? value) {
-    _recentProducts = value;
-  }*/
 
   List<FoodCategory>? get categories => _categories;
-
-/*  List<Product>? getCategoryProducts(String? cat_id){
-    return _products[cat_id];
-  }*/
 
   Future<void> loadAllFoodCategories() async{
     await productProvider.getAllFoodCategories(controller.user.accesstoken!,).then((list) {
@@ -111,6 +97,9 @@ class ProductController extends GetxController{
         product.id!);
     if(!status){
       value.value=!value.value;
+    }
+    else{
+      product.isFavourite=value.value;
     }
   }
 
