@@ -8,9 +8,11 @@ abstract class StakeHolder{
 
   final String? id;
   final String? email;
-  String? fullname,phone,_image;
+  String? fullname,phone,_image,role;
   final String? accesstoken;
+
   StakeHolder({this.id, this.email, this.fullname, this.phone,String?image,
+    this.role,
     this.accesstoken,}){
     _image=image;
   }
@@ -25,7 +27,9 @@ abstract class StakeHolder{
 
   Map<String,dynamic> toLocalMap(){
     return {"id":id,"email":email, "full_name":fullname,
-      "mobile":phone,"image":_image,"accesstoken":accesstoken,};
+      "mobile":phone,"image":_image,
+      "role":role,
+      "accesstoken":accesstoken,};
   }
 
   String get type;
@@ -36,18 +40,20 @@ class User extends StakeHolder{
 
 //  Location? location;
   Address? address;
-  User({super.id,super.fullname,super.phone,super.email,super.image,
+  User({super.id,super.fullname,super.phone,super.email,super.image,super.role,
     super.accesstoken,this.address,});
 
   factory User.fromMap(Map map,{String? accesstoken,Address? location,}){
     return User(id: map["id"].toString(),email: map["email"],
         fullname: map["full_name"],phone: map["mobile"],image:map["image"],
+        role: map['role'],
         accesstoken: accesstoken,address: location);
   }
 
   factory User.fromLocalMap(Map map){
     return User(id: map["id"],email: map["email"],
         fullname: map["full_name"],phone: map["mobile"],image:map["image"],
+        role: map['role'],
         accesstoken: map["accesstoken"],
         address: Address.fromHome(Location.fromAddressMap(map["location"])));
   }
@@ -69,6 +75,7 @@ class Rider extends StakeHolder {
     super.phone,
     super.email,
     super.image,
+    super.role,
     super.accesstoken,
   });
 
@@ -92,6 +99,7 @@ class Rider extends StakeHolder {
       fullname: map["full_name"],
       phone: map["mobile"],
       image: map["image"],
+      role: map['role'],
       accesstoken: accesstoken,
     );
   }
@@ -103,6 +111,7 @@ class Rider extends StakeHolder {
       fullname: map["full_name"],
       phone: map["mobile"],
       image: map["image"],
+      role: map['role'],
       accesstoken: map["accesstoken"],
     );
   }

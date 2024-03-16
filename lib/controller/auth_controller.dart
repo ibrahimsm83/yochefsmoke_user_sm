@@ -54,28 +54,12 @@ class AuthController extends GetxController {
     StakeHolder? user = await _authProvider.loginUser(email, password, "");
     AppLoader.dismissLoader();
     if (user != null) {
-      _goToDashboard(user);
-/*      if(user is! Dentist){
-        if (user.isVerified!) {
-          _goToDashboard(user);
-        }
-        else {
-          bool status = await resendOtpCode(user.id!,);
-          if (status) {
-            AppNavigator.navigateTo(EnterOtpScreen(
-              onResend: () {
-                resendOtpCode(user.id!,);
-              },
-              email: email,
-              onSubmit: (val) {
-                _verifySignUpOtp(user.id!, val,);
-              },));
-          }
-        }
+      if(user!.role =="user"){
+        _goToDashboard(user);
       }
       else{
-        _goToDashboard(user);
-      }*/
+        AppMessage.showMessage("Invalid Account Type");
+      }
     }
   }
 
