@@ -133,8 +133,10 @@ class AuthProvider {
         if (status) {
           var data = map["data"];
           user = _getUser(data["user_details"], token: data["token"]);
+        }else{
+          AppMessage.showMessage(map["message"].toString());
         }
-        AppMessage.showMessage(map["message"].toString());
+
       },
     );
     return user;
